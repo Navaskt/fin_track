@@ -1,6 +1,8 @@
+import 'package:fin_track/app/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/widgets/language_selector.dart';
 import '../controllers/theme_provider.dart';
 import '../widgets/monthly_transaction.dart';
 
@@ -12,20 +14,27 @@ class HomePage extends ConsumerWidget {
     final cs = Theme.of(context).colorScheme;
 
     return Scaffold(
-      backgroundColor: cs.surface, // subtle surface color
+      backgroundColor: cs.surface,
       appBar: AppBar(
-        title: const Text('FinTrack'),
+        title: Text(context.loc.appTitle),
         centerTitle: true,
         elevation: 0,
         scrolledUnderElevation: 2,
         actions: [
+          const LanguageSelector(),
           PopupMenuButton(
-            tooltip: 'Theme mode',
+            tooltip: context.loc.themeMenu,
             icon: const Icon(Icons.more_vert),
-            itemBuilder: (_) => const [
-              PopupMenuItem(value: 'light', child: Text('Light')),
-              PopupMenuItem(value: 'dark', child: Text('Dark')),
-              PopupMenuItem(value: 'system', child: Text('System')),
+            itemBuilder: (_) => [
+              PopupMenuItem(
+                value: 'light',
+                child: Text(context.loc.themeLight),
+              ),
+              PopupMenuItem(value: 'dark', child: Text(context.loc.themeDark)),
+              PopupMenuItem(
+                value: 'system',
+                child: Text(context.loc.themeSystem),
+              ),
             ],
             onSelected: (v) {
               final notifier = ref.read(themeModeProvider.notifier);
@@ -36,11 +45,11 @@ class HomePage extends ConsumerWidget {
           ),
         ],
       ),
-      body: TransactionsGroupedByMonth(),
+      body: const TransactionsGroupedByMonth(),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push('/add'),
         icon: const Icon(Icons.add),
-        label: const Text('Add'),
+        label: Text(context.loc.addButton),
       ),
     );
   }

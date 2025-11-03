@@ -1,3 +1,4 @@
+import 'package:fin_track/app/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -57,7 +58,6 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
     final base = _type == TransactionType.expense
         ? _expenseCategories
         : _incomeCategories;
-    // Deduplicate while keeping order
     final seen = <String>{};
     return [
       for (final c in base)
@@ -67,9 +67,8 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
 
   void _pickQuickCategory(String c) {
     _categoryCtrl.text = c;
-    // move focus to note field for faster entry
     FocusScope.of(context).nextFocus();
-    setState(() {}); // refresh chips selected state
+    setState(() {});
   }
 
   @override
@@ -148,7 +147,11 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isEditMode ? 'Edit Transaction' : 'Add Transaction'),
+        title: Text(
+          _isEditMode
+              ? context.loc.editTransactionTitle
+              : context.loc.addTransactionTitle,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -158,21 +161,20 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
             children: [
               // Expense / Income
               SegmentedButton<TransactionType>(
-                segments: const [
+                segments: [
                   ButtonSegment(
                     value: TransactionType.expense,
-                    label: Text('Expense'),
+                    label: Text(context.loc.expense),
                   ),
                   ButtonSegment(
                     value: TransactionType.income,
-                    label: Text('Income'),
+                    label: Text(context.loc.income),
                   ),
                 ],
                 selected: {_type},
                 onSelectionChanged: (newSelection) {
                   setState(() {
                     _type = newSelection.first;
-                    // If current category doesn't fit the type, keep it but refresh chips
                   });
                 },
               ),
@@ -187,12 +189,13 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
                 keyboardType: const TextInputType.numberWithOptions(
                   decimal: true,
                 ),
-                decoration: const InputDecoration(labelText: 'Amount (AED)'),
+                decoration: InputDecoration(labelText: context.loc.amountLabel),
                 validator: (v) {
-                  if (v == null || v.isEmpty) return 'Enter an amount';
+                  if (v == null || v.isEmpty) return context.loc.amountError;
                   final value = double.tryParse(v);
-                  if (value == null || value <= 0)
-                    return 'Enter a valid positive amount';
+                  if (value == null || value <= 0) {
+                    return context.loc.positiveAmountError;
+                  }
                   return null;
                 },
               ),
@@ -231,8 +234,8 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
               // Note
               TextFormField(
                 controller: _noteCtrl,
-                decoration: const InputDecoration(
-                  labelText: 'Note (optional)',
+                decoration: InputDecoration(
+                  labelText: context.loc.noteLabel,
                   alignLabelWithHint: true,
                 ),
                 maxLines: 6,
@@ -243,11 +246,13 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
               Row(
                 children: [
                   Expanded(
-                    child: Text('Date: ${DateFormat.yMMMd().format(_date)}'),
+                    child: Text(
+                      '${context.loc.dateLabel}: ${DateFormat.yMMMd().format(_date)}',
+                    ),
                   ),
                   TextButton(
                     onPressed: _pickDate,
-                    child: const Text('Pick date'),
+                    child: Text(context.loc.pickDateButton),
                   ),
                 ],
               ),
@@ -257,7 +262,11 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
               // Save / Update
               FilledButton(
                 onPressed: _submit,
-                child: Text(_isEditMode ? 'Update' : 'Save'),
+                child: Text(
+                  _isEditMode
+                      ? context.loc.updateButton
+                      : context.loc.saveButton,
+                ),
               ),
             ],
           ),
@@ -277,33 +286,27 @@ class _CategoryField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Autocomplete<String>(
-      // Correct type: TextEditingValue, not TextEditingController
       optionsBuilder: (TextEditingValue value) {
         final q = value.text.trim().toLowerCase();
         if (q.isEmpty) return const Iterable<String>.empty();
         return suggestions.where((c) => c.toLowerCase().contains(q));
       },
 
-      // Use YOUR controller directly. Do NOT mutate during build.
       fieldViewBuilder:
           (context, _ignoredCtrlFromAutocomplete, focusNode, onFieldSubmitted) {
             return TextFormField(
               controller: controller,
               focusNode: focusNode,
-              decoration: const InputDecoration(
-                labelText: 'Category (e.g., Food, Taxi)',
-              ),
-              validator: (v) =>
-                  (v?.trim().isEmpty ?? true) ? 'Enter a category' : null,
+              decoration: InputDecoration(labelText: context.loc.categoryLabel),
+              validator: (v) => (v?.trim().isEmpty ?? true)
+                  ? context.loc.categoryError
+                  : null,
               onFieldSubmitted: (_) => onFieldSubmitted(),
             );
           },
 
       onSelected: (value) {
-        // Safe to assign here - outside build of the field widget itself
         controller.text = value;
-        // Optionally move focus to the next field:
-        // FocusScope.of(context).nextFocus();
       },
 
       optionsViewBuilder: (context, onSelected, options) {
