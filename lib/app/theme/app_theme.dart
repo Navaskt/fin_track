@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const _seed = Color(0xFF6750A4); // pick your brand color
+const _seed = Color(0xFF26C6DA); // pick your brand color
 
 ThemeData buildLightTheme() {
   final colorScheme = ColorScheme.fromSeed(
