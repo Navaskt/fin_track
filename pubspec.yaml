@@ -33,4 +33,3 @@ dev_dependencies:
   freezed: ^2.5.7
   json_serializable: ^6.9.5
   very_good_analysis: ^10.0.0
-  # Do not use hive_generator; we’ll keep the manual adapter

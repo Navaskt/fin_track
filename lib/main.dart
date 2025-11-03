@@ -5,6 +5,7 @@ import 'app/router.dart';
 import 'app/theme/app_theme.dart';
 import 'features/transactions/data/models/transaction_model.dart';
 import 'features/transactions/data/models/transaction_model_adaptor.dart';
+import 'features/transactions/presentation/controllers/theme_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,14 +22,15 @@ class FinTrackApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(appRouterProvider);
-    final theme = buildAppTheme();
+    final mode = ref.watch(themeModeProvider);
 
     return MaterialApp.router(
+      title: 'FinTrack',
       debugShowCheckedModeBanner: false,
       routerConfig: router,
-      theme: theme.light,
-      darkTheme: theme.dark,
-      themeMode: ThemeMode.system,
+      theme: buildLightTheme(),
+      darkTheme: buildDarkTheme(),
+      themeMode: mode,
     );
   }
 }
