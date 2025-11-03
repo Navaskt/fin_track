@@ -7,7 +7,7 @@ class LanguageSelector extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final current = ref.watch(localeProvider);
+    ref.watch(localeProvider);
     final notifier = ref.read(localeProvider.notifier);
 
     return PopupMenuButton<Locale>(
@@ -24,4 +24,3 @@ class LanguageSelector extends ConsumerWidget {
     );
   }
 }
-

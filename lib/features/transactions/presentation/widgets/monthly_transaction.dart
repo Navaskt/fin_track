@@ -1,3 +1,4 @@
+import 'package:fin_track/app/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -161,7 +162,6 @@ class _TxTile extends ConsumerWidget {
             ).textTheme.bodySmall?.copyWith(color: cs.onSurfaceVariant),
           ),
           trailing: SizedBox(
-            // FIX: prevent Row from expanding to full width
             width: 200,
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -176,7 +176,7 @@ class _TxTile extends ConsumerWidget {
                   ),
                 ),
                 IconButton(
-                  tooltip: 'Delete',
+                  tooltip: context.loc.delete,
                   splashRadius: 20,
                   icon: const Icon(Icons.delete_outline),
                   onPressed: () => ref
@@ -274,8 +274,8 @@ class _MonthFooter extends ConsumerWidget {
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
                       hasBudget
-                          ? 'Budget set for this month'
-                          : 'No budget set yet',
+                          ? context.loc.budgetSet
+                          : context.loc.noBudgetSet,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: cs.onSurfaceVariant,
                       ),
@@ -286,7 +286,7 @@ class _MonthFooter extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Budget:',
+                          '${context.loc.budget}:',
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         Text(
@@ -300,7 +300,7 @@ class _MonthFooter extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Spent:',
+                          '${context.loc.spent}:',
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         Text(
@@ -314,7 +314,7 @@ class _MonthFooter extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Remaining:',
+                          '${context.loc.remaining}:',
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         Text(
@@ -335,7 +335,9 @@ class _MonthFooter extends ConsumerWidget {
                     Align(
                       alignment: Alignment.centerRight,
                       child: IconButton(
-                        tooltip: budget == null ? 'Set budget' : 'Edit budget',
+                        tooltip: budget == null
+                            ? context.loc.setBudget
+                            : context.loc.editBudget,
                         icon: const Icon(Icons.edit_outlined),
                         onPressed: () =>
                             editBudgetDialog(context, ref, month, budget),
@@ -371,14 +373,14 @@ class _EmptyState extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Text(
-              'No transactions yet',
+              context.loc.noTransactions,
               style: Theme.of(
                 context,
               ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
             ),
             const SizedBox(height: 6),
             Text(
-              'Tap the Add button to record your first expense or income.',
+              context.loc.addFirstTransaction,
               textAlign: TextAlign.center,
               style: Theme.of(
                 context,
