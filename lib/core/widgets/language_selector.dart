@@ -12,7 +12,6 @@ class LanguageSelector extends ConsumerWidget {
 
     return PopupMenuButton<Locale>(
       tooltip: 'Change language',
-      // ✅ use only icon, not both icon and child
       icon: const Icon(Icons.language_outlined),
 
       onSelected: (locale) => notifier.setLocale(locale),

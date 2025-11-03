@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/widgets/language_selector.dart';
-import '../controllers/theme_provider.dart';
+import '../../../../core/widgets/theme_selector.dart';
 import '../widgets/monthly_transaction.dart';
 
 class HomePage extends ConsumerWidget {
@@ -20,30 +20,7 @@ class HomePage extends ConsumerWidget {
         centerTitle: true,
         elevation: 0,
         scrolledUnderElevation: 2,
-        actions: [
-          const LanguageSelector(),
-          PopupMenuButton(
-            tooltip: context.loc.themeMenu,
-            icon: const Icon(Icons.more_vert),
-            itemBuilder: (_) => [
-              PopupMenuItem(
-                value: 'light',
-                child: Text(context.loc.themeLight),
-              ),
-              PopupMenuItem(value: 'dark', child: Text(context.loc.themeDark)),
-              PopupMenuItem(
-                value: 'system',
-                child: Text(context.loc.themeSystem),
-              ),
-            ],
-            onSelected: (v) {
-              final notifier = ref.read(themeModeProvider.notifier);
-              if (v == 'light') notifier.state = ThemeMode.light;
-              if (v == 'dark') notifier.state = ThemeMode.dark;
-              if (v == 'system') notifier.state = ThemeMode.system;
-            },
-          ),
-        ],
+        actions: [const LanguageSelector(), const ThemeSelector()],
       ),
       body: const TransactionsGroupedByMonth(),
       floatingActionButton: FloatingActionButton.extended(
