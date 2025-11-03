@@ -13,6 +13,9 @@ Future<void> main() async {
   Hive.registerAdapter(TransactionModelAdapter());
   await Hive.openBox<TransactionModel>('transactions');
 
+  // NEW: budgets box (key = "YYYY-MM", value = double budget)
+  await Hive.openBox<double>('monthly_budgets');
+
   runApp(const ProviderScope(child: FinTrackApp()));
 }
 

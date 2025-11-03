@@ -1,11 +1,13 @@
-// presentation/widgets/transactions_grouped_by_month.dart
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../core/utils/app_utils.dart';
+import '../../../../core/utils/format.dart';
 import '../../domain/entities/transaction_entity.dart';
+import '../controllers/budget_provider.dart';
+import '../controllers/monthly_expense_provider.dart';
 import '../controllers/transaction_providers.dart';
 
 class TransactionsGroupedByMonth extends ConsumerWidget {
@@ -127,7 +129,7 @@ class _TxTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cs = Theme.of(context).colorScheme;
     final isNegative = t.amount < 0;
-    final amount = _formatAED(t.amount.abs());
+    final amount = formatAED(t.amount.abs());
 
     return InkWell(
       borderRadius: BorderRadius.circular(16),
@@ -153,7 +155,7 @@ class _TxTile extends ConsumerWidget {
             ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
           ),
           subtitle: Text(
-            _friendlyDate(t.date),
+            friendlyDate(t.date),
             style: Theme.of(
               context,
             ).textTheme.bodySmall?.copyWith(color: cs.onSurfaceVariant),
@@ -190,7 +192,7 @@ class _TxTile extends ConsumerWidget {
   }
 }
 
-class _MonthFooter extends StatelessWidget {
+class _MonthFooter extends ConsumerWidget {
   const _MonthFooter({
     required this.month,
     required this.total,
@@ -198,36 +200,154 @@ class _MonthFooter extends StatelessWidget {
   });
 
   final DateTime month;
-  final double total;
+  final double total; // net (income - expense)
   final Color totalTextColor;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final cs = Theme.of(context).colorScheme;
-    return Container(
-      decoration: BoxDecoration(
-        color: cs.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: cs.outlineVariant),
+    final budgetAsync = ref.watch(budgetForMonthProvider(month));
+
+    return budgetAsync.when(
+      loading: () => const Center(
+        child: Padding(
+          padding: EdgeInsets.all(12),
+          child: CircularProgressIndicator(strokeWidth: 2),
+        ),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            'Grand total (${DateFormat('MMM yyyy').format(month)})',
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-          Text(
-            '${total < 0 ? '-' : '+'} ${_formatAED(total.abs())}',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: totalTextColor,
-              fontWeight: FontWeight.bold,
-              fontFeatures: const [FontFeature.tabularFigures()],
+      error: (e, _) => Text('Error: $e', style: TextStyle(color: cs.error)),
+      data: (budget) {
+        final expensesAsync = ref.watch(monthExpenseOnlyProvider(month));
+
+        return expensesAsync.when(
+          loading: () => const Center(
+            child: Padding(
+              padding: EdgeInsets.all(12),
+              child: CircularProgressIndicator(strokeWidth: 2),
             ),
           ),
-        ],
-      ),
+          error: (e, _) => Text('Error: $e', style: TextStyle(color: cs.error)),
+          data: (expenseOnly) {
+            final remaining = budget == null ? null : (budget - expenseOnly);
+            final hasBudget = budget != null;
+
+            return Container(
+              decoration: BoxDecoration(
+                color: cs.surfaceContainerHighest,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: cs.outlineVariant),
+              ),
+              child: Theme(
+                data: Theme.of(context).copyWith(
+                  dividerColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                ),
+                child: ExpansionTile(
+                  tilePadding: const EdgeInsets.symmetric(horizontal: 16),
+                  childrenPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  initiallyExpanded: false,
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        DateFormat('MMM yyyy').format(month),
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(fontWeight: FontWeight.w600),
+                      ),
+                      Text(
+                        '${total < 0 ? '-' : '+'} ${formatAED(total.abs())}',
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(
+                              color: totalTextColor,
+                              fontWeight: FontWeight.w700,
+                              fontFeatures: const [
+                                FontFeature.tabularFigures(),
+                              ],
+                            ),
+                      ),
+                    ],
+                  ),
+                  subtitle: Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: Text(
+                      hasBudget
+                          ? 'Budget set for this month'
+                          : 'No budget set yet',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: cs.onSurfaceVariant,
+                      ),
+                    ),
+                  ),
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Budget:',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        Text(
+                          budget == null ? '-' : formatAED(budget),
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Spent:',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        Text(
+                          formatAED(expenseOnly),
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Remaining:',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        Text(
+                          remaining == null ? '-' : formatAED(remaining),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: remaining == null
+                                    ? cs.onSurfaceVariant
+                                    : (remaining >= 0
+                                          ? Colors.green
+                                          : Colors.red),
+                                fontWeight: FontWeight.bold,
+                              ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: IconButton(
+                        tooltip: budget == null ? 'Set budget' : 'Edit budget',
+                        icon: const Icon(Icons.edit_outlined),
+                        onPressed: () =>
+                            editBudgetDialog(context, ref, month, budget),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }
@@ -299,17 +419,3 @@ class _CategoryBadge extends StatelessWidget {
 }
 
 // --- helpers ---
-
-String _friendlyDate(DateTime d) {
-  final now = DateTime.now();
-  final today = DateTime(now.year, now.month, now.day);
-  final date = DateTime(d.year, d.month, d.day);
-  if (date == today) return 'Today';
-  if (date == today.subtract(const Duration(days: 1))) return 'Yesterday';
-  return DateFormat('dd MMM yyyy').format(d);
-}
-
-String _formatAED(num v) {
-  final f = NumberFormat.currency(name: 'AED', symbol: 'AED ');
-  return f.format(v);
-}
