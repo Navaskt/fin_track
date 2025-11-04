@@ -39,5 +39,7 @@
   "copiedToClipboard": "تم النسخ إلى الحافظة",
   "save": "حفظ",
   "cancel": "إلغاء",
-  "edit": "تعديل"
+  "edit": "تعديل",
+  "todayLabel": "اليوم",
+  "yesterdayLabel": "أمس"
 }

@@ -127,4 +127,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get edit => 'تعديل';
+
+  @override
+  String get todayLabel => 'اليوم';
+
+  @override
+  String get yesterdayLabel => 'أمس';
 }

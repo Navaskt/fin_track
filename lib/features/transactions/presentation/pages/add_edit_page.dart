@@ -7,6 +7,11 @@ import 'package:uuid/uuid.dart';
 
 import '../../domain/entities/transaction_entity.dart';
 import '../controllers/transaction_providers.dart';
+import '../widgets/amount_field.dart';
+import '../widgets/bottom_action_bar.dart';
+import '../widgets/category_field.dart';
+import '../widgets/chip_button.dart';
+import '../widgets/section_card.dart';
 
 enum TransactionType { expense, income }
 
@@ -59,20 +64,12 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
   TransactionType _type = TransactionType.expense;
   late final bool _isEditMode;
 
-  List<String> get _suggestions {
-    final base = _type == TransactionType.expense
-        ? _expenseCategories
-        : _incomeCategories;
-    final seen = <String>{};
-    return [
-      for (final c in base)
-        if (seen.add(c)) c,
-    ];
-  }
+  List<String> get _suggestions =>
+      _type == TransactionType.expense ? _expenseCategories : _incomeCategories;
 
   void _pickQuickCategory(String c) {
     _categoryCtrl.text = c;
-    FocusScope.of(context).nextFocus();
+    HapticFeedback.selectionClick();
     setState(() {});
   }
 
@@ -123,6 +120,19 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
     }
   }
 
+  void _setToday() {
+    setState(() => _date = DateTime.now());
+  }
+
+  void _setYesterday() {
+    setState(
+      () => _date = DateUtils.addDaysToDate(
+        DateUtils.dateOnly(DateTime.now()),
+        -1,
+      ),
+    );
+  }
+
   Future<void> _submit() async {
     if (!(_formKey.currentState?.validate() ?? false)) return;
 
@@ -148,6 +158,7 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
 
   @override
   Widget build(BuildContext context) {
+    final t = Theme.of(context).textTheme;
     final cs = Theme.of(context).colorScheme;
 
     return Scaffold(
@@ -158,186 +169,155 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
               : context.loc.addTransactionTitle,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              // Expense / Income
-              SegmentedButton<TransactionType>(
-                segments: [
-                  ButtonSegment(
-                    value: TransactionType.expense,
-                    label: Text(context.loc.expense),
-                  ),
-                  ButtonSegment(
-                    value: TransactionType.income,
-                    label: Text(context.loc.income),
-                  ),
-                ],
-                selected: {_type},
-                onSelectionChanged: (newSelection) {
-                  setState(() {
-                    _type = newSelection.first;
-                  });
-                },
-              ),
-              const SizedBox(height: 16),
-
-              // Amount
-              TextFormField(
-                controller: _amountCtrl,
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
-                ],
-                keyboardType: const TextInputType.numberWithOptions(
-                  decimal: true,
-                ),
-                decoration: InputDecoration(labelText: context.loc.amountLabel),
-                validator: (v) {
-                  if (v == null || v.isEmpty) return context.loc.amountError;
-                  final value = double.tryParse(v);
-                  if (value == null || value <= 0) {
-                    return context.loc.positiveAmountError;
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 12),
-
-              // Category with autocomplete + quick chips
-              _CategoryField(
-                controller: _categoryCtrl,
-                suggestions: _suggestions,
-              ),
-              const SizedBox(height: 8),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: _suggestions.map((c) {
-                  final selected =
-                      _categoryCtrl.text.trim().toLowerCase() ==
-                      c.toLowerCase();
-                  return ChoiceChip(
-                    label: Text(c),
-                    selected: selected,
-                    onSelected: (_) => _pickQuickCategory(c),
-                    selectedColor: cs.primaryContainer,
-                    labelStyle: selected
-                        ? TextStyle(
-                            color: cs.onPrimaryContainer,
-                            fontWeight: FontWeight.w600,
-                          )
-                        : null,
-                  );
-                }).toList(),
-              ),
-
-              const SizedBox(height: 12),
-
-              // Note
-              TextFormField(
-                controller: _noteCtrl,
-                decoration: InputDecoration(
-                  labelText: context.loc.noteLabel,
-                  alignLabelWithHint: true,
-                ),
-                maxLines: 3,
-              ),
-              const SizedBox(height: 12),
-
-              // Date
-              Row(
+      bottomNavigationBar: BottomActionBar(
+        child: FilledButton(
+          onPressed: _submit,
+          child: Text(
+            _isEditMode ? context.loc.updateButton : context.loc.saveButton,
+          ),
+        ),
+      ),
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
+          children: [
+            // Type selector + amount card
+            SectionCard(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: Text(
-                      '${context.loc.dateLabel}: ${DateFormat.yMMMd().format(_date)}',
+                  // Segmented type with icons
+                  SegmentedButton<TransactionType>(
+                    segments: [
+                      ButtonSegment(
+                        value: TransactionType.expense,
+                        icon: const Icon(Icons.remove_circle_outline),
+                        label: Text(context.loc.expense),
+                      ),
+                      ButtonSegment(
+                        value: TransactionType.income,
+                        icon: const Icon(Icons.add_circle_outline),
+                        label: Text(context.loc.income),
+                      ),
+                    ],
+                    selected: {_type},
+                    onSelectionChanged: (sel) {
+                      HapticFeedback.selectionClick();
+                      setState(() => _type = sel.first);
+                    },
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Amount input - big and readable
+                  Text(
+                    context.loc.amountLabel,
+                    style: t.labelLarge?.copyWith(color: cs.onSurfaceVariant),
+                  ),
+                  const SizedBox(height: 6),
+                  AmountField(controller: _amountCtrl),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            // Category card
+            SectionCard(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CategoryField(
+                    controller: _categoryCtrl,
+                    suggestions: _suggestions,
+                  ),
+                  const SizedBox(height: 10),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.only(right: 6),
+                    child: Row(
+                      children: _suggestions.map((c) {
+                        final selected =
+                            _categoryCtrl.text.trim().toLowerCase() ==
+                            c.toLowerCase();
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: ChoiceChip(
+                            label: Text(c),
+                            selected: selected,
+                            onSelected: (_) => _pickQuickCategory(c),
+                            selectedColor: cs.primaryContainer,
+                            labelStyle: selected
+                                ? TextStyle(
+                                    color: cs.onPrimaryContainer,
+                                    fontWeight: FontWeight.w600,
+                                  )
+                                : null,
+                          ),
+                        );
+                      }).toList(),
                     ),
                   ),
-                  TextButton(
-                    onPressed: _pickDate,
-                    child: Text(context.loc.pickDateButton),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            // Note + Date card
+            SectionCard(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Note
+                  TextFormField(
+                    controller: _noteCtrl,
+                    decoration: InputDecoration(
+                      labelText: context.loc.noteLabel,
+                      alignLabelWithHint: true,
+                    ),
+                    maxLines: 3,
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Date row with quick chips
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          '${context.loc.dateLabel}: ${DateFormat.yMMMd().format(_date)}',
+                          style: t.bodyMedium,
+                        ),
+                      ),
+                      Wrap(
+                        spacing: 8,
+                        children: [
+                          ChipButton(
+                            text: context.loc.todayLabel,
+                            onTap: _setToday,
+                          ),
+                          ChipButton(
+                            text: context.loc.yesterdayLabel,
+                            onTap: _setYesterday,
+                          ),
+                          ChipButton(
+                            text: context.loc.pickDateButton,
+                            onTap: _pickDate,
+                            icon: Icons.event,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ],
               ),
-
-              const SizedBox(height: 24),
-
-              // Save / Update
-              FilledButton(
-                onPressed: _submit,
-                child: Text(
-                  _isEditMode
-                      ? context.loc.updateButton
-                      : context.loc.saveButton,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
 
-// Replace your _CategoryField with this version
-class _CategoryField extends StatelessWidget {
-  const _CategoryField({required this.controller, required this.suggestions});
-
-  final TextEditingController controller;
-  final List<String> suggestions;
-
-  @override
-  Widget build(BuildContext context) {
-    return Autocomplete<String>(
-      optionsBuilder: (TextEditingValue value) {
-        final q = value.text.trim().toLowerCase();
-        if (q.isEmpty) return const Iterable<String>.empty();
-        return suggestions.where((c) => c.toLowerCase().contains(q));
-      },
-
-      fieldViewBuilder:
-          (context, _ignoredCtrlFromAutocomplete, focusNode, onFieldSubmitted) {
-            return TextFormField(
-              controller: controller,
-              focusNode: focusNode,
-              decoration: InputDecoration(labelText: context.loc.categoryLabel),
-              validator: (v) => (v?.trim().isEmpty ?? true)
-                  ? context.loc.categoryError
-                  : null,
-              onFieldSubmitted: (_) => onFieldSubmitted(),
-            );
-          },
-
-      onSelected: (value) {
-        controller.text = value;
-      },
-
-      optionsViewBuilder: (context, onSelected, options) {
-        return Align(
-          alignment: Alignment.topLeft,
-          child: Material(
-            elevation: 4,
-            borderRadius: BorderRadius.circular(12),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 240, maxWidth: 320),
-              child: ListView.separated(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                itemCount: options.length,
-                separatorBuilder: (_, __) => const Divider(height: 1),
-                itemBuilder: (context, index) {
-                  final opt = options.elementAt(index);
-                  return ListTile(
-                    title: Text(opt),
-                    onTap: () => onSelected(opt),
-                  );
-                },
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
+// --- UI bits ---
+// All private widget classes have been moved to their own
