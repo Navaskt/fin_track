@@ -39,5 +39,7 @@
   "copiedToClipboard": "Copied to clipboard",
   "save": "Save",
   "cancel": "Cancel",
-  "edit": "Edit"
+  "edit": "Edit",
+  "todayLabel": "Today",
+  "yesterdayLabel": "Yesterday"
 }
