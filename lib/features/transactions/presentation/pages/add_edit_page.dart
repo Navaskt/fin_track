@@ -17,6 +17,10 @@ const _expenseCategories = <String>[
   'Transport',
   'Taxi',
   'Bills',
+  'Utilities',
+  'Insurance',
+  'Credit Card',
+  'Credit',
   'Shopping',
   'Health',
   'Entertainment',
@@ -34,6 +38,7 @@ const _incomeCategories = <String>[
   'Refund',
   'Gift',
   'Investment',
+  'Incentive',
   'Other',
 ];
 
@@ -111,7 +116,7 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
       context: context,
       initialDate: _date,
       firstDate: DateTime(2000),
-      lastDate: DateTime.now().add(const Duration(days: 365)),
+      lastDate: DateTime.now(),
     );
     if (picked != null && picked != _date) {
       setState(() => _date = picked);
@@ -238,7 +243,7 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
                   labelText: context.loc.noteLabel,
                   alignLabelWithHint: true,
                 ),
-                maxLines: 6,
+                maxLines: 3,
               ),
               const SizedBox(height: 12),
 

@@ -47,6 +47,25 @@ class TransactionController extends StateNotifier<AsyncValue<void>> {
       state = AsyncError(e, st);
     }
   }
+
+  // in transaction_controller_provider.dart (or similar)
+  Future<void> updateNote(String id, String? note) async {
+    state = const AsyncLoading();
+    try {
+      // load existing entity from repository
+      final current = _repo.getById(id);
+      if (current == null) {
+        throw Exception('Transaction with id $id not found');
+      }
+
+      final updated = current.copyWith(note: note);
+      // update in Hive / repo
+      await _repo.upsert(updated);
+      state = const AsyncData(null);
+    } catch (e, st) {
+      state = AsyncError(e, st);
+    }
+  }
 }
 
 final transactionControllerProvider =

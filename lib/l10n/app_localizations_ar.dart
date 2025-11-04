@@ -100,4 +100,31 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get categoryError => 'أدخل الفئة';
+
+  @override
+  String get note => 'ملاحظة';
+
+  @override
+  String get editNote => 'تعديل الملاحظة';
+
+  @override
+  String get typeYourNote => 'اكتب ملاحظتك هنا...';
+
+  @override
+  String get clear => 'مسح';
+
+  @override
+  String get close => 'إغلاق';
+
+  @override
+  String get copiedToClipboard => 'تم النسخ إلى الحافظة';
+
+  @override
+  String get save => 'حفظ';
+
+  @override
+  String get cancel => 'إلغاء';
+
+  @override
+  String get edit => 'تعديل';
 }

@@ -100,4 +100,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get categoryError => 'Enter a category';
+
+  @override
+  String get note => 'Note';
+
+  @override
+  String get editNote => 'Edit Note';
+
+  @override
+  String get typeYourNote => 'Type your note here...';
+
+  @override
+  String get clear => 'Clear';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get copiedToClipboard => 'Copied to clipboard';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get edit => 'Edit';
 }

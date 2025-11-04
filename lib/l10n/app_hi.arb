@@ -30,5 +30,14 @@
   "delete": "हटाएं",
   "amountError": "राशि दर्ज करें",
   "positiveAmountError": "मान्य सकारात्मक राशि दर्ज करें",
-  "categoryError": "श्रेणी दर्ज करें"
+  "categoryError": "श्रेणी दर्ज करें",
+  "note": "नोट",
+  "editNote": "नोट संपादित करें",
+  "typeYourNote": "यहाँ अपनी नोट लिखें...",
+  "clear": "साफ़ करें",
+  "close": "बंद करें",
+  "copiedToClipboard": "क्लिपबोर्ड में कॉपी किया गया",
+  "save": "सहेजें",
+  "cancel": "रद्द करें",
+  "edit": "संपादित करें"
 }

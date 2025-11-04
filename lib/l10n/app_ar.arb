@@ -30,5 +30,14 @@
   "delete": "حذف",
   "amountError": "أدخل المبلغ",
   "positiveAmountError": "أدخل مبلغًا صحيحًا وإيجابيًا",
-  "categoryError": "أدخل الفئة"
+  "categoryError": "أدخل الفئة",
+  "note": "ملاحظة",
+  "editNote": "تعديل الملاحظة",
+  "typeYourNote": "اكتب ملاحظتك هنا...",
+  "clear": "مسح",
+  "close": "إغلاق",
+  "copiedToClipboard": "تم النسخ إلى الحافظة",
+  "save": "حفظ",
+  "cancel": "إلغاء",
+  "edit": "تعديل"
 }

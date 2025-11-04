@@ -30,5 +30,14 @@
   "delete": "Delete",
   "amountError": "Enter an amount",
   "positiveAmountError": "Enter a valid positive amount",
-  "categoryError": "Enter a category"
+  "categoryError": "Enter a category",
+  "note": "Note",
+  "editNote": "Edit Note",
+  "typeYourNote": "Type your note here...",
+  "clear": "Clear",
+  "close": "Close",
+  "copiedToClipboard": "Copied to clipboard",
+  "save": "Save",
+  "cancel": "Cancel",
+  "edit": "Edit"
 }

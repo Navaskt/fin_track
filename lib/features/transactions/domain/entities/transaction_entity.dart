@@ -1,17 +1,15 @@
-class TransactionEntity {
-  TransactionEntity({
-    required this.id,
-    required this.amount,
-    required this.category,
-    this.note,
-    required this.date,
-    this.receiptPath,
-  });
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  final String id;
-  final double amount;
-  final String category;
-  final String? note;
-  final DateTime date;
-  final String? receiptPath;
+part 'transaction_entity.freezed.dart';
+
+@freezed
+abstract class TransactionEntity with _$TransactionEntity {
+  const factory TransactionEntity({
+    required String id,
+    required double amount,
+    required String category,
+    String? note,
+    required DateTime date,
+    String? receiptPath,
+  }) = _TransactionEntity;
 }

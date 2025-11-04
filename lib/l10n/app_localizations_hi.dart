@@ -100,4 +100,31 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get categoryError => 'श्रेणी दर्ज करें';
+
+  @override
+  String get note => 'नोट';
+
+  @override
+  String get editNote => 'नोट संपादित करें';
+
+  @override
+  String get typeYourNote => 'यहाँ अपनी नोट लिखें...';
+
+  @override
+  String get clear => 'साफ़ करें';
+
+  @override
+  String get close => 'बंद करें';
+
+  @override
+  String get copiedToClipboard => 'क्लिपबोर्ड में कॉपी किया गया';
+
+  @override
+  String get save => 'सहेजें';
+
+  @override
+  String get cancel => 'रद्द करें';
+
+  @override
+  String get edit => 'संपादित करें';
 }
