@@ -1,7 +1,8 @@
 import 'package:fin_track/app/extension/context_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/utils/app_utils.dart';
@@ -11,7 +12,7 @@ import '../controllers/budget_provider.dart';
 import '../controllers/monthly_expense_provider.dart';
 import '../controllers/transaction_providers.dart';
 
-class TransactionsGroupedByMonth extends ConsumerWidget {
+class TransactionsGroupedByMonth extends HookConsumerWidget {
   const TransactionsGroupedByMonth({super.key});
 
   @override
@@ -24,30 +25,32 @@ class TransactionsGroupedByMonth extends ConsumerWidget {
       data: (items) {
         if (items.isEmpty) return const _EmptyState();
 
-        // 1) sort latest first
-        final sorted = [...items]..sort((a, b) => b.date.compareTo(a.date));
+        final sections = useMemoized(() {
+          // 1) sort latest first
+          final sorted = [...items]..sort((a, b) => b.date.compareTo(a.date));
 
-        // 2) group by month
-        final Map<DateTime, List<TransactionEntity>> byMonth = {};
-        for (final t in sorted) {
-          final key = DateTime(t.date.year, t.date.month, 1);
-          byMonth.putIfAbsent(key, () => []).add(t);
-        }
-
-        // 3) build a flat list with headers + footers
-        final monthKeys = byMonth.keys.toList()..sort((a, b) => b.compareTo(a));
-        final sections = <_SectionItem>[];
-
-        for (final mk in monthKeys) {
-          final list = byMonth[mk]!;
-          final total = list.fold<double>(0, (s, e) => s + e.amount);
-
-          sections.add(_SectionItem.header(mk));
-          for (final t in list) {
-            sections.add(_SectionItem.item(t));
+          // 2) group by month
+          final Map<DateTime, List<TransactionEntity>> byMonth = {};
+          for (final t in sorted) {
+            final key = DateTime(t.date.year, t.date.month, 1);
+            byMonth.putIfAbsent(key, () => []).add(t);
           }
-          sections.add(_SectionItem.footer(mk, total));
-        }
+
+          // 3) build a flat list with headers + footers
+          final monthKeys = byMonth.keys.toList()
+            ..sort((a, b) => b.compareTo(a));
+          final sectionItems = <_SectionItem>[];
+
+          for (final mk in monthKeys) {
+            final list = byMonth[mk]!;
+            final total = list.fold<double>(0, (s, e) => s + e.amount);
+
+            sectionItems.add(_SectionItem.header(mk));
+            sectionItems.addAll(list.map((t) => _SectionItem.item(t)));
+            sectionItems.add(_SectionItem.footer(mk, total));
+          }
+          return sectionItems;
+        }, [items]);
 
         return ListView.separated(
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 96),
@@ -61,11 +64,7 @@ class TransactionsGroupedByMonth extends ConsumerWidget {
               case _SectionType.item:
                 return _TxTile(t: s.tx!);
               case _SectionType.footer:
-                return _MonthFooter(
-                  month: s.month!,
-                  total: s.total!,
-                  totalTextColor: s.total! < 0 ? Colors.red : Colors.green,
-                );
+                return _MonthFooter(month: s.month!, total: s.total!);
             }
           },
         );
@@ -193,163 +192,144 @@ class _TxTile extends ConsumerWidget {
 }
 
 class _MonthFooter extends ConsumerWidget {
-  const _MonthFooter({
-    required this.month,
-    required this.total,
-    required this.totalTextColor,
-  });
+  const _MonthFooter({required this.month, required this.total});
 
   final DateTime month;
   final double total; // net (income - expense)
-  final Color totalTextColor;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cs = Theme.of(context).colorScheme;
     final budgetAsync = ref.watch(budgetForMonthProvider(month));
+    final expensesAsync = ref.watch(monthExpenseOnlyProvider(month));
+    final totalTextColor = total < 0 ? Colors.red : Colors.green;
 
-    return budgetAsync.when(
-      loading: () => const Center(
+    if (budgetAsync.isLoading || expensesAsync.isLoading) {
+      return const Center(
         child: Padding(
           padding: EdgeInsets.all(12),
           child: CircularProgressIndicator(strokeWidth: 2),
         ),
-      ),
-      error: (e, _) => Text('Error: $e', style: TextStyle(color: cs.error)),
-      data: (budget) {
-        final expensesAsync = ref.watch(monthExpenseOnlyProvider(month));
+      );
+    }
 
-        return expensesAsync.when(
-          loading: () => const Center(
-            child: Padding(
-              padding: EdgeInsets.all(12),
-              child: CircularProgressIndicator(strokeWidth: 2),
+    if (budgetAsync.hasError || expensesAsync.hasError) {
+      final error = budgetAsync.error ?? expensesAsync.error;
+      return Text('Error: $error', style: TextStyle(color: cs.error));
+    }
+
+    final budget = budgetAsync.value;
+    final expenseOnly = expensesAsync.value!;
+    final remaining = budget == null ? null : (budget - expenseOnly);
+    final hasBudget = budget != null;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: cs.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: cs.outlineVariant),
+      ),
+      child: Theme(
+        data: Theme.of(context).copyWith(
+          dividerColor: Colors.transparent,
+          splashColor: Colors.transparent,
+        ),
+        child: ExpansionTile(
+          tilePadding: const EdgeInsets.symmetric(horizontal: 16),
+          childrenPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 8,
+          ),
+          initiallyExpanded: false,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                DateFormat('MMM yyyy').format(month),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+              ),
+              Text(
+                '${total < 0 ? '-' : '+'} ${formatAED(total.abs())}',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: totalTextColor,
+                  fontWeight: FontWeight.w700,
+                  fontFeatures: const [FontFeature.tabularFigures()],
+                ),
+              ),
+            ],
+          ),
+          subtitle: Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Text(
+              hasBudget ? context.loc.budgetSet : context.loc.noBudgetSet,
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(color: cs.onSurfaceVariant),
             ),
           ),
-          error: (e, _) => Text('Error: $e', style: TextStyle(color: cs.error)),
-          data: (expenseOnly) {
-            final remaining = budget == null ? null : (budget - expenseOnly);
-            final hasBudget = budget != null;
-
-            return Container(
-              decoration: BoxDecoration(
-                color: cs.surfaceContainerHighest,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: cs.outlineVariant),
-              ),
-              child: Theme(
-                data: Theme.of(context).copyWith(
-                  dividerColor: Colors.transparent,
-                  splashColor: Colors.transparent,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '${context.loc.budget}:',
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                child: ExpansionTile(
-                  tilePadding: const EdgeInsets.symmetric(horizontal: 16),
-                  childrenPadding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                  initiallyExpanded: false,
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        DateFormat('MMM yyyy').format(month),
-                        style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(fontWeight: FontWeight.w600),
-                      ),
-                      Text(
-                        '${total < 0 ? '-' : '+'} ${formatAED(total.abs())}',
-                        style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(
-                              color: totalTextColor,
-                              fontWeight: FontWeight.w700,
-                              fontFeatures: const [
-                                FontFeature.tabularFigures(),
-                              ],
-                            ),
-                      ),
-                    ],
-                  ),
-                  subtitle: Padding(
-                    padding: const EdgeInsets.only(top: 4),
-                    child: Text(
-                      hasBudget
-                          ? context.loc.budgetSet
-                          : context.loc.noBudgetSet,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: cs.onSurfaceVariant,
-                      ),
-                    ),
-                  ),
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '${context.loc.budget}:',
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                        Text(
-                          budget == null ? '-' : formatAED(budget),
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '${context.loc.spent}:',
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                        Text(
-                          formatAED(expenseOnly),
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '${context.loc.remaining}:',
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                        Text(
-                          remaining == null ? '-' : formatAED(remaining),
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(
-                                color: remaining == null
-                                    ? cs.onSurfaceVariant
-                                    : (remaining >= 0
-                                          ? Colors.green
-                                          : Colors.red),
-                                fontWeight: FontWeight.bold,
-                              ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: IconButton(
-                        tooltip: budget == null
-                            ? context.loc.setBudget
-                            : context.loc.editBudget,
-                        icon: const Icon(Icons.edit_outlined),
-                        onPressed: () =>
-                            editBudgetDialog(context, ref, month, budget),
-                      ),
-                    ),
-                  ],
+                Text(
+                  budget == null ? '-' : formatAED(budget),
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '${context.loc.spent}:',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                Text(
+                  formatAED(expenseOnly),
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '${context.loc.remaining}:',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                Text(
+                  remaining == null ? '-' : formatAED(remaining),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: remaining == null
+                        ? cs.onSurfaceVariant
+                        : (remaining >= 0 ? Colors.green : Colors.red),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Align(
+              alignment: Alignment.centerRight,
+              child: IconButton(
+                tooltip: budget == null
+                    ? context.loc.setBudget
+                    : context.loc.editBudget,
+                icon: const Icon(Icons.edit_outlined),
+                onPressed: () => editBudgetDialog(context, ref, month, budget),
               ),
-            );
-          },
-        );
-      },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
