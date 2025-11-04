@@ -39,5 +39,7 @@
   "copiedToClipboard": "क्लिपबोर्ड में कॉपी किया गया",
   "save": "सहेजें",
   "cancel": "रद्द करें",
-  "edit": "संपादित करें"
+  "edit": "संपादित करें",
+  "todayLabel": "आज",
+  "yesterdayLabel": "कल"
 }

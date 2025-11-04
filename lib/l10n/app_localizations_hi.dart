@@ -127,4 +127,10 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get edit => 'संपादित करें';
+
+  @override
+  String get todayLabel => 'आज';
+
+  @override
+  String get yesterdayLabel => 'कल';
 }
