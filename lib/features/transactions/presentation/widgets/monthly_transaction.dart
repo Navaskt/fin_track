@@ -1,16 +1,15 @@
-import 'package:fin_track/app/extension/context_extension.dart';
+import 'dart:ui' show lerpDouble;
+
+import 'package:fin_track/features/transactions/presentation/widgets/empty_transactions_state.dart';
+import 'package:fin_track/features/transactions/presentation/widgets/month_summary_footer.dart';
+import 'package:fin_track/features/transactions/presentation/widgets/transaction_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-
-import '../../../../core/utils/app_utils.dart';
 import '../../../../core/utils/format.dart';
 import '../../domain/entities/transaction_entity.dart';
-import '../controllers/budget_provider.dart';
-import '../controllers/monthly_expense_provider.dart';
 import '../controllers/transaction_providers.dart';
 
 class TransactionsGroupedByMonth extends HookConsumerWidget {
@@ -24,538 +23,372 @@ class TransactionsGroupedByMonth extends HookConsumerWidget {
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, _) => Center(child: Text('Error: $e')),
       data: (items) {
-        if (items.isEmpty) return const _EmptyState();
+        if (items.isEmpty) return const EmptyTransactionsState();
 
-        final sections = useMemoized(() {
-          // 1) sort latest first
-          final sorted = [...items]..sort((a, b) => b.date.compareTo(a.date));
-
-          // 2) group by month
+        final grouped = useMemoized(() {
           final Map<DateTime, List<TransactionEntity>> byMonth = {};
-          for (final t in sorted) {
+          for (final t in items) {
             final key = DateTime(t.date.year, t.date.month, 1);
             byMonth.putIfAbsent(key, () => []).add(t);
           }
 
-          // 3) build a flat list with headers + footers
+          // Sort transactions within each month
+          for (var txs in byMonth.values) {
+            txs.sort((a, b) => b.date.compareTo(a.date));
+          }
+
+          // order months desc
           final monthKeys = byMonth.keys.toList()
             ..sort((a, b) => b.compareTo(a));
-          final sectionItems = <_SectionItem>[];
-
-          for (final mk in monthKeys) {
-            final list = byMonth[mk]!;
-            final total = list.fold<double>(0, (s, e) => s + e.amount);
-
-            sectionItems.add(_SectionItem.header(mk));
-            sectionItems.addAll(list.map((t) => _SectionItem.item(t)));
-            sectionItems.add(_SectionItem.footer(mk, total));
-          }
-          return sectionItems;
+          return (byMonth: byMonth, monthKeys: monthKeys);
         }, [items]);
 
-        return ListView.separated(
-          padding: const EdgeInsets.fromLTRB(16, 12, 16, 96),
-          itemCount: sections.length,
-          separatorBuilder: (_, __) => const SizedBox(height: 10),
-          itemBuilder: (context, i) {
-            final s = sections[i];
-            switch (s.type) {
-              case _SectionType.header:
-                return _MonthHeader(date: s.month!);
-              case _SectionType.item:
-                return _TxTile(t: s.tx!);
-              case _SectionType.footer:
-                return _MonthFooter(month: s.month!, total: s.total!);
-            }
-          },
+        // expanded state: default expand current month (if present)
+        final expanded = useState<Set<int>>({
+          DateTime(
+            DateTime.now().year,
+            DateTime.now().month,
+            1,
+          ).millisecondsSinceEpoch,
+        });
+
+        void toggleMonth(DateTime m) {
+          final key = m.millisecondsSinceEpoch;
+          expanded.value = {...expanded.value}.._toggle(key);
+        }
+
+        return CustomScrollView(
+          slivers: [
+            const SliverToBoxAdapter(child: SizedBox(height: 8)),
+            for (final m in grouped.monthKeys)
+              ..._buildMonthSection(
+                context: context,
+                month: m,
+                transactions: grouped.byMonth[m]!,
+                isExpanded: expanded.value.contains(m.millisecondsSinceEpoch),
+                onToggle: () => toggleMonth(m),
+              ),
+            const SliverToBoxAdapter(child: SizedBox(height: 96)),
+          ],
         );
       },
     );
   }
 }
 
-// --- Section model ---
-
-enum _SectionType { header, item, footer }
-
-class _SectionItem {
-  _SectionItem._(this.type, {this.month, this.tx, this.total});
-  final _SectionType type;
-  final DateTime? month;
-  final TransactionEntity? tx;
-  final double? total;
-
-  factory _SectionItem.header(DateTime m) =>
-      _SectionItem._(_SectionType.header, month: m);
-
-  factory _SectionItem.item(TransactionEntity t) =>
-      _SectionItem._(_SectionType.item, tx: t);
-
-  factory _SectionItem.footer(DateTime m, double total) =>
-      _SectionItem._(_SectionType.footer, month: m, total: total);
+extension on Set<int> {
+  void _toggle(int key) {
+    if (contains(key)) {
+      remove(key);
+    } else {
+      add(key);
+    }
+  }
 }
 
-// --- UI pieces ---
+List<Widget> _buildMonthSection({
+  required BuildContext context,
+  required DateTime month,
+  required List<TransactionEntity> transactions,
+  required bool isExpanded,
+  required VoidCallback onToggle,
+}) {
+  final total = transactions.fold<double>(0, (s, e) => s + e.amount);
 
-class _MonthHeader extends StatelessWidget {
-  const _MonthHeader({required this.date});
-  final DateTime date;
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    return Padding(
-      padding: const EdgeInsets.only(top: 4, bottom: 2),
-      child: Row(
-        children: [
-          Text(
-            DateFormat('MMMM yyyy').format(date),
-            style: Theme.of(
-              context,
-            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
-          ),
-          const SizedBox(width: 8),
-          Expanded(child: Divider(height: 1, color: cs.outlineVariant)),
-        ],
+  return [
+    SliverPersistentHeader(
+      pinned: true,
+      delegate: _EnhancedMonthHeaderDelegate(
+        month: month,
+        total: total,
+        isExpanded: isExpanded,
+        onTap: onToggle,
+        minExtent: 56,
+        maxExtent: 64,
       ),
-    );
-  }
-}
-
-class _TxTile extends ConsumerWidget {
-  const _TxTile({required this.t});
-  final TransactionEntity t;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final cs = Theme.of(context).colorScheme;
-    final isNegative = t.amount < 0;
-    final amount = formatAED(t.amount.abs());
-    final hasNote = (t.note?.trim().isNotEmpty ?? false);
-
-    return InkWell(
-      borderRadius: BorderRadius.circular(16),
-      onTap: () => context.push('/edit/${t.id}'),
-      onLongPress: hasNote
-          ? () => _copyNote(context, t.note!.trim())
-          : null,
-      child: Container(
-        decoration: BoxDecoration(
-          color: cs.surfaceContainerHighest,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: cs.outlineVariant),
-        ),
-        child: ListTile(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 2),
-          leading: _CategoryBadge(text: t.category),
-          title: Text(
-            t.category,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: Theme.of(
-              context,
-            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
-          ),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                friendlyDate(t.date),
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: cs.onSurfaceVariant,
-                    ),
-              ),
-              if (hasNote) ...[
-                const SizedBox(height: 4),
-                InkWell(
-                  onTap: () => _showNoteSheet(context, ref, t),
-                  borderRadius: BorderRadius.circular(8),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.only(top: 2),
-                        child: Icon(Icons.sticky_note_2_outlined, size: 16),
-                      ),
-                      const SizedBox(width: 6),
-                      Expanded(
-                        child: Text(
-                          t.note!.trim(),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ],
-          ),
-          trailing: SizedBox(
-            width: 200,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  '${isNegative ? '-' : '+'}$amount',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: isNegative ? Colors.red : Colors.green,
-                    fontFeatures: const [FontFeature.tabularFigures()],
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                IconButton(
-                  tooltip: context.loc.delete,
-                  splashRadius: 20,
-                  icon: const Icon(Icons.delete_outline),
-                  onPressed: () => ref
-                      .read(transactionControllerProvider.notifier)
-                      .delete(t.id),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  void _copyNote(BuildContext context, String note) {
-    Clipboard.setData(ClipboardData(text: note));
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(context.loc.copiedToClipboard)),
-    );
-  }
-}
-
-Future<void> _showNoteSheet(
-  BuildContext context,
-  WidgetRef ref,
-  TransactionEntity t,
-) async {
-  final cs = Theme.of(context).colorScheme;
-
-  await showModalBottomSheet(
-    context: context,
-    showDragHandle: true,
-    isScrollControlled: true,
-    backgroundColor: cs.surface,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
-    builder: (ctx) {
-      return Padding(
-        padding: EdgeInsets.only(
-          left: 16,
-          right: 16,
-          top: 8,
-          bottom: 16 + MediaQuery.of(ctx).viewInsets.bottom,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              ctx.loc.note, // localize "Note"
-              style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
-            ),
-            const SizedBox(height: 8),
-            SelectableText(
-              (t.note ?? '').trim(),
-              style: Theme.of(ctx).textTheme.bodyMedium,
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                TextButton.icon(
-                  onPressed: () async {
-                    Navigator.of(ctx).pop();
-                    await _editNoteDialog(context, ref, t);
-                  },
-                  icon: const Icon(Icons.edit_outlined),
-                  label: Text(ctx.loc.edit),
-                ),
-                const SizedBox(width: 8),
-                if ((t.note?.isNotEmpty ?? false))
-                  TextButton.icon(
-                    onPressed: () async {
-                      // Clear the note
-                      await ref
-                          .read(transactionControllerProvider.notifier)
-                          .updateNote(t.id, null);
-                      Navigator.of(ctx).pop();
-                    },
-                    icon: const Icon(Icons.delete_outline),
-                    label: Text(ctx.loc.clear),
-                  ),
-                const Spacer(),
-                TextButton(
-                  onPressed: () => Navigator.of(ctx).pop(),
-                  child: Text(ctx.loc.close),
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
-    },
-  );
+
+    // Animated expand/collapse content
+    SliverToBoxAdapter(
+      child: _AnimatedMonthBody(
+        isExpanded: isExpanded,
+        month: month,
+        transactions: transactions,
+      ),
+    ),
+  ];
 }
 
-Future<void> _editNoteDialog(
-  BuildContext context,
-  WidgetRef ref,
-  TransactionEntity t,
-) async {
-  final controller = TextEditingController(text: t.note ?? '');
-  final result = await showDialog<bool>(
-    context: context,
-    builder: (ctx) {
-      return AlertDialog(
-        title: Text(ctx.loc.editNote),
-        content: TextField(
-          controller: controller,
-          autofocus: true,
-          maxLines: 5,
-          textInputAction: TextInputAction.done,
-          decoration: InputDecoration(
-            hintText: ctx.loc.typeYourNote,
-          ),
-          onSubmitted: (_) => Navigator.of(ctx).pop(true),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(false),
-            child: Text(ctx.loc.cancel),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.of(ctx).pop(true),
-            child: Text(ctx.loc.save),
-          ),
-        ],
-      );
-    },
-  );
-
-  if (result == true) {
-    final newText = controller.text.trim();
-    await ref
-        .read(transactionControllerProvider.notifier)
-        .updateNote(t.id, newText.isEmpty ? null : newText);
-  }
-}
-
-class _MonthFooter extends ConsumerWidget {
-  const _MonthFooter({required this.month, required this.total});
+class _EnhancedMonthHeaderDelegate extends SliverPersistentHeaderDelegate {
+  _EnhancedMonthHeaderDelegate({
+    required this.month,
+    required this.total,
+    required this.isExpanded,
+    required this.onTap,
+    required this.minExtent,
+    required this.maxExtent,
+  });
 
   final DateTime month;
-  final double total; // net (income - expense)
+  final double total;
+  final bool isExpanded;
+  final VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  final double minExtent;
+  @override
+  final double maxExtent;
+
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
     final cs = Theme.of(context).colorScheme;
-    final budgetAsync = ref.watch(budgetForMonthProvider(month));
-    final expensesAsync = ref.watch(monthExpenseOnlyProvider(month));
-    final totalTextColor = total < 0 ? Colors.red : Colors.green;
+    final t = Theme.of(context).textTheme;
 
-    if (budgetAsync.isLoading || expensesAsync.isLoading) {
-      return const Center(
-        child: Padding(
-          padding: EdgeInsets.all(12),
-          child: CircularProgressIndicator(strokeWidth: 2),
-        ),
-      );
-    }
+    // 0.0 when fully expanded header, 1.0 when fully pinned/collapsed
+    final pinT = (shrinkOffset / (maxExtent - minExtent)).clamp(0.0, 1.0);
 
-    if (budgetAsync.hasError || expensesAsync.hasError) {
-      final error = budgetAsync.error ?? expensesAsync.error;
-      return Text('Error: $error', style: TextStyle(color: cs.error));
-    }
+    // Keep subtle elevation when pinned or overlapping
+    final elevation = pinT > 0.05 || overlapsContent ? 2.0 : 0.0;
 
-    final budget = budgetAsync.value;
-    final expenseOnly = expensesAsync.value!;
-    final remaining = budget == null ? null : (budget - expenseOnly);
-    final hasBudget = budget != null;
+    // Slightly stronger overlay as it pins (no blur involved)
+    final surfaceOpacity = lerpDouble(0.90, 0.96, pinT)!;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: cs.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: cs.outlineVariant),
-      ),
-      child: Theme(
-        data: Theme.of(context).copyWith(
-          dividerColor: Colors.transparent,
-          splashColor: Colors.transparent,
-        ),
-        child: ExpansionTile(
-          tilePadding: const EdgeInsets.symmetric(horizontal: 16),
-          childrenPadding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 8,
+    return Material(
+      color: Colors.transparent,
+      elevation: elevation,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          // Solid base surface
+          Container(color: Theme.of(context).scaffoldBackgroundColor),
+
+          // Soft gradient tint (same design as before)
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  cs.primary.withOpacity(0.06),
+                  cs.secondary.withOpacity(0.05),
+                ],
+              ),
+            ),
           ),
-          initiallyExpanded: false,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+          // Opaque surface overlay that animates with pin (replacing blur layer)
+          Container(
+            color: Theme.of(
+              context,
+            ).scaffoldBackgroundColor.withOpacity(surfaceOpacity),
+          ),
+
+          // Content row
+          InkWell(
+            onTap: () {
+              HapticFeedback.selectionClick();
+              onTap();
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  // Month + year
+                  Text(
+                    DateFormat('MMMM yyyy').format(month),
+                    style: t.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 0.2,
+                    ),
+                  ),
+
+                  const SizedBox(width: 10),
+
+                  // Divider that becomes a bit more visible as it pins
+                  Expanded(
+                    child: Opacity(
+                      opacity: lerpDouble(0.6, 1.0, pinT)!,
+                      child: Divider(height: 1, color: cs.outlineVariant),
+                    ),
+                  ),
+
+                  const SizedBox(width: 10),
+
+                  // Total pill (unchanged)
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 250),
+                    curve: Curves.easeOutCubic,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: lerpDouble(10, 12, pinT)!.toDouble(),
+                      vertical: lerpDouble(6, 7, pinT)!.toDouble(),
+                    ),
+                    decoration: BoxDecoration(
+                      color: (total < 0 ? Colors.red : Colors.green)
+                          .withOpacity(0.12),
+                      borderRadius: BorderRadius.circular(999),
+                      border: Border.all(
+                        color: (total < 0 ? Colors.red : Colors.green)
+                            .withOpacity(0.35),
+                      ),
+                    ),
+                    child: Text(
+                      '${total < 0 ? '-' : '+'} ${formatAED(total.abs())}',
+                      style: t.labelLarge?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        fontFeatures: const [FontFeature.tabularFigures()],
+                        color: total < 0 ? Colors.red : Colors.green,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(width: 8),
+
+                  // Chevron rotation (unchanged)
+                  AnimatedRotation(
+                    turns: isExpanded ? 0.5 : 0.0,
+                    duration: const Duration(milliseconds: 220),
+                    curve: Curves.easeOutCubic,
+                    child: const Icon(Icons.expand_more),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          // Always-visible hairline under the header
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(height: 0.5, color: cs.outlineVariant),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  bool shouldRebuild(covariant _EnhancedMonthHeaderDelegate old) {
+    return old.month != month ||
+        old.total != total ||
+        old.isExpanded != isExpanded ||
+        old.minExtent != minExtent ||
+        old.maxExtent != maxExtent;
+  }
+}
+
+class _AnimatedMonthBody extends StatelessWidget {
+  const _AnimatedMonthBody({
+    required this.isExpanded,
+    required this.month,
+    required this.transactions,
+  });
+
+  final bool isExpanded;
+  final DateTime month;
+  final List<TransactionEntity> transactions;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedCrossFade(
+      crossFadeState: isExpanded
+          ? CrossFadeState.showFirst
+          : CrossFadeState.showSecond,
+      duration: const Duration(milliseconds: 260),
+      firstCurve: Curves.easeOutCubic,
+      secondCurve: Curves.easeOutCubic,
+      sizeCurve: Curves.easeOutCubic,
+      firstChild: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const SizedBox(height: 8),
+          for (final t in transactions) ...[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: TransactionListItem(t: t),
+            ),
+            const SizedBox(height: 10),
+          ],
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 2, 16, 8),
+            child: MonthSummaryFooter(month: month),
+          ),
+        ],
+      ),
+      // Keep a zero-sized box when collapsed to avoid layout jumps
+      secondChild: const SizedBox.shrink(),
+    );
+  }
+}
+
+/// Sticky month header that looks/behaves like a tappable ExpansionTile header.
+// ignore: unused_element
+class _MonthHeaderDelegate extends SliverPersistentHeaderDelegate {
+  _MonthHeaderDelegate({
+    required this.month,
+    required this.onTap,
+    required this.isExpanded,
+    required this.minExtent,
+    required this.maxExtent,
+  });
+
+  final DateTime month;
+  final VoidCallback onTap;
+  final bool isExpanded;
+
+  @override
+  final double minExtent;
+  @override
+  final double maxExtent;
+
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    final cs = Theme.of(context).colorScheme;
+    final t = Theme.of(context).textTheme;
+
+    final elevation = (overlapsContent || shrinkOffset > 0)
+        ? 1.0
+        : 0.0; // subtle shadow
+
+    return Material(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      elevation: elevation,
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          alignment: Alignment.centerLeft,
+          child: Row(
             children: [
               Text(
-                DateFormat('MMM yyyy').format(month),
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+                DateFormat('MMMM yyyy').format(month),
+                style: t.titleMedium?.copyWith(fontWeight: FontWeight.w700),
               ),
-              Text(
-                '${total < 0 ? '-' : '+'} ${formatAED(total.abs())}',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: totalTextColor,
-                  fontWeight: FontWeight.w700,
-                  fontFeatures: const [FontFeature.tabularFigures()],
-                ),
+              const SizedBox(width: 8),
+              Expanded(child: Divider(height: 1, color: cs.outlineVariant)),
+              const SizedBox(width: 8),
+              RotationTransition(
+                turns: AlwaysStoppedAnimation(isExpanded ? 0.5 : 0.0),
+                child: const Icon(Icons.expand_more),
               ),
             ],
           ),
-          subtitle: Padding(
-            padding: const EdgeInsets.only(top: 4),
-            child: Text(
-              hasBudget ? context.loc.budgetSet : context.loc.noBudgetSet,
-              style: Theme.of(
-                context,
-              ).textTheme.bodySmall?.copyWith(color: cs.onSurfaceVariant),
-            ),
-          ),
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  '${context.loc.budget}:',
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-                Text(
-                  budget == null ? '-' : formatAED(budget),
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              ],
-            ),
-            const SizedBox(height: 4),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  '${context.loc.spent}:',
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-                Text(
-                  formatAED(expenseOnly),
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              ],
-            ),
-            const SizedBox(height: 4),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  '${context.loc.remaining}:',
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-                Text(
-                  remaining == null ? '-' : formatAED(remaining),
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: remaining == null
-                        ? cs.onSurfaceVariant
-                        : (remaining >= 0 ? Colors.green : Colors.red),
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Align(
-              alignment: Alignment.centerRight,
-              child: IconButton(
-                tooltip: budget == null
-                    ? context.loc.setBudget
-                    : context.loc.editBudget,
-                icon: const Icon(Icons.edit_outlined),
-                onPressed: () => editBudgetDialog(context, ref, month, budget),
-              ),
-            ),
-          ],
         ),
       ),
     );
   }
-}
-
-class _EmptyState extends StatelessWidget {
-  const _EmptyState();
 
   @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.account_balance_wallet_outlined,
-              size: 56,
-              color: cs.primary,
-            ),
-            const SizedBox(height: 12),
-            Text(
-              context.loc.noTransactions,
-              style: Theme.of(
-                context,
-              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              context.loc.addFirstTransaction,
-              textAlign: TextAlign.center,
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(color: cs.onSurfaceVariant),
-            ),
-          ],
-        ),
-      ),
-    );
+  bool shouldRebuild(covariant _MonthHeaderDelegate oldDelegate) {
+    return oldDelegate.month != month ||
+        oldDelegate.isExpanded != isExpanded ||
+        oldDelegate.minExtent != minExtent ||
+        oldDelegate.maxExtent != maxExtent;
   }
 }
-
-class _CategoryBadge extends StatelessWidget {
-  const _CategoryBadge({required this.text});
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    final initial = text.isEmpty ? '?' : text.characters.first.toUpperCase();
-    return Container(
-      width: 44,
-      height: 44,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: cs.primaryContainer,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Text(
-        initial,
-        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-          color: cs.onPrimaryContainer,
-          fontWeight: FontWeight.w700,
-        ),
-      ),
-    );
-  }
-}
-
-// --- helpers ---
