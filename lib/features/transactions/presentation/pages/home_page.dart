@@ -16,7 +16,24 @@ class HomePage extends ConsumerWidget {
     return Scaffold(
       backgroundColor: cs.surface,
       appBar: AppBar(
-        title: Text(context.loc.appTitle),
+        title: Column(
+          children: [
+            Text(
+              context.loc.appTitle,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: cs.primary,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              'by MOHAMMED NAVAS',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: cs.primary,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
         centerTitle: true,
         elevation: 0,
         scrolledUnderElevation: 2,
