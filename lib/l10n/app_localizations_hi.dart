@@ -9,19 +9,19 @@ class AppLocalizationsHi extends AppLocalizations {
   AppLocalizationsHi([String locale = 'hi']) : super(locale);
 
   @override
-  String get appTitle => 'FinTrack';
+  String get appTitle => 'फिनट्रैक';
 
   @override
-  String get addTransactionTitle => 'लेनदेन जोड़ें';
+  String get addTransactionTitle => 'लेन-देन जोड़ें';
 
   @override
-  String get editTransactionTitle => 'लेनदेन संपादित करें';
+  String get editTransactionTitle => 'लेन-देन संपादित करें';
 
   @override
   String get amountLabel => 'राशि (AED)';
 
   @override
-  String get categoryLabel => 'श्रेणी (जैसे, खाना, टैक्सी)';
+  String get categoryLabel => 'श्रेणी (जैसे: भोजन, टैक्सी)';
 
   @override
   String get noteLabel => 'नोट (वैकल्पिक)';
@@ -60,19 +60,19 @@ class AppLocalizationsHi extends AppLocalizations {
   String get themeSystem => 'सिस्टम';
 
   @override
-  String get noTransactions => 'अभी तक कोई लेनदेन नहीं';
+  String get noTransactions => 'अभी तक कोई लेन-देन नहीं';
 
   @override
-  String get addFirstTransaction => 'अपना पहला खर्च या आय जोड़ने के लिए Add बटन टैप करें।';
+  String get addFirstTransaction => 'अपना पहला खर्च या आय जोड़ने के लिए Add बटन दबाएं।';
 
   @override
   String get budget => 'बजट';
 
   @override
-  String get spent => 'खर्च';
+  String get spent => 'खर्च किया';
 
   @override
-  String get remaining => 'शेष';
+  String get remaining => 'बाकी';
 
   @override
   String get setBudget => 'बजट सेट करें';
@@ -81,25 +81,25 @@ class AppLocalizationsHi extends AppLocalizations {
   String get editBudget => 'बजट संपादित करें';
 
   @override
-  String get budgetSet => 'इस महीने का बजट सेट है';
+  String get budgetSet => 'इस महीने के लिए बजट सेट किया गया है';
 
   @override
-  String get noBudgetSet => 'अभी कोई बजट सेट नहीं है';
+  String get noBudgetSet => 'अभी तक कोई बजट सेट नहीं किया गया';
 
   @override
-  String get grandTotal => 'कुल योग';
+  String get grandTotal => 'कुल राशि';
 
   @override
   String get delete => 'हटाएं';
 
   @override
-  String get amountError => 'राशि दर्ज करें';
+  String get amountError => 'कृपया राशि दर्ज करें';
 
   @override
-  String get positiveAmountError => 'मान्य सकारात्मक राशि दर्ज करें';
+  String get positiveAmountError => 'सही धनात्मक राशि दर्ज करें';
 
   @override
-  String get categoryError => 'श्रेणी दर्ज करें';
+  String get categoryError => 'कृपया श्रेणी दर्ज करें';
 
   @override
   String get note => 'नोट';
@@ -108,16 +108,16 @@ class AppLocalizationsHi extends AppLocalizations {
   String get editNote => 'नोट संपादित करें';
 
   @override
-  String get typeYourNote => 'यहाँ अपनी नोट लिखें...';
+  String get typeYourNote => 'अपना नोट यहां लिखें...';
 
   @override
-  String get clear => 'साफ़ करें';
+  String get clear => 'साफ करें';
 
   @override
   String get close => 'बंद करें';
 
   @override
-  String get copiedToClipboard => 'क्लिपबोर्ड में कॉपी किया गया';
+  String get copiedToClipboard => 'क्लिपबोर्ड पर कॉपी किया गया';
 
   @override
   String get save => 'सहेजें';
