@@ -237,7 +237,7 @@ class _EnhancedMonthHeaderDelegate extends SliverPersistentHeaderDelegate {
                       ),
                     ),
                     child: Text(
-                      '${total < 0 ? '-' : '+'} ${formatAED(total.abs())}',
+                      '${total < 0 ? '-' : '+'} ${fmtMoneyCompact(total.abs())}',
                       style: t.labelLarge?.copyWith(
                         fontWeight: FontWeight.w700,
                         fontFeatures: const [FontFeature.tabularFigures()],

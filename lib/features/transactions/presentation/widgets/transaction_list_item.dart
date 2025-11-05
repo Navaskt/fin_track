@@ -17,7 +17,7 @@ class TransactionListItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cs = Theme.of(context).colorScheme;
     final isNegative = t.amount < 0;
-    final amount = formatAED(t.amount.abs());
+    final amount = fmtMoneyCompact(t.amount.abs());
     final hasNote = (t.note?.trim().isNotEmpty ?? false);
 
     return InkWell(

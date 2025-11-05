@@ -51,17 +51,17 @@ class MonthSummaryFooter extends ConsumerWidget {
                 children: [
                   _SummaryRow(
                     label: '${context.loc.budget}:',
-                    value: hasBudget ? formatAED(budget) : '-',
+                    value: hasBudget ? fmtMoneyCompact(budget) : '-',
                   ),
                   const SizedBox(height: 4),
                   _SummaryRow(
                     label: '${context.loc.spent}:',
-                    value: formatAED(expenseOnly),
+                    value: fmtMoneyCompact(expenseOnly),
                   ),
                   const SizedBox(height: 4),
                   _SummaryRow(
                     label: '${context.loc.remaining}:',
-                    value: remaining == null ? '-' : formatAED(remaining),
+                    value: remaining == null ? '-' : fmtMoneyCompact(remaining),
                     valueColor: remaining == null
                         ? null
                         : (remaining >= 0 ? Colors.green : Colors.red),
