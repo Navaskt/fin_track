@@ -133,4 +133,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get yesterdayLabel => 'Yesterday';
+
+  @override
+  String get changeLanguage => 'Change language';
 }

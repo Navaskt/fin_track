@@ -1,3 +1,4 @@
+import 'package:fin_track/app/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../features/transactions/presentation/controllers/locale_provider.dart';
@@ -12,7 +13,7 @@ class LanguageSelector extends ConsumerWidget {
     final cs = Theme.of(context).colorScheme;
 
     return PopupMenuButton<Locale>(
-      tooltip: 'Change language',
+      tooltip: context.loc.changeLanguage,
       icon: Icon(Icons.language_outlined, size: 24, color: cs.primary),
 
       onSelected: (locale) => notifier.setLocale(locale),

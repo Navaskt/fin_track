@@ -41,5 +41,6 @@
   "cancel": "Cancel",
   "edit": "Edit",
   "todayLabel": "Today",
-  "yesterdayLabel": "Yesterday"
+  "yesterdayLabel": "Yesterday",
+  "changeLanguage": "Change language"
 }

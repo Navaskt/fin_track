@@ -133,4 +133,7 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get yesterdayLabel => 'ഇന്നലെ';
+
+  @override
+  String get changeLanguage => 'ഭാഷ മാറ്റുക';
 }

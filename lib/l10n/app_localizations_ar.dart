@@ -133,4 +133,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get yesterdayLabel => 'أمس';
+
+  @override
+  String get changeLanguage => 'تغيير اللغة';
 }

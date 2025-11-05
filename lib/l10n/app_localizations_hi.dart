@@ -133,4 +133,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get yesterdayLabel => 'कल';
+
+  @override
+  String get changeLanguage => 'भाषा बदलें';
 }
