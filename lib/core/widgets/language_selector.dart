@@ -29,6 +29,10 @@ class LanguageSelector extends ConsumerWidget {
           value: Locale('hi', 'IN'),
           child: Text('हिंदी', style: TextStyle(color: cs.primary)),
         ),
+        PopupMenuItem(
+          value: Locale('ml', 'IN'),
+          child: Text('മലയാളം', style: TextStyle(color: cs.primary)),
+        ),
       ],
     );
   }

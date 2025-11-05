@@ -1,0 +1,136 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for Malayalam (`ml`).
+class AppLocalizationsMl extends AppLocalizations {
+  AppLocalizationsMl([String locale = 'ml']) : super(locale);
+
+  @override
+  String get appTitle => 'ഫിൻട്രാക്ക്';
+
+  @override
+  String get addTransactionTitle => 'ട്രാൻസാക്ഷൻ ചേർക്കുക';
+
+  @override
+  String get editTransactionTitle => 'ട്രാൻസാക്ഷൻ എഡിറ്റ് ചെയ്യുക';
+
+  @override
+  String get amountLabel => 'തുക (AED)';
+
+  @override
+  String get categoryLabel => 'വിഭാഗം (ഉദാ: ഭക്ഷണം, ടാക്സി)';
+
+  @override
+  String get noteLabel => 'കുറിപ്പ് (ഐച്ഛികം)';
+
+  @override
+  String get dateLabel => 'തീയതി';
+
+  @override
+  String get pickDateButton => 'തീയതി തിരഞ്ഞെടുക്കുക';
+
+  @override
+  String get expense => 'ചെലവ്';
+
+  @override
+  String get income => 'വരുമാനം';
+
+  @override
+  String get saveButton => 'സേവ് ചെയ്യുക';
+
+  @override
+  String get updateButton => 'അപ്‌ഡേറ്റ് ചെയ്യുക';
+
+  @override
+  String get addButton => 'ചേർക്കുക';
+
+  @override
+  String get themeMenu => 'തീം മോഡ്';
+
+  @override
+  String get themeLight => 'ലൈറ്റ്';
+
+  @override
+  String get themeDark => 'ഡാർക്ക്';
+
+  @override
+  String get themeSystem => 'സിസ്റ്റം';
+
+  @override
+  String get noTransactions => 'ഇതിനുമുമ്പ് ട്രാൻസാക്ഷനുകൾ ഇല്ല';
+
+  @override
+  String get addFirstTransaction => 'നിങ്ങളുടെ ആദ്യ ചെലവോ വരുമാനമോ ചേർക്കാൻ Add ബട്ടൺ ടാപ്പ് ചെയ്യുക.';
+
+  @override
+  String get budget => 'ബജറ്റ്';
+
+  @override
+  String get spent => 'ചെലവായത്';
+
+  @override
+  String get remaining => 'ബാക്കിയുള്ളത്';
+
+  @override
+  String get setBudget => 'ബജറ്റ് നിശ്ചയിക്കുക';
+
+  @override
+  String get editBudget => 'ബജറ്റ് എഡിറ്റ് ചെയ്യുക';
+
+  @override
+  String get budgetSet => 'ഈ മാസത്തേക്ക് ബജറ്റ് നിശ്ചയിച്ചു';
+
+  @override
+  String get noBudgetSet => 'ഇനിയും ബജറ്റ് നിശ്ചയിച്ചിട്ടില്ല';
+
+  @override
+  String get grandTotal => 'മൊത്തം തുക';
+
+  @override
+  String get delete => 'ഡിലീറ്റ് ചെയ്യുക';
+
+  @override
+  String get amountError => 'തുക നൽകുക';
+
+  @override
+  String get positiveAmountError => 'സരിയായ പോസിറ്റീവ് തുക നൽകുക';
+
+  @override
+  String get categoryError => 'ഒരു വിഭാഗം നൽകുക';
+
+  @override
+  String get note => 'കുറിപ്പ്';
+
+  @override
+  String get editNote => 'കുറിപ്പ് എഡിറ്റ് ചെയ്യുക';
+
+  @override
+  String get typeYourNote => 'നിങ്ങളുടെ കുറിപ്പ് ഇവിടെ ടൈപ്പ് ചെയ്യുക...';
+
+  @override
+  String get clear => 'ക്ലിയർ ചെയ്യുക';
+
+  @override
+  String get close => 'അടയ്ക്കുക';
+
+  @override
+  String get copiedToClipboard => 'ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തി';
+
+  @override
+  String get save => 'സേവ് ചെയ്യുക';
+
+  @override
+  String get cancel => 'റദ്ദാക്കുക';
+
+  @override
+  String get edit => 'എഡിറ്റ് ചെയ്യുക';
+
+  @override
+  String get todayLabel => 'ഇന്ന്';
+
+  @override
+  String get yesterdayLabel => 'ഇന്നലെ';
+}
