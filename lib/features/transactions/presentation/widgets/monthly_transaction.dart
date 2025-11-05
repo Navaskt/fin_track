@@ -11,6 +11,7 @@ import 'package:intl/intl.dart';
 import '../../../../core/utils/format.dart';
 import '../../domain/entities/transaction_entity.dart';
 import '../controllers/transaction_providers.dart';
+import 'month_daily_chart_exact.dart';
 
 class TransactionsGroupedByMonth extends HookConsumerWidget {
   const TransactionsGroupedByMonth({super.key});
@@ -304,6 +305,19 @@ class _AnimatedMonthBody extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const SizedBox(height: 8),
+          // NEW: Daily chart for the month
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: MonthDailyChartExact(
+              month: month,
+              transactions: transactions,
+              onDayTap: (day) {
+                // optional: filter/scroll your list to this day
+              },
+            ),
+          ),
+
+          const SizedBox(height: 12),
           for (final t in transactions) ...[
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
