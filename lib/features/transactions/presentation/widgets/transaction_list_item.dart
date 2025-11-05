@@ -4,9 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/utils/format.dart';
 import '../../domain/entities/transaction_entity.dart';
 import '../controllers/transaction_providers.dart';
+import '../formatters/formatters.dart';
 import 'category_badge.dart';
 
 class TransactionListItem extends ConsumerWidget {
@@ -49,7 +49,7 @@ class TransactionListItem extends ConsumerWidget {
                     ),
                   ),
                   Text(
-                    friendlyDate(t.date),
+                    friendlyDate(t.date, context),
                     style: Theme.of(
                       context,
                     ).textTheme.bodySmall?.copyWith(color: cs.onSurfaceVariant),
