@@ -42,5 +42,17 @@
   "edit": "تعديل",
   "todayLabel": "اليوم",
   "yesterdayLabel": "أمس",
-  "changeLanguage": "تغيير اللغة"
+  "changeLanguage": "تغيير اللغة",
+  "insightsTitle": "التحليلات والإحصاءات",
+  "monthSelectorThisMonth": "هذا الشهر",
+  "prevMonth": "السابق",
+  "nextMonth": "التالي",
+  "income": "الدخل",
+  "expense": "المصروف",
+  "net": "الصافي",
+  "byCategory": "حسب الفئة",
+  "dailyExpenseTrend": "اتجاه المصروف اليومي",
+  "topCategories": "أعلى الفئات",
+  "noExpenses": "لا توجد مصروفات هذا الشهر",
+  "noData": "لا توجد بيانات"
 }

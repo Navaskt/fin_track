@@ -37,7 +37,15 @@ class HomePage extends ConsumerWidget {
         centerTitle: true,
         elevation: 0,
         scrolledUnderElevation: 2,
-        actions: [const LanguageSelector(), const ThemeSelector()],
+        actions: [
+          IconButton(
+            onPressed: () => context.push('/insights'),
+            icon: Icon(Icons.analytics_outlined, color: cs.secondary),
+            tooltip: 'Analytics',
+          ),
+          const LanguageSelector(),
+          const ThemeSelector(),
+        ],
       ),
       body: const TransactionsGroupedByMonth(),
       floatingActionButton: FloatingActionButton.extended(

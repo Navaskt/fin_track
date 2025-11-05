@@ -12,7 +12,7 @@ class ThemeSelector extends ConsumerWidget {
     final cs = Theme.of(context).colorScheme;
     return PopupMenuButton(
       tooltip: context.loc.themeMenu,
-      icon: Icon(Icons.brightness_6_outlined, color: cs.primary),
+      icon: Icon(Icons.brightness_6_outlined, color: cs.secondary),
       itemBuilder: (_) => [
         PopupMenuItem(
           value: 'light',
