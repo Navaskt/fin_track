@@ -356,6 +356,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Change language'**
   String get changeLanguage;
+
+  /// No description provided for @insightsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Analytics & Insights'**
+  String get insightsTitle;
+
+  /// No description provided for @monthSelectorThisMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'This month'**
+  String get monthSelectorThisMonth;
+
+  /// No description provided for @prevMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous'**
+  String get prevMonth;
+
+  /// No description provided for @nextMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get nextMonth;
+
+  /// No description provided for @net.
+  ///
+  /// In en, this message translates to:
+  /// **'Net'**
+  String get net;
+
+  /// No description provided for @byCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'By category'**
+  String get byCategory;
+
+  /// No description provided for @dailyExpenseTrend.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily expense trend'**
+  String get dailyExpenseTrend;
+
+  /// No description provided for @topCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Top categories'**
+  String get topCategories;
+
+  /// No description provided for @noExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'No expenses for this month'**
+  String get noExpenses;
+
+  /// No description provided for @noData.
+  ///
+  /// In en, this message translates to:
+  /// **'No data'**
+  String get noData;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

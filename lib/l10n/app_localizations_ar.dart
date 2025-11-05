@@ -33,10 +33,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pickDateButton => 'اختر التاريخ';
 
   @override
-  String get expense => 'مصروف';
+  String get expense => 'المصروف';
 
   @override
-  String get income => 'دخل';
+  String get income => 'الدخل';
 
   @override
   String get saveButton => 'حفظ';
@@ -136,4 +136,34 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get changeLanguage => 'تغيير اللغة';
+
+  @override
+  String get insightsTitle => 'التحليلات والإحصاءات';
+
+  @override
+  String get monthSelectorThisMonth => 'هذا الشهر';
+
+  @override
+  String get prevMonth => 'السابق';
+
+  @override
+  String get nextMonth => 'التالي';
+
+  @override
+  String get net => 'الصافي';
+
+  @override
+  String get byCategory => 'حسب الفئة';
+
+  @override
+  String get dailyExpenseTrend => 'اتجاه المصروف اليومي';
+
+  @override
+  String get topCategories => 'أعلى الفئات';
+
+  @override
+  String get noExpenses => 'لا توجد مصروفات هذا الشهر';
+
+  @override
+  String get noData => 'لا توجد بيانات';
 }

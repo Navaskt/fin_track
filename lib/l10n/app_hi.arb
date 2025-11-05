@@ -42,5 +42,17 @@
   "edit": "संपादित करें",
   "todayLabel": "आज",
   "yesterdayLabel": "कल",
-  "changeLanguage": "भाषा बदलें"
+  "changeLanguage": "भाषा बदलें",
+  "insightsTitle": "विश्लेषण और जानकारी",
+  "monthSelectorThisMonth": "यह महीना",
+  "prevMonth": "पिछला",
+  "nextMonth": "अगला",
+  "income": "आय",
+  "expense": "खर्च",
+  "net": "शुद्ध",
+  "byCategory": "श्रेणी अनुसार",
+  "dailyExpenseTrend": "दैनिक खर्च प्रवृत्ति",
+  "topCategories": "शीर्ष श्रेणियाँ",
+  "noExpenses": "इस महीने के लिए कोई खर्च नहीं",
+  "noData": "कोई डेटा नहीं"
 }

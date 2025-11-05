@@ -42,5 +42,17 @@
   "edit": "എഡിറ്റ് ചെയ്യുക",
   "todayLabel": "ഇന്ന്",
   "yesterdayLabel": "ഇന്നലെ",
-  "changeLanguage": "ഭാഷ മാറ്റുക"
+  "changeLanguage": "ഭാഷ മാറ്റുക",
+  "insightsTitle": "വിശകലനം & ഇൻസൈറ്റ്സ്",
+  "monthSelectorThisMonth": "ഈ മാസം",
+  "prevMonth": "മുൻ മാസം",
+  "nextMonth": "അടുത്ത മാസം",
+  "income": "വരുമാനം",
+  "expense": "ചെലവ്",
+  "net": "നെറ്റ്",
+  "byCategory": "വിഭാഗംപ്രകാരം",
+  "dailyExpenseTrend": "ദൈനംദിന ചെലവിന്റെ പ്രവണത",
+  "topCategories": "മികച്ച വിഭാഗങ്ങൾ",
+  "noExpenses": "ഈ മാസത്തിൽ ചെലവുകൾ ഇല്ല",
+  "noData": "ഡാറ്റയില്ല"
 }

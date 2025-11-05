@@ -42,5 +42,17 @@
   "edit": "Edit",
   "todayLabel": "Today",
   "yesterdayLabel": "Yesterday",
-  "changeLanguage": "Change language"
+  "changeLanguage": "Change language",
+  "insightsTitle": "Analytics & Insights",
+  "monthSelectorThisMonth": "This month",
+  "prevMonth": "Previous",
+  "nextMonth": "Next",
+  "income": "Income",
+  "expense": "Expense",
+  "net": "Net",
+  "byCategory": "By category",
+  "dailyExpenseTrend": "Daily expense trend",
+  "topCategories": "Top categories",
+  "noExpenses": "No expenses for this month",
+  "noData": "No data"
 }

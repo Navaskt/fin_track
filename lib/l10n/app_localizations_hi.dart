@@ -136,4 +136,34 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get changeLanguage => 'भाषा बदलें';
+
+  @override
+  String get insightsTitle => 'विश्लेषण और जानकारी';
+
+  @override
+  String get monthSelectorThisMonth => 'यह महीना';
+
+  @override
+  String get prevMonth => 'पिछला';
+
+  @override
+  String get nextMonth => 'अगला';
+
+  @override
+  String get net => 'शुद्ध';
+
+  @override
+  String get byCategory => 'श्रेणी अनुसार';
+
+  @override
+  String get dailyExpenseTrend => 'दैनिक खर्च प्रवृत्ति';
+
+  @override
+  String get topCategories => 'शीर्ष श्रेणियाँ';
+
+  @override
+  String get noExpenses => 'इस महीने के लिए कोई खर्च नहीं';
+
+  @override
+  String get noData => 'कोई डेटा नहीं';
 }

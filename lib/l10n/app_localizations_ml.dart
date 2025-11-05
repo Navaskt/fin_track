@@ -136,4 +136,34 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get changeLanguage => 'ഭാഷ മാറ്റുക';
+
+  @override
+  String get insightsTitle => 'വിശകലനം & ഇൻസൈറ്റ്സ്';
+
+  @override
+  String get monthSelectorThisMonth => 'ഈ മാസം';
+
+  @override
+  String get prevMonth => 'മുൻ മാസം';
+
+  @override
+  String get nextMonth => 'അടുത്ത മാസം';
+
+  @override
+  String get net => 'നെറ്റ്';
+
+  @override
+  String get byCategory => 'വിഭാഗംപ്രകാരം';
+
+  @override
+  String get dailyExpenseTrend => 'ദൈനംദിന ചെലവിന്റെ പ്രവണത';
+
+  @override
+  String get topCategories => 'മികച്ച വിഭാഗങ്ങൾ';
+
+  @override
+  String get noExpenses => 'ഈ മാസത്തിൽ ചെലവുകൾ ഇല്ല';
+
+  @override
+  String get noData => 'ഡാറ്റയില്ല';
 }
