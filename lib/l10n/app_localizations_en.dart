@@ -166,4 +166,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noData => 'No data';
+
+  @override
+  String get byNavas => 'by MOHAMMED NAVAS';
+
+  @override
+  String get analytics => 'Analytics';
 }

@@ -166,4 +166,10 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get noData => 'ഡാറ്റയില്ല';
+
+  @override
+  String get byNavas => 'മുഹമ്മദ് നവാസ് നിർമ്മിച്ചത്';
+
+  @override
+  String get analytics => 'വിശകലനം';
 }

@@ -54,5 +54,7 @@
   "dailyExpenseTrend": "اتجاه المصروف اليومي",
   "topCategories": "أعلى الفئات",
   "noExpenses": "لا توجد مصروفات هذا الشهر",
-  "noData": "لا توجد بيانات"
+  "noData": "لا توجد بيانات",
+  "byNavas": "بواسطة محمد نواس",
+  "analytics": "التحليلات"
 }

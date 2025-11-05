@@ -54,5 +54,7 @@
   "dailyExpenseTrend": "Daily expense trend",
   "topCategories": "Top categories",
   "noExpenses": "No expenses for this month",
-  "noData": "No data"
+  "noData": "No data",
+  "byNavas": "by MOHAMMED NAVAS",
+  "analytics": "Analytics"
 }

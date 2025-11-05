@@ -166,4 +166,10 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get noData => 'कोई डेटा नहीं';
+
+  @override
+  String get byNavas => 'मोहम्मद नवास द्वारा';
+
+  @override
+  String get analytics => 'विश्लेषण';
 }

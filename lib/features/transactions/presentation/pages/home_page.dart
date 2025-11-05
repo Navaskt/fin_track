@@ -11,25 +11,29 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cs = Theme.of(context).colorScheme;
+    final cs = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: cs.surface,
+      backgroundColor: cs.colorScheme.surface,
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => context.push('/insights'),
+          icon: Icon(Icons.analytics_outlined, color: cs.colorScheme.secondary),
+          tooltip: context.loc.analytics,
+        ),
         title: Column(
           children: [
             Text(
               context.loc.appTitle,
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: cs.primary,
-                fontWeight: FontWeight.bold,
+              style: cs.textTheme.titleLarge?.copyWith(
+                color: cs.colorScheme.secondary,
               ),
             ),
             Text(
-              'by MOHAMMED NAVAS',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: cs.primary,
-                fontWeight: FontWeight.w500,
+              context.loc.byNavas,
+              style: cs.textTheme.titleSmall?.copyWith(
+                color: cs.colorScheme.tertiary,
+                letterSpacing: 1.2,
               ),
             ),
           ],
@@ -37,15 +41,7 @@ class HomePage extends ConsumerWidget {
         centerTitle: true,
         elevation: 0,
         scrolledUnderElevation: 2,
-        actions: [
-          IconButton(
-            onPressed: () => context.push('/insights'),
-            icon: Icon(Icons.analytics_outlined, color: cs.secondary),
-            tooltip: 'Analytics',
-          ),
-          const LanguageSelector(),
-          const ThemeSelector(),
-        ],
+        actions: [const LanguageSelector(), const ThemeSelector()],
       ),
       body: const TransactionsGroupedByMonth(),
       floatingActionButton: FloatingActionButton.extended(

@@ -166,4 +166,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get noData => 'لا توجد بيانات';
+
+  @override
+  String get byNavas => 'بواسطة محمد نواس';
+
+  @override
+  String get analytics => 'التحليلات';
 }

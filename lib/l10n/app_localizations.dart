@@ -416,6 +416,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No data'**
   String get noData;
+
+  /// No description provided for @byNavas.
+  ///
+  /// In en, this message translates to:
+  /// **'by MOHAMMED NAVAS'**
+  String get byNavas;
+
+  /// No description provided for @analytics.
+  ///
+  /// In en, this message translates to:
+  /// **'Analytics'**
+  String get analytics;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
