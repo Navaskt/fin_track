@@ -1,12 +1,12 @@
 import 'package:fin_track/app/extension/context_extension.dart';
-import 'package:fin_track/core/utils/format.dart';
-import 'package:fin_track/features/transactions/domain/entities/transaction_entity.dart';
-import 'package:fin_track/features/transactions/presentation/controllers/transaction_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../core/utils/format.dart';
+import '../../domain/entities/transaction_entity.dart';
+import '../controllers/transaction_providers.dart';
 import 'category_badge.dart';
 
 class TransactionListItem extends ConsumerWidget {

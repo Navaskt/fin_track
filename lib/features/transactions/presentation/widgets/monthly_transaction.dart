@@ -1,8 +1,5 @@
 import 'dart:ui' show lerpDouble;
 
-import 'package:fin_track/features/transactions/presentation/widgets/empty_transactions_state.dart';
-import 'package:fin_track/features/transactions/presentation/widgets/month_summary_footer.dart';
-import 'package:fin_track/features/transactions/presentation/widgets/transaction_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -11,7 +8,10 @@ import 'package:intl/intl.dart';
 import '../../../../core/utils/format.dart';
 import '../../domain/entities/transaction_entity.dart';
 import '../controllers/transaction_providers.dart';
+import 'empty_transactions_state.dart';
 import 'month_daily_chart_exact.dart';
+import 'month_summary_footer.dart';
+import 'transaction_list_item.dart';
 
 class TransactionsGroupedByMonth extends HookConsumerWidget {
   const TransactionsGroupedByMonth({super.key});
