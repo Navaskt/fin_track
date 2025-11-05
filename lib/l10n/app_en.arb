@@ -41,5 +41,20 @@
   "cancel": "Cancel",
   "edit": "Edit",
   "todayLabel": "Today",
-  "yesterdayLabel": "Yesterday"
+  "yesterdayLabel": "Yesterday",
+  "changeLanguage": "Change language",
+  "insightsTitle": "Analytics & Insights",
+  "monthSelectorThisMonth": "This month",
+  "prevMonth": "Previous",
+  "nextMonth": "Next",
+  "income": "Income",
+  "expense": "Expense",
+  "net": "Net",
+  "byCategory": "By category",
+  "dailyExpenseTrend": "Daily expense trend",
+  "topCategories": "Top categories",
+  "noExpenses": "No expenses for this month",
+  "noData": "No data",
+  "byNavas": "by MOHAMMED NAVAS",
+  "analytics": "Analytics"
 }

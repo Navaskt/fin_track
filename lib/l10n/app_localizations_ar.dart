@@ -9,7 +9,7 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
-  String get appTitle => 'فين تراك';
+  String get appTitle => 'فينتراك';
 
   @override
   String get addTransactionTitle => 'إضافة معاملة';
@@ -21,7 +21,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get amountLabel => 'المبلغ (درهم)';
 
   @override
-  String get categoryLabel => 'الفئة (مثل الطعام، التاكسي)';
+  String get categoryLabel => 'الفئة (مثل: طعام، تاكسي)';
 
   @override
   String get noteLabel => 'ملاحظة (اختياري)';
@@ -33,7 +33,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pickDateButton => 'اختر التاريخ';
 
   @override
-  String get expense => 'المصروفات';
+  String get expense => 'المصروف';
 
   @override
   String get income => 'الدخل';
@@ -60,10 +60,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get themeSystem => 'النظام';
 
   @override
-  String get noTransactions => 'لا توجد معاملات بعد';
+  String get noTransactions => 'لا توجد معاملات حتى الآن';
 
   @override
-  String get addFirstTransaction => 'اضغط على زر الإضافة لتسجيل أول مصروف أو دخل.';
+  String get addFirstTransaction => 'اضغط على زر إضافة لتسجيل أول مصروف أو دخل لك.';
 
   @override
   String get budget => 'الميزانية';
@@ -96,10 +96,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get amountError => 'أدخل المبلغ';
 
   @override
-  String get positiveAmountError => 'أدخل مبلغًا صحيحًا وإيجابيًا';
+  String get positiveAmountError => 'أدخل مبلغًا موجبًا صحيحًا';
 
   @override
-  String get categoryError => 'أدخل الفئة';
+  String get categoryError => 'أدخل فئة';
 
   @override
   String get note => 'ملاحظة';
@@ -133,4 +133,43 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get yesterdayLabel => 'أمس';
+
+  @override
+  String get changeLanguage => 'تغيير اللغة';
+
+  @override
+  String get insightsTitle => 'التحليلات والإحصاءات';
+
+  @override
+  String get monthSelectorThisMonth => 'هذا الشهر';
+
+  @override
+  String get prevMonth => 'السابق';
+
+  @override
+  String get nextMonth => 'التالي';
+
+  @override
+  String get net => 'الصافي';
+
+  @override
+  String get byCategory => 'حسب الفئة';
+
+  @override
+  String get dailyExpenseTrend => 'اتجاه المصروف اليومي';
+
+  @override
+  String get topCategories => 'أعلى الفئات';
+
+  @override
+  String get noExpenses => 'لا توجد مصروفات هذا الشهر';
+
+  @override
+  String get noData => 'لا توجد بيانات';
+
+  @override
+  String get byNavas => 'بواسطة محمد نواس';
+
+  @override
+  String get analytics => 'التحليلات';
 }

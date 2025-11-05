@@ -133,4 +133,43 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get yesterdayLabel => 'Yesterday';
+
+  @override
+  String get changeLanguage => 'Change language';
+
+  @override
+  String get insightsTitle => 'Analytics & Insights';
+
+  @override
+  String get monthSelectorThisMonth => 'This month';
+
+  @override
+  String get prevMonth => 'Previous';
+
+  @override
+  String get nextMonth => 'Next';
+
+  @override
+  String get net => 'Net';
+
+  @override
+  String get byCategory => 'By category';
+
+  @override
+  String get dailyExpenseTrend => 'Daily expense trend';
+
+  @override
+  String get topCategories => 'Top categories';
+
+  @override
+  String get noExpenses => 'No expenses for this month';
+
+  @override
+  String get noData => 'No data';
+
+  @override
+  String get byNavas => 'by MOHAMMED NAVAS';
+
+  @override
+  String get analytics => 'Analytics';
 }

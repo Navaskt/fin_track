@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../features/insights/presentation/pages/insights_page.dart';
 import '../features/transactions/presentation/pages/add_edit_page.dart';
 import '../features/transactions/presentation/pages/home_page.dart';
 
@@ -19,8 +20,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: 'edit/:id',
-            builder: (context, state) =>
-                AddEditPage(id: state.pathParameters['id']),
+            builder: (context, state) => AddEditPage(id: state.pathParameters['id']),
+          ),
+          GoRoute(
+            path: '/insights',
+            builder: (context, state) => const InsightsScreen(),
           ),
         ],
       ),

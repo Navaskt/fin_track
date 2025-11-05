@@ -9,13 +9,32 @@ class ThemeSelector extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final cs = Theme.of(context).colorScheme;
     return PopupMenuButton(
       tooltip: context.loc.themeMenu,
-      icon: const Icon(Icons.brightness_6_outlined),
+      icon: Icon(Icons.brightness_6_outlined, color: cs.secondary),
       itemBuilder: (_) => [
-        PopupMenuItem(value: 'light', child: Text(context.loc.themeLight)),
-        PopupMenuItem(value: 'dark', child: Text(context.loc.themeDark)),
-        PopupMenuItem(value: 'system', child: Text(context.loc.themeSystem)),
+        PopupMenuItem(
+          value: 'light',
+          child: Text(
+            context.loc.themeLight,
+            style: TextStyle(color: cs.primary),
+          ),
+        ),
+        PopupMenuItem(
+          value: 'dark',
+          child: Text(
+            context.loc.themeDark,
+            style: TextStyle(color: cs.primary),
+          ),
+        ),
+        PopupMenuItem(
+          value: 'system',
+          child: Text(
+            context.loc.themeSystem,
+            style: TextStyle(color: cs.primary),
+          ),
+        ),
       ],
       onSelected: (v) {
         final notifier = ref.read(themeModeProvider.notifier);

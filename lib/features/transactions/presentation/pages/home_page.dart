@@ -11,12 +11,33 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cs = Theme.of(context).colorScheme;
+    final cs = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: cs.surface,
+      backgroundColor: cs.colorScheme.surface,
       appBar: AppBar(
-        title: Text(context.loc.appTitle),
+        leading: IconButton(
+          onPressed: () => context.push('/insights'),
+          icon: Icon(Icons.analytics_outlined, color: cs.colorScheme.secondary),
+          tooltip: context.loc.analytics,
+        ),
+        title: Column(
+          children: [
+            Text(
+              context.loc.appTitle,
+              style: cs.textTheme.titleLarge?.copyWith(
+                color: cs.colorScheme.secondary,
+              ),
+            ),
+            Text(
+              context.loc.byNavas,
+              style: cs.textTheme.titleSmall?.copyWith(
+                color: cs.colorScheme.tertiary,
+                letterSpacing: 1.2,
+              ),
+            ),
+          ],
+        ),
         centerTitle: true,
         elevation: 0,
         scrolledUnderElevation: 2,

@@ -1,16 +1,17 @@
 import 'dart:ui' show lerpDouble;
 
-import 'package:fin_track/features/transactions/presentation/widgets/empty_transactions_state.dart';
-import 'package:fin_track/features/transactions/presentation/widgets/month_summary_footer.dart';
-import 'package:fin_track/features/transactions/presentation/widgets/transaction_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../../../../core/utils/format.dart';
 import '../../domain/entities/transaction_entity.dart';
 import '../controllers/transaction_providers.dart';
+import '../formatters/formatters.dart';
+import 'empty_transactions_state.dart';
+import 'month_daily_chart_exact.dart';
+import 'month_summary_footer.dart';
+import 'transaction_list_item.dart';
 
 class TransactionsGroupedByMonth extends HookConsumerWidget {
   const TransactionsGroupedByMonth({super.key});
@@ -236,7 +237,7 @@ class _EnhancedMonthHeaderDelegate extends SliverPersistentHeaderDelegate {
                       ),
                     ),
                     child: Text(
-                      '${total < 0 ? '-' : '+'} ${formatAED(total.abs())}',
+                      '${total < 0 ? '-' : '+'} ${fmtMoneyCompact(total.abs())}',
                       style: t.labelLarge?.copyWith(
                         fontWeight: FontWeight.w700,
                         fontFeatures: const [FontFeature.tabularFigures()],
@@ -304,6 +305,19 @@ class _AnimatedMonthBody extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const SizedBox(height: 8),
+          // NEW: Daily chart for the month
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: MonthDailyChartExact(
+              month: month,
+              transactions: transactions,
+              onDayTap: (day) {
+                // optional: filter/scroll your list to this day
+              },
+            ),
+          ),
+
+          const SizedBox(height: 12),
           for (final t in transactions) ...[
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),

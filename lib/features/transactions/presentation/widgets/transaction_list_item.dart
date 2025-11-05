@@ -1,12 +1,12 @@
 import 'package:fin_track/app/extension/context_extension.dart';
-import 'package:fin_track/core/utils/format.dart';
-import 'package:fin_track/features/transactions/domain/entities/transaction_entity.dart';
-import 'package:fin_track/features/transactions/presentation/controllers/transaction_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../domain/entities/transaction_entity.dart';
+import '../controllers/transaction_providers.dart';
+import '../formatters/formatters.dart';
 import 'category_badge.dart';
 
 class TransactionListItem extends ConsumerWidget {
@@ -17,7 +17,7 @@ class TransactionListItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cs = Theme.of(context).colorScheme;
     final isNegative = t.amount < 0;
-    final amount = formatAED(t.amount.abs());
+    final amount = fmtMoneyCompact(t.amount.abs());
     final hasNote = (t.note?.trim().isNotEmpty ?? false);
 
     return InkWell(
@@ -49,7 +49,7 @@ class TransactionListItem extends ConsumerWidget {
                     ),
                   ),
                   Text(
-                    friendlyDate(t.date),
+                    friendlyDate(t.date, context),
                     style: Theme.of(
                       context,
                     ).textTheme.bodySmall?.copyWith(color: cs.onSurfaceVariant),

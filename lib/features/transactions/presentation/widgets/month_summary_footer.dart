@@ -1,11 +1,11 @@
 import 'package:fin_track/app/extension/context_extension.dart';
-import 'package:fin_track/core/utils/format.dart';
-import 'package:fin_track/features/transactions/presentation/controllers/budget_provider.dart';
-import 'package:fin_track/features/transactions/presentation/controllers/monthly_expense_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../core/utils/app_utils.dart';
+import '../controllers/budget_provider.dart';
+import '../controllers/monthly_expense_provider.dart';
+import '../formatters/formatters.dart';
 
 class MonthSummaryFooter extends ConsumerWidget {
   const MonthSummaryFooter({super.key, required this.month});
@@ -51,17 +51,17 @@ class MonthSummaryFooter extends ConsumerWidget {
                 children: [
                   _SummaryRow(
                     label: '${context.loc.budget}:',
-                    value: hasBudget ? formatAED(budget) : '-',
+                    value: hasBudget ? fmtMoneyCompact(budget) : '-',
                   ),
                   const SizedBox(height: 4),
                   _SummaryRow(
                     label: '${context.loc.spent}:',
-                    value: formatAED(expenseOnly),
+                    value: fmtMoneyCompact(expenseOnly),
                   ),
                   const SizedBox(height: 4),
                   _SummaryRow(
                     label: '${context.loc.remaining}:',
-                    value: remaining == null ? '-' : formatAED(remaining),
+                    value: remaining == null ? '-' : fmtMoneyCompact(remaining),
                     valueColor: remaining == null
                         ? null
                         : (remaining >= 0 ? Colors.green : Colors.red),

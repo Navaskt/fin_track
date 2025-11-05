@@ -59,8 +59,7 @@ class AmountField extends StatelessWidget {
                 validator: (v) {
                   if (v == null || v.isEmpty) return context.loc.amountError;
                   final value = double.tryParse(v);
-                  if (value == null || value <= 0)
-                    return context.loc.positiveAmountError;
+                  if (value == null || value <= 0) return context.loc.positiveAmountError;
                   return null;
                 },
               ),

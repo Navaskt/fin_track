@@ -8,6 +8,7 @@ import 'package:intl/intl.dart' as intl;
 import 'app_localizations_ar.dart';
 import 'app_localizations_en.dart';
 import 'app_localizations_hi.dart';
+import 'app_localizations_ml.dart';
 
 // ignore_for_file: type=lint
 
@@ -94,7 +95,8 @@ abstract class AppLocalizations {
   static const List<Locale> supportedLocales = <Locale>[
     Locale('ar'),
     Locale('en'),
-    Locale('hi')
+    Locale('hi'),
+    Locale('ml')
   ];
 
   /// No description provided for @appTitle.
@@ -348,6 +350,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Yesterday'**
   String get yesterdayLabel;
+
+  /// No description provided for @changeLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Change language'**
+  String get changeLanguage;
+
+  /// No description provided for @insightsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Analytics & Insights'**
+  String get insightsTitle;
+
+  /// No description provided for @monthSelectorThisMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'This month'**
+  String get monthSelectorThisMonth;
+
+  /// No description provided for @prevMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous'**
+  String get prevMonth;
+
+  /// No description provided for @nextMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get nextMonth;
+
+  /// No description provided for @net.
+  ///
+  /// In en, this message translates to:
+  /// **'Net'**
+  String get net;
+
+  /// No description provided for @byCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'By category'**
+  String get byCategory;
+
+  /// No description provided for @dailyExpenseTrend.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily expense trend'**
+  String get dailyExpenseTrend;
+
+  /// No description provided for @topCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Top categories'**
+  String get topCategories;
+
+  /// No description provided for @noExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'No expenses for this month'**
+  String get noExpenses;
+
+  /// No description provided for @noData.
+  ///
+  /// In en, this message translates to:
+  /// **'No data'**
+  String get noData;
+
+  /// No description provided for @byNavas.
+  ///
+  /// In en, this message translates to:
+  /// **'by MOHAMMED NAVAS'**
+  String get byNavas;
+
+  /// No description provided for @analytics.
+  ///
+  /// In en, this message translates to:
+  /// **'Analytics'**
+  String get analytics;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
@@ -359,7 +439,7 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['ar', 'en', 'hi'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['ar', 'en', 'hi', 'ml'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -373,6 +453,7 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
     case 'ar': return AppLocalizationsAr();
     case 'en': return AppLocalizationsEn();
     case 'hi': return AppLocalizationsHi();
+    case 'ml': return AppLocalizationsMl();
   }
 
   throw FlutterError(
