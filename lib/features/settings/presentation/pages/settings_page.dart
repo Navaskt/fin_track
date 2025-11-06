@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../widgets/biometrics_tile.dart';
+import '../widgets/export_tile.dart';
 import '../widgets/language_tile.dart';
 import '../widgets/theme_tile.dart';
 
@@ -12,7 +13,11 @@ class SettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const headerStyle = TextStyle(fontWeight: FontWeight.w600);
+    final cs = Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
+    final headerStyle = theme.textTheme.titleLarge?.copyWith(
+      color: cs.secondary,
+    );
     const smallSpacing = SizedBox(height: 8);
     final loc = context.loc;
 
@@ -28,6 +33,7 @@ class SettingsPage extends ConsumerWidget {
       smallSpacing,
       const ThemeTile(),
       const LanguageTile(),
+      const ExportTile(),
       ListTile(
         title: Text(loc.changePin),
         trailing: const Icon(Icons.chevron_right),
@@ -40,7 +46,7 @@ class SettingsPage extends ConsumerWidget {
       ListTile(
         title: Text(loc.appVersion),
         subtitle: Text('1.0.0'),
-        leading: Icon(Icons.info_outline),
+        leading: Icon(Icons.info_outline, color: cs.primary),
       ),
     ];
 
@@ -55,7 +61,8 @@ class SettingsPage extends ConsumerWidget {
           final item = items[index];
           if (item is BiometricsTile ||
               item is ThemeTile ||
-              item is LanguageTile) {
+              item is LanguageTile ||
+              item is ExportTile) {
             return const Divider();
           }
           // Add larger spacing between sections
