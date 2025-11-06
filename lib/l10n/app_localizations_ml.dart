@@ -230,6 +230,9 @@ class AppLocalizationsMl extends AppLocalizations {
   String get setPinTitle => 'പിൻ സജ്ജീകരിക്കുക';
 
   @override
+  String get setPinSubtitle => 'ആപ്പ് പിൻ ഉപയോഗിച്ച് സുരക്ഷിതമാക്കുക';
+
+  @override
   String get setPinDescription => 'ആപ്പ് സംരക്ഷിക്കാൻ 4–6 അക്ക പിൻ സൃഷ്ടിക്കുക.';
 
   @override
@@ -248,10 +251,16 @@ class AppLocalizationsMl extends AppLocalizations {
   String get pinTooShort => 'പിൻ കുറഞ്ഞത് 4 അക്കമെങ്കിലും വേണം';
 
   @override
+  String get pinHelper => '6 അക്കങ്ങൾ';
+
+  @override
   String get savePin => 'പിൻ സേവ് ചെയ്യുക';
 
   @override
   String get unlockTitle => 'അൺലോക്ക്';
+
+  @override
+  String get unlockSubtitle => 'നിങ്ങളുടെ 6-അക്ക പിൻ നൽകുക';
 
   @override
   String get unlockButton => 'അൺലോക്ക്';

@@ -230,6 +230,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get setPinTitle => 'पिन सेट करें';
 
   @override
+  String get setPinSubtitle => 'अपने ऐप को पिन से सुरक्षित करें';
+
+  @override
   String get setPinDescription => 'ऐप को सुरक्षित रखने के लिए 4–6 अंकों का पिन बनाएं।';
 
   @override
@@ -248,10 +251,16 @@ class AppLocalizationsHi extends AppLocalizations {
   String get pinTooShort => 'पिन कम से कम 4 अंकों का होना चाहिए';
 
   @override
+  String get pinHelper => '6 अंक';
+
+  @override
   String get savePin => 'पिन सहेजें';
 
   @override
   String get unlockTitle => 'अनलॉक करें';
+
+  @override
+  String get unlockSubtitle => 'अपना 6-अंकीय पिन दर्ज करें';
 
   @override
   String get unlockButton => 'अनलॉक';
