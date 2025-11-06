@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../transactions/presentation/controllers/locale_provider.dart';
 
-
 class LanguageTile extends ConsumerWidget {
   const LanguageTile({super.key});
 
@@ -25,10 +24,10 @@ class LanguageTile extends ConsumerWidget {
     String currentLabel = items[current] ?? 'English';
 
     return ListTile(
-      leading: Icon(Icons.language_outlined, color: cs.primary),
+      leading: Icon(Icons.language_outlined, color: cs.secondary),
       title: Text(context.loc.changeLanguage),
       subtitle: Text(currentLabel),
-      trailing: const Icon(Icons.chevron_right),
+      trailing: Icon(Icons.chevron_right, color: cs.secondary),
       onTap: () async {
         final selected = await showModalBottomSheet<Locale>(
           context: context,

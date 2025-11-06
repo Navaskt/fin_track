@@ -15,9 +15,7 @@ class SettingsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cs = Theme.of(context).colorScheme;
     final theme = Theme.of(context);
-    final headerStyle = theme.textTheme.titleLarge?.copyWith(
-      color: cs.secondary,
-    );
+    final headerStyle = theme.textTheme.titleLarge?.copyWith(color: cs.primary);
     const smallSpacing = SizedBox(height: 8);
     final loc = context.loc;
 
@@ -36,7 +34,7 @@ class SettingsPage extends ConsumerWidget {
       const ExportTile(),
       ListTile(
         title: Text(loc.changePin),
-        trailing: const Icon(Icons.chevron_right),
+        trailing: Icon(Icons.chevron_right, color: cs.secondary),
         onTap: () => context.push('/set-pin'),
       ),
 
@@ -46,7 +44,7 @@ class SettingsPage extends ConsumerWidget {
       ListTile(
         title: Text(loc.appVersion),
         subtitle: Text('1.0.0'),
-        leading: Icon(Icons.info_outline, color: cs.primary),
+        leading: Icon(Icons.info_outline, color: cs.secondary),
       ),
     ];
 

@@ -11,7 +11,7 @@ class ExportTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cs = Theme.of(context).colorScheme;
     return ListTile(
-      leading: Icon(Icons.file_upload_outlined, color: cs.primary),
+      leading: Icon(Icons.file_upload_outlined, color: cs.secondary),
       title: Text(context.loc.exportData),
       subtitle: Text('${context.loc.exportCsv} · ${context.loc.exportPdf}'),
       onTap: () => showModalBottomSheet(
