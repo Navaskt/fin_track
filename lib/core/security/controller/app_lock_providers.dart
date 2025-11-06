@@ -9,34 +9,78 @@ final appLockServiceProvider = Provider<AppLockService>(
 enum LockState { locked, unlocked, setupRequired }
 
 class AppLockController extends StateNotifier<LockState> {
-  AppLockController(this._service) : super(LockState.locked);
-
-  final AppLockService _service;
-
-  Future<void> refresh() async {
-    final hasPin = await _service.hasPin();
-    state = hasPin ? LockState.locked : LockState.setupRequired;
+  AppLockController(this._service) : super(LockState.locked) {
+    _init();
   }
 
+  final AppLockService _service;
+  bool _busy = false;
+
+  Future<void> _init() async {
+    try {
+      final hasPin = await _service.hasPin();
+      if (!mounted) return;
+      state = hasPin ? LockState.locked : LockState.setupRequired;
+    } catch (_) {
+      // Stay conservative if something fails
+      if (!mounted) return;
+      state = LockState.locked;
+    }
+  }
+
+  Future<void> refresh() => _init();
+
   Future<bool> unlockWithPin(String pin) async {
-    final ok = await _service.verifyPin(pin);
-    if (ok) state = LockState.unlocked;
-    return ok;
+    if (_busy) return false;
+    final p = pin.trim();
+    if (p.isEmpty) return false;
+
+    _busy = true;
+    try {
+      final ok = await _service.verifyPin(p);
+      if (ok && mounted) state = LockState.unlocked;
+      return ok;
+    } catch (_) {
+      return false;
+    } finally {
+      _busy = false;
+    }
   }
 
   Future<bool> unlockWithBiometrics() async {
-    if (!await _service.isBiometricsEnabled()) return false;
-    final ok = await _service.tryBiometricAuth();
-    if (ok) state = LockState.unlocked;
-    return ok;
+    if (_busy) return false;
+
+    _busy = true;
+    try {
+      final canBio = await _service.canCheckBiometrics();
+      final enabled = await _service.isBiometricsEnabled();
+      if (!canBio || !enabled) return false;
+
+      final ok = await _service.tryBiometricAuth();
+      if (ok && mounted) state = LockState.unlocked;
+      return ok;
+    } catch (_) {
+      return false;
+    } finally {
+      _busy = false;
+    }
   }
 
   Future<void> setPin(String pin) async {
-    await _service.setPin(pin);
-    state = LockState.unlocked;
+    final p = pin.trim();
+    if (p.length < 4) {
+      throw ArgumentError('pin too short');
+    }
+    try {
+      await _service.setPin(p);
+      if (mounted) state = LockState.unlocked;
+    } catch (_) {
+      // Keep current state if set fails
+    }
   }
 
   Future<void> lock() async {
+    if (!mounted) return;
     state = LockState.locked;
   }
 }
@@ -44,8 +88,5 @@ class AppLockController extends StateNotifier<LockState> {
 final appLockControllerProvider =
     StateNotifierProvider<AppLockController, LockState>((ref) {
       final service = ref.read(appLockServiceProvider);
-      final c = AppLockController(service);
-      // Kick initial state
-      c.refresh();
-      return c;
+      return AppLockController(service);
     });
