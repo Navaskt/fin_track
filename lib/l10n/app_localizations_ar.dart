@@ -230,6 +230,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get setPinTitle => 'تعيين رقم التعريف الشخصي';
 
   @override
+  String get setPinSubtitle => 'قم بتأمين التطبيق باستخدام رقم التعريف الشخصي';
+
+  @override
   String get setPinDescription => 'أنشئ رقم تعريف شخصي مكون من 4 إلى 6 أرقام لحماية التطبيق.';
 
   @override
@@ -248,10 +251,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pinTooShort => 'يجب أن يتكون الرقم من 4 أرقام على الأقل';
 
   @override
+  String get pinHelper => '6 أرقام';
+
+  @override
   String get savePin => 'حفظ الرقم';
 
   @override
   String get unlockTitle => 'فتح القفل';
+
+  @override
+  String get unlockSubtitle => 'أدخل رقم التعريف الشخصي المكون من 6 أرقام';
 
   @override
   String get unlockButton => 'فتح';

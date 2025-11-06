@@ -230,6 +230,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get setPinTitle => 'Set PIN';
 
   @override
+  String get setPinSubtitle => 'Secure your app with a PIN';
+
+  @override
   String get setPinDescription => 'Create a 4–6 digit PIN to protect your app.';
 
   @override
@@ -248,10 +251,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pinTooShort => 'PIN must be at least 4 digits';
 
   @override
+  String get pinHelper => '6 digits';
+
+  @override
   String get savePin => 'Save PIN';
 
   @override
   String get unlockTitle => 'Unlock';
+
+  @override
+  String get unlockSubtitle => 'Enter your 6-digit PIN';
 
   @override
   String get unlockButton => 'Unlock';

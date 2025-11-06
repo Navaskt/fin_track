@@ -21,10 +21,10 @@ class ThemeTile extends ConsumerWidget {
     }
 
     return ListTile(
-      leading: Icon(Icons.brightness_6_outlined, color: cs.primary),
+      leading: Icon(Icons.brightness_6_outlined, color: cs.secondary),
       title: Text(context.loc.themeMenu),
       subtitle: Text(labelFor(mode)),
-      trailing: const Icon(Icons.chevron_right),
+      trailing: Icon(Icons.chevron_right, color: cs.secondary),
       onTap: () async {
         final selected = await showModalBottomSheet<ThemeMode>(
           context: context,

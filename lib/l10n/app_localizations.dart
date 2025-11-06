@@ -537,6 +537,12 @@ abstract class AppLocalizations {
   /// **'Set PIN'**
   String get setPinTitle;
 
+  /// No description provided for @setPinSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Secure your app with a PIN'**
+  String get setPinSubtitle;
+
   /// No description provided for @setPinDescription.
   ///
   /// In en, this message translates to:
@@ -573,6 +579,12 @@ abstract class AppLocalizations {
   /// **'PIN must be at least 4 digits'**
   String get pinTooShort;
 
+  /// No description provided for @pinHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'6 digits'**
+  String get pinHelper;
+
   /// No description provided for @savePin.
   ///
   /// In en, this message translates to:
@@ -584,6 +596,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unlock'**
   String get unlockTitle;
+
+  /// No description provided for @unlockSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your 6-digit PIN'**
+  String get unlockSubtitle;
 
   /// No description provided for @unlockButton.
   ///
