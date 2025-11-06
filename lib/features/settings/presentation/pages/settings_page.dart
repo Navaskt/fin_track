@@ -1,3 +1,4 @@
+import 'package:fin_track/app/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -13,37 +14,38 @@ class SettingsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     const headerStyle = TextStyle(fontWeight: FontWeight.w600);
     const smallSpacing = SizedBox(height: 8);
+    final loc = context.loc;
 
     final items = [
       // Security Section
-      const Text('Security', style: headerStyle),
+      Text(loc.security, style: headerStyle),
       smallSpacing,
       const BiometricsTile(),
       smallSpacing,
 
       // Preferences Section
-      const Text('Preferences', style: headerStyle),
+      Text(loc.preferences, style: headerStyle),
       smallSpacing,
       const ThemeTile(),
       const LanguageTile(),
       ListTile(
-        title: const Text('Change PIN'),
+        title: Text(loc.changePin),
         trailing: const Icon(Icons.chevron_right),
         onTap: () => context.push('/set-pin'),
       ),
 
       // About Section
-      const Text('About', style: headerStyle),
+      Text(loc.about, style: headerStyle),
       smallSpacing,
-      const ListTile(
-        title: Text('App Version'),
+      ListTile(
+        title: Text(loc.appVersion),
         subtitle: Text('1.0.0'),
         leading: Icon(Icons.info_outline),
       ),
     ];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Settings')),
+      appBar: AppBar(title: Text(loc.settings)),
       body: ListView.separated(
         padding: const EdgeInsets.all(16),
         itemCount: items.length,
@@ -59,7 +61,7 @@ class SettingsPage extends ConsumerWidget {
           // Add larger spacing between sections
           if (item is ListTile &&
               item.title is Text &&
-              (item.title as Text).data == 'Change PIN') {
+              (item.title as Text).data == loc.changePin) {
             return const SizedBox(height: 16);
           }
           return const SizedBox.shrink();

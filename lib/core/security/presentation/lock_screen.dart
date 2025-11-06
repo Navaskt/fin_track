@@ -1,3 +1,4 @@
+import 'package:fin_track/app/extension/context_extension.dart';
 import 'package:flutter/material.dart' hide LockState;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -38,9 +39,10 @@ class _LockScreenState extends ConsumerState<LockScreen> with SafeSetState {
   Widget build(BuildContext context) {
     final lockState = ref.watch(appLockControllerProvider);
     final isSetup = lockState == LockState.setupRequired;
+    final loc = context.loc;
 
     return Scaffold(
-      appBar: AppBar(title: Text(isSetup ? 'Create PIN' : 'Unlock')),
+      appBar: AppBar(title: Text(isSetup ? loc.setPinTitle : loc.unlockTitle)),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -51,7 +53,7 @@ class _LockScreenState extends ConsumerState<LockScreen> with SafeSetState {
                 obscureText: true,
                 keyboardType: TextInputType.number,
                 maxLength: 6,
-                decoration: const InputDecoration(labelText: 'Enter PIN'),
+                decoration: InputDecoration(labelText: loc.enterPin),
                 onChanged: (_) => safeSetState(() => _err = null),
               ),
             if (_err != null)
@@ -69,9 +71,9 @@ class _LockScreenState extends ConsumerState<LockScreen> with SafeSetState {
                   final ok = await ref
                       .read(appLockControllerProvider.notifier)
                       .unlockWithPin(_pin.text.trim());
-                  if (!ok) safeSetState(() => _err = 'Incorrect PIN');
+                  if (!ok) safeSetState(() => _err = loc.incorrectPin);
                 },
-                child: const Text('Unlock'),
+                child: Text(loc.unlockButton),
               ),
             if (_biometricAvailable)
               TextButton(
@@ -79,14 +81,14 @@ class _LockScreenState extends ConsumerState<LockScreen> with SafeSetState {
                   final ok = await ref
                       .read(appLockControllerProvider.notifier)
                       .unlockWithBiometrics();
-                  if (!ok) safeSetState(() => _err = 'Biometric failed');
+                  if (!ok) safeSetState(() => _err = loc.biometricFailed);
                 },
-                child: const Text('Use biometrics'),
+                child: Text(loc.useBiometrics),
               ),
             if (isSetup)
               ElevatedButton(
                 onPressed: () => context.push('/set-pin'),
-                child: const Text('Set PIN'),
+                child: Text(loc.setPinTitle),
               ),
           ],
         ),
