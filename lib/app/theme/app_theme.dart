@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 const _seed = Color(0xFF00C853); // Emerald
 const _gold = Color(0xFFFBC02D);
 
-const _darkBackground = Color(0xFF0E1111);
 const _darkSurface = Color(0xFF181C1C);
 
 // ---------- COLOR SCHEME TUNING ----------
@@ -13,7 +12,6 @@ ColorScheme _tunedScheme(Brightness brightness) {
 
   if (brightness == Brightness.dark) {
     return base.copyWith(
-      background: _darkBackground,
       surface: _darkSurface,
       secondary: _gold,
       onSecondary: const Color(0xFF1C1C1C),
@@ -33,7 +31,7 @@ TextTheme _montserratTextTheme(ColorScheme scheme) {
       fontFamily: 'Montserrat',
       fontWeight: FontWeight.w700,
       fontSize: 28,
-      color: scheme.onBackground,
+      color: scheme.onSurface,
     ),
     headlineMedium: TextStyle(
       fontFamily: 'Montserrat',

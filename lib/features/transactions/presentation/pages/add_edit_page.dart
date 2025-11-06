@@ -167,6 +167,7 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
           _isEditMode
               ? context.loc.editTransactionTitle
               : context.loc.addTransactionTitle,
+          style: t.titleLarge?.copyWith(color: cs.secondary),
         ),
       ),
       bottomNavigationBar: BottomActionBar(
