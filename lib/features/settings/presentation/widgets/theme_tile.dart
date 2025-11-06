@@ -13,9 +13,11 @@ class ThemeTile extends ConsumerWidget {
     final mode = ref.watch(themeModeProvider);
 
     String labelFor(ThemeMode m) {
-      if (m == ThemeMode.light) return context.loc.themeLight;
-      if (m == ThemeMode.dark) return context.loc.themeDark;
-      return context.loc.themeSystem;
+      return switch (m) {
+        ThemeMode.light => context.loc.themeLight,
+        ThemeMode.dark => context.loc.themeDark,
+        ThemeMode.system => context.loc.themeSystem,
+      };
     }
 
     return ListTile(
@@ -24,55 +26,39 @@ class ThemeTile extends ConsumerWidget {
       subtitle: Text(labelFor(mode)),
       trailing: const Icon(Icons.chevron_right),
       onTap: () async {
-        final selected = await showModalBottomSheet<String>(
+        final selected = await showModalBottomSheet<ThemeMode>(
           context: context,
           showDragHandle: true,
           builder: (ctx) {
+            final options = {
+              ThemeMode.light: context.loc.themeLight,
+              ThemeMode.dark: context.loc.themeDark,
+              ThemeMode.system: context.loc.themeSystem,
+            };
+
             return Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                RadioListTile<String>(
-                  value: 'light',
-                  groupValue: _groupValue(mode),
-                  title: Text(context.loc.themeLight),
-                  onChanged: (v) => Navigator.of(ctx).pop(v),
-                ),
-                RadioListTile<String>(
-                  value: 'dark',
-                  groupValue: _groupValue(mode),
-                  title: Text(context.loc.themeDark),
-                  onChanged: (v) => Navigator.of(ctx).pop(v),
-                ),
-                RadioListTile<String>(
-                  value: 'system',
-                  groupValue: _groupValue(mode),
-                  title: Text(context.loc.themeSystem),
-                  onChanged: (v) => Navigator.of(ctx).pop(v),
-                ),
+                ...options.entries.map((entry) {
+                  final isSelected = entry.key == mode;
+                  return RadioListTile<ThemeMode>(
+                    value: entry.key,
+                    groupValue: mode,
+                    title: Text(entry.value),
+                    onChanged: (v) => Navigator.of(ctx).pop(v),
+                    selected: isSelected,
+                  );
+                }),
                 const SizedBox(height: 8),
               ],
             );
           },
         );
 
-        if (selected != null) {
-          final notifier = ref.read(themeModeProvider.notifier);
-          if (selected == 'light') notifier.state = ThemeMode.light;
-          if (selected == 'dark') notifier.state = ThemeMode.dark;
-          if (selected == 'system') notifier.state = ThemeMode.system;
+        if (selected != null && selected != mode) {
+          ref.read(themeModeProvider.notifier).state = selected;
         }
       },
     );
-  }
-
-  String _groupValue(ThemeMode m) {
-    switch (m) {
-      case ThemeMode.light:
-        return 'light';
-      case ThemeMode.dark:
-        return 'dark';
-      case ThemeMode.system:
-        return 'system';
-    }
   }
 }
