@@ -63,7 +63,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get noTransactions => 'अभी तक कोई लेन-देन नहीं';
 
   @override
-  String get addFirstTransaction => 'अपना पहला खर्च या आय जोड़ने के लिए Add बटन दबाएं।';
+  String get addFirstTransaction => 'अपना पहला खर्च या आय जोड़ने के लिए Add बटन दबाएं。';
 
   @override
   String get budget => 'बजट';
@@ -172,4 +172,157 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get analytics => 'विश्लेषण';
+
+  @override
+  String get settings => 'सेटिंग्स';
+
+  @override
+  String get preferences => 'प्राथमिकताएँ';
+
+  @override
+  String get security => 'सुरक्षा';
+
+  @override
+  String get about => 'जानकारी';
+
+  @override
+  String get changePin => 'पिन बदलें';
+
+  @override
+  String get displayCurrency => 'प्रदर्शित मुद्रा';
+
+  @override
+  String get appVersion => 'ऐप संस्करण';
+
+  @override
+  String get rateApp => 'ऐप रेट करें';
+
+  @override
+  String get currencyAed => 'एईडी - संयुक्त अरब अमीरात दिरहम';
+
+  @override
+  String get currencyInr => 'आईएनआर - भारतीय रुपया';
+
+  @override
+  String get currencyUsd => 'यूएसडी - अमेरिकी डॉलर';
+
+  @override
+  String get currencyEur => 'यूरो';
+
+  @override
+  String get currencySar => 'सऊदी रियाल';
+
+  @override
+  String get currencyQar => 'क़तरी रियाल';
+
+  @override
+  String get currencyOmr => 'ओमानी रियाल';
+
+  @override
+  String displayCurrencyUpdated(Object currency, Object time) {
+    return '$currency में परिवर्तित · अद्यतन $time';
+  }
+
+  @override
+  String get currencyConversionUnavailable => 'रूपांतरण उपलब्ध नहीं है। मूल मुद्रा दिखाई जा रही है।';
+
+  @override
+  String get setPinTitle => 'पिन सेट करें';
+
+  @override
+  String get setPinDescription => 'ऐप को सुरक्षित रखने के लिए 4–6 अंकों का पिन बनाएं।';
+
+  @override
+  String get confirmPin => 'पिन की पुष्टि करें';
+
+  @override
+  String get enterPin => 'पिन दर्ज करें';
+
+  @override
+  String get incorrectPin => 'गलत पिन';
+
+  @override
+  String get pinNotMatch => 'पिन मेल नहीं खाता';
+
+  @override
+  String get pinTooShort => 'पिन कम से कम 4 अंकों का होना चाहिए';
+
+  @override
+  String get savePin => 'पिन सहेजें';
+
+  @override
+  String get unlockTitle => 'अनलॉक करें';
+
+  @override
+  String get unlockButton => 'अनलॉक';
+
+  @override
+  String get useBiometrics => 'बायोमेट्रिक का उपयोग करें';
+
+  @override
+  String get biometricsTitle => 'बायोमेट्रिक अनलॉक';
+
+  @override
+  String get biometricsEnable => 'ऐप खोलने के लिए बायोमेट्रिक का उपयोग करें';
+
+  @override
+  String get biometricsNotAvailable => 'इस डिवाइस पर बायोमेट्रिक उपलब्ध नहीं है';
+
+  @override
+  String get biometricFailed => 'बायोमेट्रिक प्रमाणीकरण विफल';
+
+  @override
+  String get themeSelectedLight => 'लाइट थीम लागू की गई';
+
+  @override
+  String get themeSelectedDark => 'डार्क थीम लागू की गई';
+
+  @override
+  String get themeSelectedSystem => 'सिस्टम थीम लागू की गई';
+
+  @override
+  String languageChanged(Object lang) {
+    return 'भाषा $lang में बदली गई';
+  }
+
+  @override
+  String get languageEnglish => 'अंग्रेज़ी';
+
+  @override
+  String get languageArabic => 'अरबी';
+
+  @override
+  String get languageHindi => 'हिंदी';
+
+  @override
+  String get languageMalayalam => 'मलयालम';
+
+  @override
+  String get exportData => 'डेटा निर्यात करें';
+
+  @override
+  String get exportCsv => 'CSV के रूप में निर्यात करें';
+
+  @override
+  String get exportPdf => 'PDF के रूप में निर्यात करें';
+
+  @override
+  String get backupData => 'डेटा बैकअप';
+
+  @override
+  String get restoreData => 'डेटा पुनर्स्थापित करें';
+
+  @override
+  String get developedBy => 'नवास्का द्वारा विकसित';
+
+  @override
+  String get versionLabel => 'संस्करण';
+
+  @override
+  String lastUpdated(Object date) {
+    return 'अंतिम अद्यतन $date';
+  }
+
+  @override
+  String get feedback => 'प्रतिक्रिया';
 }

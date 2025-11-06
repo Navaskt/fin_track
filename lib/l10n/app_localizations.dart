@@ -428,6 +428,300 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Analytics'**
   String get analytics;
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// No description provided for @preferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get preferences;
+
+  /// No description provided for @security.
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get security;
+
+  /// No description provided for @about.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get about;
+
+  /// No description provided for @changePin.
+  ///
+  /// In en, this message translates to:
+  /// **'Change PIN'**
+  String get changePin;
+
+  /// No description provided for @displayCurrency.
+  ///
+  /// In en, this message translates to:
+  /// **'Display Currency'**
+  String get displayCurrency;
+
+  /// No description provided for @appVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'App Version'**
+  String get appVersion;
+
+  /// No description provided for @rateApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate this App'**
+  String get rateApp;
+
+  /// No description provided for @currencyAed.
+  ///
+  /// In en, this message translates to:
+  /// **'AED - United Arab Emirates Dirham'**
+  String get currencyAed;
+
+  /// No description provided for @currencyInr.
+  ///
+  /// In en, this message translates to:
+  /// **'INR - Indian Rupee'**
+  String get currencyInr;
+
+  /// No description provided for @currencyUsd.
+  ///
+  /// In en, this message translates to:
+  /// **'USD - US Dollar'**
+  String get currencyUsd;
+
+  /// No description provided for @currencyEur.
+  ///
+  /// In en, this message translates to:
+  /// **'EUR - Euro'**
+  String get currencyEur;
+
+  /// No description provided for @currencySar.
+  ///
+  /// In en, this message translates to:
+  /// **'SAR - Saudi Riyal'**
+  String get currencySar;
+
+  /// No description provided for @currencyQar.
+  ///
+  /// In en, this message translates to:
+  /// **'QAR - Qatari Riyal'**
+  String get currencyQar;
+
+  /// No description provided for @currencyOmr.
+  ///
+  /// In en, this message translates to:
+  /// **'OMR - Omani Rial'**
+  String get currencyOmr;
+
+  /// No description provided for @displayCurrencyUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Converted to {currency} · Updated {time}'**
+  String displayCurrencyUpdated(Object currency, Object time);
+
+  /// No description provided for @currencyConversionUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Conversion unavailable. Showing original currency.'**
+  String get currencyConversionUnavailable;
+
+  /// No description provided for @setPinTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set PIN'**
+  String get setPinTitle;
+
+  /// No description provided for @setPinDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a 4–6 digit PIN to protect your app.'**
+  String get setPinDescription;
+
+  /// No description provided for @confirmPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm PIN'**
+  String get confirmPin;
+
+  /// No description provided for @enterPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter PIN'**
+  String get enterPin;
+
+  /// No description provided for @incorrectPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect PIN'**
+  String get incorrectPin;
+
+  /// No description provided for @pinNotMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN does not match'**
+  String get pinNotMatch;
+
+  /// No description provided for @pinTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN must be at least 4 digits'**
+  String get pinTooShort;
+
+  /// No description provided for @savePin.
+  ///
+  /// In en, this message translates to:
+  /// **'Save PIN'**
+  String get savePin;
+
+  /// No description provided for @unlockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock'**
+  String get unlockTitle;
+
+  /// No description provided for @unlockButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock'**
+  String get unlockButton;
+
+  /// No description provided for @useBiometrics.
+  ///
+  /// In en, this message translates to:
+  /// **'Use biometrics'**
+  String get useBiometrics;
+
+  /// No description provided for @biometricsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric Unlock'**
+  String get biometricsTitle;
+
+  /// No description provided for @biometricsEnable.
+  ///
+  /// In en, this message translates to:
+  /// **'Use biometrics to unlock'**
+  String get biometricsEnable;
+
+  /// No description provided for @biometricsNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometrics not available on this device'**
+  String get biometricsNotAvailable;
+
+  /// No description provided for @biometricFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric authentication failed'**
+  String get biometricFailed;
+
+  /// No description provided for @themeSelectedLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light theme applied'**
+  String get themeSelectedLight;
+
+  /// No description provided for @themeSelectedDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark theme applied'**
+  String get themeSelectedDark;
+
+  /// No description provided for @themeSelectedSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System theme applied'**
+  String get themeSelectedSystem;
+
+  /// No description provided for @languageChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Language changed to {lang}'**
+  String languageChanged(Object lang);
+
+  /// No description provided for @languageEnglish.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get languageEnglish;
+
+  /// No description provided for @languageArabic.
+  ///
+  /// In en, this message translates to:
+  /// **'Arabic'**
+  String get languageArabic;
+
+  /// No description provided for @languageHindi.
+  ///
+  /// In en, this message translates to:
+  /// **'Hindi'**
+  String get languageHindi;
+
+  /// No description provided for @languageMalayalam.
+  ///
+  /// In en, this message translates to:
+  /// **'Malayalam'**
+  String get languageMalayalam;
+
+  /// No description provided for @exportData.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Data'**
+  String get exportData;
+
+  /// No description provided for @exportCsv.
+  ///
+  /// In en, this message translates to:
+  /// **'Export as CSV'**
+  String get exportCsv;
+
+  /// No description provided for @exportPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Export as PDF'**
+  String get exportPdf;
+
+  /// No description provided for @backupData.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup Data'**
+  String get backupData;
+
+  /// No description provided for @restoreData.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Data'**
+  String get restoreData;
+
+  /// No description provided for @developedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Developed by Navaska'**
+  String get developedBy;
+
+  /// No description provided for @versionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get versionLabel;
+
+  /// No description provided for @lastUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Last updated {date}'**
+  String lastUpdated(Object date);
+
+  /// No description provided for @feedback.
+  ///
+  /// In en, this message translates to:
+  /// **'Feedback'**
+  String get feedback;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -33,10 +33,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pickDateButton => 'اختر التاريخ';
 
   @override
-  String get expense => 'المصروف';
+  String get expense => 'مصروف';
 
   @override
-  String get income => 'الدخل';
+  String get income => 'دخل';
 
   @override
   String get saveButton => 'حفظ';
@@ -172,4 +172,157 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get analytics => 'التحليلات';
+
+  @override
+  String get settings => 'الإعدادات';
+
+  @override
+  String get preferences => 'التفضيلات';
+
+  @override
+  String get security => 'الأمان';
+
+  @override
+  String get about => 'حول التطبيق';
+
+  @override
+  String get changePin => 'تغيير رقم التعريف الشخصي';
+
+  @override
+  String get displayCurrency => 'العملة المعروضة';
+
+  @override
+  String get appVersion => 'إصدار التطبيق';
+
+  @override
+  String get rateApp => 'قيّم التطبيق';
+
+  @override
+  String get currencyAed => 'درهم إماراتي';
+
+  @override
+  String get currencyInr => 'روبية هندية';
+
+  @override
+  String get currencyUsd => 'دولار أمريكي';
+
+  @override
+  String get currencyEur => 'يورو';
+
+  @override
+  String get currencySar => 'ريال سعودي';
+
+  @override
+  String get currencyQar => 'ريال قطري';
+
+  @override
+  String get currencyOmr => 'ريال عماني';
+
+  @override
+  String displayCurrencyUpdated(Object currency, Object time) {
+    return 'تم التحويل إلى $currency · تم التحديث $time';
+  }
+
+  @override
+  String get currencyConversionUnavailable => 'التحويل غير متاح. يتم عرض العملة الأصلية.';
+
+  @override
+  String get setPinTitle => 'تعيين رقم التعريف الشخصي';
+
+  @override
+  String get setPinDescription => 'أنشئ رقم تعريف شخصي مكون من 4 إلى 6 أرقام لحماية التطبيق.';
+
+  @override
+  String get confirmPin => 'تأكيد الرقم';
+
+  @override
+  String get enterPin => 'أدخل الرقم';
+
+  @override
+  String get incorrectPin => 'الرقم غير صحيح';
+
+  @override
+  String get pinNotMatch => 'الرقمان غير متطابقين';
+
+  @override
+  String get pinTooShort => 'يجب أن يتكون الرقم من 4 أرقام على الأقل';
+
+  @override
+  String get savePin => 'حفظ الرقم';
+
+  @override
+  String get unlockTitle => 'فتح القفل';
+
+  @override
+  String get unlockButton => 'فتح';
+
+  @override
+  String get useBiometrics => 'استخدام البصمة';
+
+  @override
+  String get biometricsTitle => 'فتح بالبصمة';
+
+  @override
+  String get biometricsEnable => 'استخدم البصمة لفتح التطبيق';
+
+  @override
+  String get biometricsNotAvailable => 'البصمة غير متوفرة على هذا الجهاز';
+
+  @override
+  String get biometricFailed => 'فشل التحقق بالبصمة';
+
+  @override
+  String get themeSelectedLight => 'تم تطبيق الوضع الفاتح';
+
+  @override
+  String get themeSelectedDark => 'تم تطبيق الوضع الداكن';
+
+  @override
+  String get themeSelectedSystem => 'تم تطبيق وضع النظام';
+
+  @override
+  String languageChanged(Object lang) {
+    return 'تم تغيير اللغة إلى $lang';
+  }
+
+  @override
+  String get languageEnglish => 'الإنجليزية';
+
+  @override
+  String get languageArabic => 'العربية';
+
+  @override
+  String get languageHindi => 'الهندية';
+
+  @override
+  String get languageMalayalam => 'المالايالامية';
+
+  @override
+  String get exportData => 'تصدير البيانات';
+
+  @override
+  String get exportCsv => 'تصدير بصيغة CSV';
+
+  @override
+  String get exportPdf => 'تصدير بصيغة PDF';
+
+  @override
+  String get backupData => 'نسخ احتياطي للبيانات';
+
+  @override
+  String get restoreData => 'استعادة البيانات';
+
+  @override
+  String get developedBy => 'تم التطوير بواسطة نافاسكا';
+
+  @override
+  String get versionLabel => 'الإصدار';
+
+  @override
+  String lastUpdated(Object date) {
+    return 'آخر تحديث $date';
+  }
+
+  @override
+  String get feedback => 'ملاحظات';
 }

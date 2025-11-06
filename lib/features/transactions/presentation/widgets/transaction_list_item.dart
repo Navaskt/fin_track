@@ -94,7 +94,7 @@ class TransactionListItem extends ConsumerWidget {
             IconButton(
               tooltip: context.loc.delete,
               splashRadius: 20,
-              icon: const Icon(Icons.delete_outline),
+              icon: Icon(Icons.delete_outline, color: cs.secondary),
               onPressed: () =>
                   ref.read(transactionControllerProvider.notifier).delete(t.id),
             ),

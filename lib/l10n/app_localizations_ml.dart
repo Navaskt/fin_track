@@ -172,4 +172,157 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get analytics => 'വിശകലനം';
+
+  @override
+  String get settings => 'ക്രമീകരണങ്ങൾ';
+
+  @override
+  String get preferences => 'ആവശ്യങ്ങൾ';
+
+  @override
+  String get security => 'സുരക്ഷ';
+
+  @override
+  String get about => 'കുറിച്ച്';
+
+  @override
+  String get changePin => 'പിൻ മാറ്റുക';
+
+  @override
+  String get displayCurrency => 'പ്രദർശന കറൻസി';
+
+  @override
+  String get appVersion => 'ആപ്പ് പതിപ്പ്';
+
+  @override
+  String get rateApp => 'ആപ്പ് റേറ്റ് ചെയ്യുക';
+
+  @override
+  String get currencyAed => 'എ.ഇ.ഡി - യുഎഇ ദിർഹം';
+
+  @override
+  String get currencyInr => 'ഐ.എൻ.ആർ - ഇന്ത്യൻ രൂപ';
+
+  @override
+  String get currencyUsd => 'യു.എസ്.ഡി - അമേരിക്കൻ ഡോളർ';
+
+  @override
+  String get currencyEur => 'യൂറോ';
+
+  @override
+  String get currencySar => 'എസ്.എ.ആർ - സൗദി റിയാൽ';
+
+  @override
+  String get currencyQar => 'ക്യു.എ.ആർ - ഖത്തർ റിയാൽ';
+
+  @override
+  String get currencyOmr => 'ഒ.എം.ആർ - ഒമാൻ റിയാൽ';
+
+  @override
+  String displayCurrencyUpdated(Object currency, Object time) {
+    return '$currency ആയി മാറ്റി · പുതുക്കിയത് $time';
+  }
+
+  @override
+  String get currencyConversionUnavailable => 'മാറ്റം ലഭ്യമല്ല. യഥാർത്ഥ കറൻസി പ്രദർശിപ്പിക്കുന്നു.';
+
+  @override
+  String get setPinTitle => 'പിൻ സജ്ജീകരിക്കുക';
+
+  @override
+  String get setPinDescription => 'ആപ്പ് സംരക്ഷിക്കാൻ 4–6 അക്ക പിൻ സൃഷ്ടിക്കുക.';
+
+  @override
+  String get confirmPin => 'പിൻ സ്ഥിരീകരിക്കുക';
+
+  @override
+  String get enterPin => 'പിൻ നൽകുക';
+
+  @override
+  String get incorrectPin => 'തെറ്റായ പിൻ';
+
+  @override
+  String get pinNotMatch => 'പിൻ പൊരുത്തപ്പെടുന്നില്ല';
+
+  @override
+  String get pinTooShort => 'പിൻ കുറഞ്ഞത് 4 അക്കമെങ്കിലും വേണം';
+
+  @override
+  String get savePin => 'പിൻ സേവ് ചെയ്യുക';
+
+  @override
+  String get unlockTitle => 'അൺലോക്ക്';
+
+  @override
+  String get unlockButton => 'അൺലോക്ക്';
+
+  @override
+  String get useBiometrics => 'ബയോമെട്രിക് ഉപയോഗിക്കുക';
+
+  @override
+  String get biometricsTitle => 'ബയോമെട്രിക് അൺലോക്ക്';
+
+  @override
+  String get biometricsEnable => 'ആപ്പ് തുറക്കാൻ ബയോമെട്രിക് ഉപയോഗിക്കുക';
+
+  @override
+  String get biometricsNotAvailable => 'ഈ ഉപകരണത്തിൽ ബയോമെട്രിക് ലഭ്യമല്ല';
+
+  @override
+  String get biometricFailed => 'ബയോമെട്രിക് സ്ഥിരീകരണം പരാജയപ്പെട്ടു';
+
+  @override
+  String get themeSelectedLight => 'ലൈറ്റ് തീം പ്രയോഗിച്ചു';
+
+  @override
+  String get themeSelectedDark => 'ഡാർക്ക് തീം പ്രയോഗിച്ചു';
+
+  @override
+  String get themeSelectedSystem => 'സിസ്റ്റം തീം പ്രയോഗിച്ചു';
+
+  @override
+  String languageChanged(Object lang) {
+    return 'ഭാഷ $lang ആയി മാറ്റി';
+  }
+
+  @override
+  String get languageEnglish => 'ഇംഗ്ലീഷ്';
+
+  @override
+  String get languageArabic => 'അറബിക്';
+
+  @override
+  String get languageHindi => 'ഹിന്ദി';
+
+  @override
+  String get languageMalayalam => 'മലയാളം';
+
+  @override
+  String get exportData => 'ഡാറ്റ എക്സ്പോർട്ട് ചെയ്യുക';
+
+  @override
+  String get exportCsv => 'CSV ആയി എക്സ്പോർട്ട് ചെയ്യുക';
+
+  @override
+  String get exportPdf => 'PDF ആയി എക്സ്പോർട്ട് ചെയ്യുക';
+
+  @override
+  String get backupData => 'ഡാറ്റ ബാക്കപ്പ്';
+
+  @override
+  String get restoreData => 'ഡാറ്റ പുനഃസ്ഥാപിക്കുക';
+
+  @override
+  String get developedBy => 'Navaska വികസിപ്പിച്ചത്';
+
+  @override
+  String get versionLabel => 'പതിപ്പ്';
+
+  @override
+  String lastUpdated(Object date) {
+    return 'അവസാനമായി പുതുക്കിയത് $date';
+  }
+
+  @override
+  String get feedback => 'പ്രതികരണം';
 }

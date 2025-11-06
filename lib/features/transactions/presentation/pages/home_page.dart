@@ -2,8 +2,6 @@ import 'package:fin_track/app/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/widgets/language_selector.dart';
-import '../../../../core/widgets/theme_selector.dart';
 import '../widgets/monthly_transaction.dart';
 
 class HomePage extends ConsumerWidget {
@@ -41,7 +39,12 @@ class HomePage extends ConsumerWidget {
         centerTitle: true,
         elevation: 0,
         scrolledUnderElevation: 2,
-        actions: [const LanguageSelector(), const ThemeSelector()],
+        actions: [
+          IconButton(
+            icon: Icon(Icons.settings, color: cs.colorScheme.secondary),
+            onPressed: () => context.push('/settings'),
+          ),
+        ],
       ),
       body: const TransactionsGroupedByMonth(),
       floatingActionButton: FloatingActionButton.extended(
