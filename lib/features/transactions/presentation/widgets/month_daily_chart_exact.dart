@@ -192,7 +192,6 @@ class _MonthDailyChartExactState extends State<MonthDailyChartExact> {
               }
             },
             touchTooltipData: LineTouchTooltipData(
-              tooltipRoundedRadius: 8,
               tooltipPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
               tooltipMargin: 12, // space from touch point, similar to screenshot
               fitInsideHorizontally: true,

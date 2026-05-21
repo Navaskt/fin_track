@@ -79,11 +79,8 @@ class AppLockService {
     try {
       final ok = await _localAuth.authenticate(
         localizedReason: reason,
-        options: const AuthenticationOptions(
-          biometricOnly: true,
-          stickyAuth: true,
-          useErrorDialogs: true,
-        ),
+        biometricOnly: true,
+        persistAcrossBackgrounding: true,
       );
       return ok;
     } on PlatformException {

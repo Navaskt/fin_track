@@ -247,7 +247,6 @@ class _MonthDailyChartExactWithBudgetState extends State<MonthDailyChartExactWit
               }
             },
             touchTooltipData: LineTouchTooltipData(
-              tooltipRoundedRadius: 8,
               tooltipPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
               tooltipMargin: 12,
               fitInsideHorizontally: true,
