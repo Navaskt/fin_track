@@ -385,4 +385,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get other => 'Other';
+
+  @override
+  String get salary => 'Salary';
+
+  @override
+  String get bonus => 'Bonus';
+
+  @override
+  String get interest => 'Interest';
+
+  @override
+  String get refund => 'Refund';
+
+  @override
+  String get gift => 'Gift';
+
+  @override
+  String get investment => 'Investment';
+
+  @override
+  String get incentive => 'Incentive';
 }

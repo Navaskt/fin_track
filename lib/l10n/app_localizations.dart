@@ -842,6 +842,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Other'**
   String get other;
+
+  /// No description provided for @salary.
+  ///
+  /// In en, this message translates to:
+  /// **'Salary'**
+  String get salary;
+
+  /// No description provided for @bonus.
+  ///
+  /// In en, this message translates to:
+  /// **'Bonus'**
+  String get bonus;
+
+  /// No description provided for @interest.
+  ///
+  /// In en, this message translates to:
+  /// **'Interest'**
+  String get interest;
+
+  /// No description provided for @refund.
+  ///
+  /// In en, this message translates to:
+  /// **'Refund'**
+  String get refund;
+
+  /// No description provided for @gift.
+  ///
+  /// In en, this message translates to:
+  /// **'Gift'**
+  String get gift;
+
+  /// No description provided for @investment.
+  ///
+  /// In en, this message translates to:
+  /// **'Investment'**
+  String get investment;
+
+  /// No description provided for @incentive.
+  ///
+  /// In en, this message translates to:
+  /// **'Incentive'**
+  String get incentive;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

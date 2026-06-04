@@ -131,5 +131,13 @@
   "coffee": "قهوة",
   "fuel": "وقود",
   "education": "تعليم",
-  "other": "أخرى"
+  "other": "أخرى",
+
+  "salary": "راتب",
+  "bonus": "مكافأة",
+  "interest": "فائدة",
+  "refund": "استرداد",
+  "gift": "هدية",
+  "investment": "استثمار",
+  "incentive": "حافز"
 }

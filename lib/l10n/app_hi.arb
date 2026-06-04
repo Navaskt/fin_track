@@ -131,5 +131,14 @@
   "coffee": "कॉफी",
   "fuel": "ईंधन",
   "education": "शिक्षा",
-  "other": "अन्य"
+  "other": "अन्य",
+
+
+  "salary": "वेतन",
+  "bonus": "बोनस",
+  "interest": "ब्याज",
+  "refund": "रिफंड",
+  "gift": "उपहार",
+  "investment": "निवेश",
+  "incentive": "प्रोत्साहन"
 }

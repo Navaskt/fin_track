@@ -385,4 +385,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get other => 'أخرى';
+
+  @override
+  String get salary => 'راتب';
+
+  @override
+  String get bonus => 'مكافأة';
+
+  @override
+  String get interest => 'فائدة';
+
+  @override
+  String get refund => 'استرداد';
+
+  @override
+  String get gift => 'هدية';
+
+  @override
+  String get investment => 'استثمار';
+
+  @override
+  String get incentive => 'حافز';
 }

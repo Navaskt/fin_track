@@ -385,4 +385,25 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get other => 'അന്യ';
+
+  @override
+  String get salary => 'വേതന';
+
+  @override
+  String get bonus => 'ബോണസ്';
+
+  @override
+  String get interest => 'ബ്യാജം';
+
+  @override
+  String get refund => 'റിഫണ്ടു';
+
+  @override
+  String get gift => 'ഉപഹാരം';
+
+  @override
+  String get investment => 'നിക്ഷേപം';
+
+  @override
+  String get incentive => 'പ്രോത്സാഹനം';
 }

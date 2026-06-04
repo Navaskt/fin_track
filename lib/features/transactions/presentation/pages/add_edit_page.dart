@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../domain/entities/transaction_entity.dart';
+import '../../domain/enum/category_enums.dart';
 import '../controllers/transaction_providers.dart';
 import '../widgets/amount_field.dart';
 import '../widgets/bottom_action_bar.dart';
@@ -15,37 +16,6 @@ import '../widgets/section_card.dart';
 
 enum TransactionType { expense, income }
 
-// Default categories
-const _expenseCategories = <String>[
-  'Food',
-  'Groceries',
-  'Transport',
-  'Taxi',
-  'Bills',
-  'Utilities',
-  'Insurance',
-  'Credit Card',
-  'Credit',
-  'Shopping',
-  'Health',
-  'Entertainment',
-  'Rent',
-  'Coffee',
-  'Fuel',
-  'Education',
-  'Other',
-];
-
-const _incomeCategories = <String>[
-  'Salary',
-  'Bonus',
-  'Interest',
-  'Refund',
-  'Gift',
-  'Investment',
-  'Incentive',
-  'Other',
-];
 
 class AddEditPage extends ConsumerStatefulWidget {
   const AddEditPage({super.key, this.id});
@@ -65,7 +35,7 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
   late final bool _isEditMode;
 
   List<String> get _suggestions =>
-      _type == TransactionType.expense ? _expenseCategories : _incomeCategories;
+      _type == TransactionType.expense ? ExpenseCategory.values.map((e) => e.getTranslation(context)).toList() : IncomeCategory.values.map((e) => e.getTranslation(context)).toList();
 
   void _pickQuickCategory(String c) {
     _categoryCtrl.text = c;

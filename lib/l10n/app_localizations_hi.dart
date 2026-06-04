@@ -385,4 +385,25 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get other => 'अन्य';
+
+  @override
+  String get salary => 'वेतन';
+
+  @override
+  String get bonus => 'बोनस';
+
+  @override
+  String get interest => 'ब्याज';
+
+  @override
+  String get refund => 'रिफंड';
+
+  @override
+  String get gift => 'उपहार';
+
+  @override
+  String get investment => 'निवेश';
+
+  @override
+  String get incentive => 'प्रोत्साहन';
 }
