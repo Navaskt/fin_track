@@ -1,6 +1,6 @@
 {
   "@@locale": "ar",
-  "appTitle": "فينتراك",
+  "appTitle": "سبندلي",
   "addTransactionTitle": "إضافة معاملة",
   "editTransactionTitle": "تعديل المعاملة",
   "amountLabel": "المبلغ (درهم)",
@@ -53,7 +53,7 @@
   "topCategories": "أعلى الفئات",
   "noExpenses": "لا توجد مصروفات هذا الشهر",
   "noData": "لا توجد بيانات",
-  "byNavas": "بواسطة محمد نواس",
+  "byNavas": "تتبع المصروفات",
   "analytics": "التحليلات",
 
   "settings": "الإعدادات",
@@ -113,5 +113,23 @@
   "developedBy": "تم التطوير بواسطة نافاسكا",
   "versionLabel": "الإصدار",
   "lastUpdated": "آخر تحديث {date}",
-  "feedback": "ملاحظات"
+  "feedback": "ملاحظات",
+
+  "food": "طعام",
+  "groceries": "البقالة",
+  "transport": "المواصلات",
+  "taxi": "سيارة الأجرة",
+  "bills": "الفواتير",
+  "utilities": "المرافق",
+  "insurance": "التأمين",
+  "creditCard": "بطاقة الائتمان",
+  "credit": "الائتمان",
+  "shopping": "التسوق",
+  "health": "الصحة",
+  "entertainment": "الترفيه",
+  "rent": "الإيجار",
+  "coffee": "قهوة",
+  "fuel": "وقود",
+  "education": "تعليم",
+  "other": "أخرى"
 }

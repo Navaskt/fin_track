@@ -9,7 +9,7 @@ class AppLocalizationsMl extends AppLocalizations {
   AppLocalizationsMl([String locale = 'ml']) : super(locale);
 
   @override
-  String get appTitle => 'ഫിൻട്രാക്ക്';
+  String get appTitle => 'സ്പെൻഡ്‌ലി';
 
   @override
   String get addTransactionTitle => 'ട്രാൻസാക്ഷൻ ചേർക്കുക';
@@ -168,7 +168,7 @@ class AppLocalizationsMl extends AppLocalizations {
   String get noData => 'ഡാറ്റയില്ല';
 
   @override
-  String get byNavas => 'മുഹമ്മദ് നവാസ് നിർമ്മിച്ചത്';
+  String get byNavas => 'ചെലവ് ട്രാക്കർ';
 
   @override
   String get analytics => 'വിശകലനം';
@@ -334,4 +334,55 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get feedback => 'പ്രതികരണം';
+
+  @override
+  String get food => 'ഭക്ഷണം';
+
+  @override
+  String get groceries => 'കിരാന';
+
+  @override
+  String get transport => 'പരിവാഹനം';
+
+  @override
+  String get taxi => 'ടാക്സി';
+
+  @override
+  String get bills => 'ബിൽ';
+
+  @override
+  String get utilities => 'യൂട്ടിലിറ്റീസ്';
+
+  @override
+  String get insurance => 'ബീമ';
+
+  @override
+  String get creditCard => 'ക്രെഡിറ്റ് കാർഡ്';
+
+  @override
+  String get credit => 'ക്രെഡിറ്റ്';
+
+  @override
+  String get shopping => 'ഷോപ്പിംഗ്';
+
+  @override
+  String get health => 'ആരോഗ്യം';
+
+  @override
+  String get entertainment => 'മനോരഞ്ജനം';
+
+  @override
+  String get rent => 'കിരായിട';
+
+  @override
+  String get coffee => 'കാപ്പി';
+
+  @override
+  String get fuel => 'ഇന്ധനം';
+
+  @override
+  String get education => 'വിദ്യാഭ്യാസം';
+
+  @override
+  String get other => 'അന്യ';
 }

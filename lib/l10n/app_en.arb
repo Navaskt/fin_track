@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "appTitle": "FinTrack",
+  "appTitle": "Spendly",
   "addTransactionTitle": "Add Transaction",
   "editTransactionTitle": "Edit Transaction",
   "amountLabel": "Amount (AED)",
@@ -53,7 +53,7 @@
   "topCategories": "Top categories",
   "noExpenses": "No expenses for this month",
   "noData": "No data",
-  "byNavas": "by MOHAMMED NAVAS",
+  "byNavas": "Spend Tracker",
   "analytics": "Analytics",
 
   "settings": "Settings",
@@ -113,5 +113,23 @@
   "developedBy": "Developed by Navaska",
   "versionLabel": "Version",
   "lastUpdated": "Last updated {date}",
-  "feedback": "Feedback"
+  "feedback": "Feedback",
+
+  "food": "Food",
+  "groceries": "Groceries",
+  "transport": "Transport",
+  "taxi": "Taxi",
+  "bills": "Bills",
+  "utilities": "Utilities",
+  "insurance": "Insurance",
+  "creditCard": "Credit Card",
+  "credit": "Credit",
+  "shopping": "Shopping",
+  "health": "Health",
+  "entertainment": "Entertainment",
+  "rent": "Rent",
+  "coffee": "Coffee",
+  "fuel": "Fuel",
+  "education": "Education",
+  "other": "Other"
 }

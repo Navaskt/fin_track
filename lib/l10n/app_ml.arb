@@ -1,6 +1,6 @@
 {
   "@@locale": "ml",
-  "appTitle": "ഫിൻട്രാക്ക്",
+  "appTitle": "സ്പെൻഡ്‌ലി",
   "addTransactionTitle": "ട്രാൻസാക്ഷൻ ചേർക്കുക",
   "editTransactionTitle": "ട്രാൻസാക്ഷൻ എഡിറ്റ് ചെയ്യുക",
   "amountLabel": "തുക (AED)",
@@ -53,7 +53,7 @@
   "topCategories": "മികച്ച വിഭാഗങ്ങൾ",
   "noExpenses": "ഈ മാസത്തിൽ ചെലവുകൾ ഇല്ല",
   "noData": "ഡാറ്റയില്ല",
-  "byNavas": "മുഹമ്മദ് നവാസ് നിർമ്മിച്ചത്",
+  "byNavas": "ചെലവ് ട്രാക്കർ",
   "analytics": "വിശകലനം",
 
   "settings": "ക്രമീകരണങ്ങൾ",
@@ -113,5 +113,23 @@
   "developedBy": "Navaska വികസിപ്പിച്ചത്",
   "versionLabel": "പതിപ്പ്",
   "lastUpdated": "അവസാനമായി പുതുക്കിയത് {date}",
-  "feedback": "പ്രതികരണം"
+  "feedback": "പ്രതികരണം",
+
+  "food": "ഭക്ഷണം",
+  "groceries": "കിരാന",
+  "transport": "പരിവാഹനം",
+  "taxi": "ടാക്സി",
+  "bills": "ബിൽ",
+  "utilities": "യൂട്ടിലിറ്റീസ്",
+  "insurance": "ബീമ",
+  "creditCard": "ക്രെഡിറ്റ് കാർഡ്",
+  "credit": "ക്രെഡിറ്റ്",
+  "shopping": "ഷോപ്പിംഗ്",
+  "health": "ആരോഗ്യം",
+  "entertainment": "മനോരഞ്ജനം",
+  "rent": "കിരായിട",
+  "coffee": "കാപ്പി",
+  "fuel": "ഇന്ധനം",
+  "education": "വിദ്യാഭ്യാസം",
+  "other": "അന്യ"
 }

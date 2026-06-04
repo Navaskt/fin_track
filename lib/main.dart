@@ -30,7 +30,7 @@ class FinTrackApp extends ConsumerWidget {
     final locale = ref.watch(localeProvider);
 
     return MaterialApp.router(
-      title: 'FinTrack',
+      title: 'Spendly',
       debugShowCheckedModeBanner: false,
       routerConfig: router,
       theme: buildLightTheme(),

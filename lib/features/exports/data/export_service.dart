@@ -50,7 +50,7 @@ class ExportService {
   Future<String> exportPdf({
     required DateTime from,
     required DateTime to,
-    String fileName = 'fintrack_export.pdf',
+    String fileName = 'spendly_export.pdf',
     String currencyNote = 'Amounts shown in original currency',
     Locale? locale,
   }) async {
@@ -73,7 +73,7 @@ class ExportService {
         margin: const pw.EdgeInsets.all(24),
         build: (context) => [
           pw.Text(
-            'FinTrack Report',
+            'Spending Report',
             style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold),
           ),
           pw.SizedBox(height: 6),

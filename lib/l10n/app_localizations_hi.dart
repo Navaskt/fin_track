@@ -9,7 +9,7 @@ class AppLocalizationsHi extends AppLocalizations {
   AppLocalizationsHi([String locale = 'hi']) : super(locale);
 
   @override
-  String get appTitle => 'फिनट्रैक';
+  String get appTitle => 'स्पेंडली';
 
   @override
   String get addTransactionTitle => 'लेन-देन जोड़ें';
@@ -168,7 +168,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get noData => 'कोई डेटा नहीं';
 
   @override
-  String get byNavas => 'मोहम्मद नवास द्वारा';
+  String get byNavas => 'खर्च ट्रैकर';
 
   @override
   String get analytics => 'विश्लेषण';
@@ -334,4 +334,55 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get feedback => 'प्रतिक्रिया';
+
+  @override
+  String get food => 'खाद्य';
+
+  @override
+  String get groceries => 'किराना';
+
+  @override
+  String get transport => 'परिवहन';
+
+  @override
+  String get taxi => 'टैक्सी';
+
+  @override
+  String get bills => 'बिल';
+
+  @override
+  String get utilities => 'यूटिलिटीज';
+
+  @override
+  String get insurance => 'बीमा';
+
+  @override
+  String get creditCard => 'क्रेडिट कार्ड';
+
+  @override
+  String get credit => 'क्रेडिट';
+
+  @override
+  String get shopping => 'शॉपिंग';
+
+  @override
+  String get health => 'स्वास्थ्य';
+
+  @override
+  String get entertainment => 'मनोरंजन';
+
+  @override
+  String get rent => 'किराया';
+
+  @override
+  String get coffee => 'कॉफी';
+
+  @override
+  String get fuel => 'ईंधन';
+
+  @override
+  String get education => 'शिक्षा';
+
+  @override
+  String get other => 'अन्य';
 }

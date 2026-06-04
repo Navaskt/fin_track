@@ -9,7 +9,7 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
-  String get appTitle => 'فينتراك';
+  String get appTitle => 'سبندلي';
 
   @override
   String get addTransactionTitle => 'إضافة معاملة';
@@ -168,7 +168,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get noData => 'لا توجد بيانات';
 
   @override
-  String get byNavas => 'بواسطة محمد نواس';
+  String get byNavas => 'تتبع المصروفات';
 
   @override
   String get analytics => 'التحليلات';
@@ -334,4 +334,55 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get feedback => 'ملاحظات';
+
+  @override
+  String get food => 'طعام';
+
+  @override
+  String get groceries => 'البقالة';
+
+  @override
+  String get transport => 'المواصلات';
+
+  @override
+  String get taxi => 'سيارة الأجرة';
+
+  @override
+  String get bills => 'الفواتير';
+
+  @override
+  String get utilities => 'المرافق';
+
+  @override
+  String get insurance => 'التأمين';
+
+  @override
+  String get creditCard => 'بطاقة الائتمان';
+
+  @override
+  String get credit => 'الائتمان';
+
+  @override
+  String get shopping => 'التسوق';
+
+  @override
+  String get health => 'الصحة';
+
+  @override
+  String get entertainment => 'الترفيه';
+
+  @override
+  String get rent => 'الإيجار';
+
+  @override
+  String get coffee => 'قهوة';
+
+  @override
+  String get fuel => 'وقود';
+
+  @override
+  String get education => 'تعليم';
+
+  @override
+  String get other => 'أخرى';
 }

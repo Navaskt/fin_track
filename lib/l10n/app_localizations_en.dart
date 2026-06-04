@@ -9,7 +9,7 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'FinTrack';
+  String get appTitle => 'Spendly';
 
   @override
   String get addTransactionTitle => 'Add Transaction';
@@ -168,7 +168,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noData => 'No data';
 
   @override
-  String get byNavas => 'by MOHAMMED NAVAS';
+  String get byNavas => 'Spend Tracker';
 
   @override
   String get analytics => 'Analytics';
@@ -334,4 +334,55 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get feedback => 'Feedback';
+
+  @override
+  String get food => 'Food';
+
+  @override
+  String get groceries => 'Groceries';
+
+  @override
+  String get transport => 'Transport';
+
+  @override
+  String get taxi => 'Taxi';
+
+  @override
+  String get bills => 'Bills';
+
+  @override
+  String get utilities => 'Utilities';
+
+  @override
+  String get insurance => 'Insurance';
+
+  @override
+  String get creditCard => 'Credit Card';
+
+  @override
+  String get credit => 'Credit';
+
+  @override
+  String get shopping => 'Shopping';
+
+  @override
+  String get health => 'Health';
+
+  @override
+  String get entertainment => 'Entertainment';
+
+  @override
+  String get rent => 'Rent';
+
+  @override
+  String get coffee => 'Coffee';
+
+  @override
+  String get fuel => 'Fuel';
+
+  @override
+  String get education => 'Education';
+
+  @override
+  String get other => 'Other';
 }

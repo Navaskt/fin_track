@@ -68,8 +68,8 @@ abstract class AppLocalizations {
 
   final String localeName;
 
-  static AppLocalizations of(BuildContext context) {
-    return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
+  static AppLocalizations? of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
   static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
@@ -102,7 +102,7 @@ abstract class AppLocalizations {
   /// No description provided for @appTitle.
   ///
   /// In en, this message translates to:
-  /// **'FinTrack'**
+  /// **'Spendly'**
   String get appTitle;
 
   /// No description provided for @addTransactionTitle.
@@ -420,7 +420,7 @@ abstract class AppLocalizations {
   /// No description provided for @byNavas.
   ///
   /// In en, this message translates to:
-  /// **'by MOHAMMED NAVAS'**
+  /// **'Spend Tracker'**
   String get byNavas;
 
   /// No description provided for @analytics.
@@ -740,6 +740,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Feedback'**
   String get feedback;
+
+  /// No description provided for @food.
+  ///
+  /// In en, this message translates to:
+  /// **'Food'**
+  String get food;
+
+  /// No description provided for @groceries.
+  ///
+  /// In en, this message translates to:
+  /// **'Groceries'**
+  String get groceries;
+
+  /// No description provided for @transport.
+  ///
+  /// In en, this message translates to:
+  /// **'Transport'**
+  String get transport;
+
+  /// No description provided for @taxi.
+  ///
+  /// In en, this message translates to:
+  /// **'Taxi'**
+  String get taxi;
+
+  /// No description provided for @bills.
+  ///
+  /// In en, this message translates to:
+  /// **'Bills'**
+  String get bills;
+
+  /// No description provided for @utilities.
+  ///
+  /// In en, this message translates to:
+  /// **'Utilities'**
+  String get utilities;
+
+  /// No description provided for @insurance.
+  ///
+  /// In en, this message translates to:
+  /// **'Insurance'**
+  String get insurance;
+
+  /// No description provided for @creditCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit Card'**
+  String get creditCard;
+
+  /// No description provided for @credit.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit'**
+  String get credit;
+
+  /// No description provided for @shopping.
+  ///
+  /// In en, this message translates to:
+  /// **'Shopping'**
+  String get shopping;
+
+  /// No description provided for @health.
+  ///
+  /// In en, this message translates to:
+  /// **'Health'**
+  String get health;
+
+  /// No description provided for @entertainment.
+  ///
+  /// In en, this message translates to:
+  /// **'Entertainment'**
+  String get entertainment;
+
+  /// No description provided for @rent.
+  ///
+  /// In en, this message translates to:
+  /// **'Rent'**
+  String get rent;
+
+  /// No description provided for @coffee.
+  ///
+  /// In en, this message translates to:
+  /// **'Coffee'**
+  String get coffee;
+
+  /// No description provided for @fuel.
+  ///
+  /// In en, this message translates to:
+  /// **'Fuel'**
+  String get fuel;
+
+  /// No description provided for @education.
+  ///
+  /// In en, this message translates to:
+  /// **'Education'**
+  String get education;
+
+  /// No description provided for @other.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get other;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
