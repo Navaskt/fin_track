@@ -1,30 +1,39 @@
+import 'package:fin_track/app/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
-// Premium FinMate color system
-const _seed = Color(0xFF00C853); // Emerald
-const _gold = Color(0xFFFBC02D);
 
-const _darkSurface = Color(0xFF181C1C);
-
-// ---------- COLOR SCHEME TUNING ----------
+// ── ColorScheme builder ───────────────────────────────────────────────────────
 ColorScheme _tunedScheme(Brightness brightness) {
-  final base = ColorScheme.fromSeed(seedColor: _seed, brightness: brightness);
+  final base = ColorScheme.fromSeed(
+    seedColor: AppColors.crimsonPrimary,
+    primary: AppColors.crimsonPrimary,
+    onPrimary: Colors.white,
+    brightness: brightness,
+  );
 
   if (brightness == Brightness.dark) {
     return base.copyWith(
-      surface: _darkSurface,
-      secondary: _gold,
-      onSecondary: const Color(0xFF1C1C1C),
+      primary: AppColors.crimsonDark,          // slightly deeper in dark mode
+      onPrimary: AppColors.iconWhite,
+      surface: AppColors.surfaceDark,          // deep dark background
+      onSurface: AppColors.iconWhite,
+      surfaceContainerHighest: AppColors.cardDark,
+      secondary: AppColors.incomeDark,         // teal accent for income
+      onSecondary: const Color(0xFF0D2018),
+      outline: AppColors.borderDark,
+      outlineVariant: AppColors.borderDark,
     );
   } else {
     return base.copyWith(
-      secondary: _gold,
-      onSecondary: const Color(0xFF1C1C1C),
+      surface: AppColors.surfaceLight,
+      onSurface: const Color(0xFF1F2937),
+      secondary: AppColors.incomeLight,        // green for income
+      onSecondary: Colors.white,
     );
   }
 }
 
-// ---------- TEXT THEME ----------
+// ── Text theme (Montserrat) ───────────────────────────────────────────────────
 TextTheme _montserratTextTheme(ColorScheme scheme) {
   return TextTheme(
     displayLarge: TextStyle(
@@ -37,7 +46,7 @@ TextTheme _montserratTextTheme(ColorScheme scheme) {
       fontFamily: 'Montserrat',
       fontWeight: FontWeight.w600,
       fontSize: 22,
-      color: scheme.onBackground,
+      color: scheme.onSurface,
     ),
     titleLarge: TextStyle(
       fontFamily: 'Montserrat',
@@ -78,16 +87,14 @@ TextTheme _montserratTextTheme(ColorScheme scheme) {
   );
 }
 
-// ======================================================================
-//                    FINMATE NUMBER THEME (ThemeExtension)
-// ======================================================================
+// ── FinMate number extension ──────────────────────────────────────────────────
 class FinMateNumberTheme extends ThemeExtension<FinMateNumberTheme> {
-  final TextStyle amountXL; // e.g., large balance on dashboard
-  final TextStyle amountL; // e.g., card totals
-  final TextStyle amountM; // e.g., list items
-  final TextStyle deltaPositive; // +2.3%
-  final TextStyle deltaNegative; // -2.3%
-  final TextStyle deltaNeutral; // 0.0% or unchanged
+  final TextStyle amountXL;
+  final TextStyle amountL;
+  final TextStyle amountM;
+  final TextStyle deltaPositive;
+  final TextStyle deltaNegative;
+  final TextStyle deltaNeutral;
 
   const FinMateNumberTheme({
     required this.amountXL,
@@ -98,15 +105,9 @@ class FinMateNumberTheme extends ThemeExtension<FinMateNumberTheme> {
     required this.deltaNeutral,
   });
 
-  // Build from a ColorScheme
   factory FinMateNumberTheme.fromScheme(ColorScheme scheme) {
-    // Use tabular figures so columns align nicely
     const features = [FontFeature.tabularFigures()];
-
-    // Choose red that works on both modes
-    final lossRed = scheme.brightness == Brightness.dark
-        ? const Color(0xFFFF6B6B)
-        : const Color(0xFFD32F2F);
+    final isDark = scheme.brightness == Brightness.dark;
 
     return FinMateNumberTheme(
       amountXL: TextStyle(
@@ -114,7 +115,7 @@ class FinMateNumberTheme extends ThemeExtension<FinMateNumberTheme> {
         fontWeight: FontWeight.w700,
         fontSize: 30,
         letterSpacing: -0.2,
-        color: scheme.onBackground,
+        color: scheme.onSurface,
         fontFeatures: features,
       ),
       amountL: TextStyle(
@@ -132,18 +133,20 @@ class FinMateNumberTheme extends ThemeExtension<FinMateNumberTheme> {
         color: scheme.onSurface,
         fontFeatures: features,
       ),
+      // Positive = income = teal (not primary crimson — avoids confusion)
       deltaPositive: TextStyle(
         fontFamily: 'Montserrat',
         fontWeight: FontWeight.w600,
         fontSize: 14.5,
-        color: scheme.primary, // emerald
+        color: isDark ? AppColors.incomeDark : AppColors.incomeLight,
         fontFeatures: features,
       ),
+      // Negative = expense loss red
       deltaNegative: TextStyle(
         fontFamily: 'Montserrat',
         fontWeight: FontWeight.w600,
         fontSize: 14.5,
-        color: lossRed,
+        color: isDark ? AppColors.lossDark : AppColors.lossLight,
         fontFeatures: features,
       ),
       deltaNeutral: TextStyle(
@@ -158,215 +161,121 @@ class FinMateNumberTheme extends ThemeExtension<FinMateNumberTheme> {
 
   @override
   FinMateNumberTheme copyWith({
-    TextStyle? amountXL,
-    TextStyle? amountL,
-    TextStyle? amountM,
-    TextStyle? deltaPositive,
-    TextStyle? deltaNegative,
-    TextStyle? deltaNeutral,
-  }) {
-    return FinMateNumberTheme(
-      amountXL: amountXL ?? this.amountXL,
-      amountL: amountL ?? this.amountL,
-      amountM: amountM ?? this.amountM,
-      deltaPositive: deltaPositive ?? this.deltaPositive,
-      deltaNegative: deltaNegative ?? this.deltaNegative,
-      deltaNeutral: deltaNeutral ?? this.deltaNeutral,
-    );
-  }
+    TextStyle? amountXL, TextStyle? amountL, TextStyle? amountM,
+    TextStyle? deltaPositive, TextStyle? deltaNegative, TextStyle? deltaNeutral,
+  }) => FinMateNumberTheme(
+    amountXL: amountXL ?? this.amountXL,
+    amountL: amountL ?? this.amountL,
+    amountM: amountM ?? this.amountM,
+    deltaPositive: deltaPositive ?? this.deltaPositive,
+    deltaNegative: deltaNegative ?? this.deltaNegative,
+    deltaNeutral: deltaNeutral ?? this.deltaNeutral,
+  );
 
   @override
   FinMateNumberTheme lerp(ThemeExtension<FinMateNumberTheme>? other, double t) {
     if (other is! FinMateNumberTheme) return this;
-    TextStyle _lerp(TextStyle a, TextStyle b) => TextStyle.lerp(a, b, t) ?? a;
-
+    TextStyle lrp(TextStyle a, TextStyle b) => TextStyle.lerp(a, b, t) ?? a;
     return FinMateNumberTheme(
-      amountXL: _lerp(amountXL, other.amountXL),
-      amountL: _lerp(amountL, other.amountL),
-      amountM: _lerp(amountM, other.amountM),
-      deltaPositive: _lerp(deltaPositive, other.deltaPositive),
-      deltaNegative: _lerp(deltaNegative, other.deltaNegative),
-      deltaNeutral: _lerp(deltaNeutral, other.deltaNeutral),
+      amountXL: lrp(amountXL, other.amountXL),
+      amountL: lrp(amountL, other.amountL),
+      amountM: lrp(amountM, other.amountM),
+      deltaPositive: lrp(deltaPositive, other.deltaPositive),
+      deltaNegative: lrp(deltaNegative, other.deltaNegative),
+      deltaNeutral: lrp(deltaNeutral, other.deltaNeutral),
     );
   }
 }
 
-// Easy access from BuildContext
 extension FinMateNumberX on BuildContext {
   FinMateNumberTheme get finNumbers =>
       Theme.of(this).extension<FinMateNumberTheme>()!;
 }
 
-// ======================================================================
-//                               THEMES
-// ======================================================================
-ThemeData buildLightTheme() {
-  final colorScheme = _tunedScheme(Brightness.light);
+// ── Shared component theme builder ───────────────────────────────────────────
+ThemeData _buildBase(ColorScheme colorScheme) => ThemeData(
+  useMaterial3: true,
+  colorScheme: colorScheme,
+  textTheme: _montserratTextTheme(colorScheme),
+  scaffoldBackgroundColor: colorScheme.surface,
+  extensions: [FinMateNumberTheme.fromScheme(colorScheme)],
+  appBarTheme: AppBarTheme(
+    centerTitle: true,
+    elevation: 0,
+    backgroundColor: colorScheme.surface,
+    foregroundColor: colorScheme.onSurface,
+    scrolledUnderElevation: 2,
+  ),
+  cardTheme: CardThemeData(
+    color: colorScheme.surfaceContainerHighest,
+    elevation: 0,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+    margin: EdgeInsets.zero,
+  ),
+  listTileTheme: ListTileThemeData(
+    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+    iconColor: colorScheme.onSurfaceVariant,
+    textColor: colorScheme.onSurface,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+  ),
+  dividerTheme: DividerThemeData(
+    color: colorScheme.outlineVariant,
+    thickness: 1,
+    space: 1,
+  ),
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    backgroundColor: colorScheme.primary,
+    foregroundColor: colorScheme.onPrimary,
+    elevation: 3,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+  ),
+  iconButtonTheme: IconButtonThemeData(
+    style: IconButton.styleFrom(
+      foregroundColor: colorScheme.onSurfaceVariant,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+    ),
+  ),
+  inputDecorationTheme: InputDecorationTheme(
+    filled: true,
+    fillColor: colorScheme.surfaceContainerHighest,
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: colorScheme.outlineVariant),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: colorScheme.outlineVariant),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: colorScheme.primary, width: 1.4),
+    ),
+    contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: colorScheme.primary,
+      foregroundColor: colorScheme.onPrimary,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      textStyle: const TextStyle(
+        fontFamily: 'Montserrat',
+        fontWeight: FontWeight.w600,
+        fontSize: 15,
+      ),
+    ),
+  ),
+);
 
-  return ThemeData(
-    useMaterial3: true,
-    colorScheme: colorScheme,
-    textTheme: _montserratTextTheme(colorScheme),
-    scaffoldBackgroundColor: colorScheme.surface,
-    extensions: <ThemeExtension<dynamic>>[
-      FinMateNumberTheme.fromScheme(colorScheme),
-    ],
-    appBarTheme: AppBarTheme(
-      centerTitle: true,
-      elevation: 0,
-      backgroundColor: colorScheme.surface,
-      foregroundColor: colorScheme.onSurface,
-      scrolledUnderElevation: 2,
-    ),
-    cardTheme: CardThemeData(
-      color: colorScheme.surfaceContainerHighest,
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      margin: EdgeInsets.zero,
-    ),
-    listTileTheme: ListTileThemeData(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      iconColor: colorScheme.onSurfaceVariant,
-      textColor: colorScheme.onSurface,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-    ),
-    dividerTheme: DividerThemeData(
-      color: colorScheme.outlineVariant,
-      thickness: 1,
-      space: 1,
-    ),
-    floatingActionButtonTheme: FloatingActionButtonThemeData(
-      backgroundColor: colorScheme.primaryContainer,
-      foregroundColor: colorScheme.onPrimaryContainer,
-      elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-    ),
-    iconButtonTheme: IconButtonThemeData(
-      style: IconButton.styleFrom(
-        foregroundColor: colorScheme.onSurfaceVariant,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      ),
-    ),
-    inputDecorationTheme: InputDecorationTheme(
-      filled: true,
-      fillColor: colorScheme.surfaceContainerHighest,
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: colorScheme.outlineVariant),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: colorScheme.outlineVariant),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: colorScheme.primary, width: 1.4),
-      ),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-    ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        textStyle: const TextStyle(
-          fontFamily: 'Montserrat',
-          fontWeight: FontWeight.w600,
-          fontSize: 15,
-        ),
-      ),
-    ),
-  );
-}
+ThemeData buildLightTheme() => _buildBase(_tunedScheme(Brightness.light));
+ThemeData buildDarkTheme()  => _buildBase(_tunedScheme(Brightness.dark));
 
-ThemeData buildDarkTheme() {
-  final colorScheme = _tunedScheme(Brightness.dark);
-
-  return ThemeData(
-    useMaterial3: true,
-    colorScheme: colorScheme,
-    textTheme: _montserratTextTheme(colorScheme),
-    scaffoldBackgroundColor: colorScheme.surface,
-    extensions: <ThemeExtension<dynamic>>[
-      FinMateNumberTheme.fromScheme(colorScheme),
-    ],
-    appBarTheme: AppBarTheme(
-      centerTitle: true,
-      elevation: 0,
-      backgroundColor: colorScheme.surface,
-      foregroundColor: colorScheme.onSurface,
-      scrolledUnderElevation: 2,
-    ),
-    cardTheme: CardThemeData(
-      color: colorScheme.surfaceContainerHighest,
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      margin: EdgeInsets.zero,
-    ),
-    listTileTheme: ListTileThemeData(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      iconColor: colorScheme.onSurfaceVariant,
-      textColor: colorScheme.onSurface,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-    ),
-    dividerTheme: DividerThemeData(
-      color: colorScheme.outlineVariant,
-      thickness: 1,
-      space: 1,
-    ),
-    floatingActionButtonTheme: FloatingActionButtonThemeData(
-      backgroundColor: colorScheme.primaryContainer,
-      foregroundColor: colorScheme.onPrimaryContainer,
-      elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-    ),
-    iconButtonTheme: IconButtonThemeData(
-      style: IconButton.styleFrom(
-        foregroundColor: colorScheme.onSurfaceVariant,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      ),
-    ),
-    inputDecorationTheme: InputDecorationTheme(
-      filled: true,
-      fillColor: colorScheme.surfaceContainerHighest,
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: colorScheme.outlineVariant),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: colorScheme.outlineVariant),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: colorScheme.primary, width: 1.4),
-      ),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-    ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        textStyle: const TextStyle(
-          fontFamily: 'Montserrat',
-          fontWeight: FontWeight.w600,
-          fontSize: 15,
-        ),
-      ),
-    ),
-  );
-}
-
-// ======================================================================
-//                     QUICK HELPERS FOR NUMBERS
-// ======================================================================
-
-// Formats a currency with alignment-friendly style.
-// Example: FinMateAmount(amount: -1240.55, prefix: 'AED ')
+// ── Amount & Delta widgets (unchanged API) ────────────────────────────────────
 class FinMateAmount extends StatelessWidget {
   const FinMateAmount({
     super.key,
     required this.amount,
-    this.prefix = 'AED',
+    this.prefix = 'AED ',
     this.textScale = 1.0,
     this.size = _AmountSize.lg,
   });
@@ -380,22 +289,16 @@ class FinMateAmount extends StatelessWidget {
   Widget build(BuildContext context) {
     final numbers = context.finNumbers;
     final scheme = Theme.of(context).colorScheme;
-
     final style = switch (size) {
       _AmountSize.xl => numbers.amountXL,
       _AmountSize.lg => numbers.amountL,
       _AmountSize.md => numbers.amountM,
     };
-
     final color = amount < 0
-        ? context.finNumbers.deltaNegative.color
+        ? numbers.deltaNegative.color
         : scheme.onSurface;
-
-    // You likely already have a formatter like formatAED(...)
-    final text = '$prefix${_format(amount)}';
-
     return Text(
-      text,
+      '$prefix${_format(amount)}',
       textScaleFactor: textScale,
       style: style.copyWith(color: color),
       maxLines: 1,
@@ -404,17 +307,13 @@ class FinMateAmount extends StatelessWidget {
   }
 
   String _format(double value) {
-    // Simple placeholder. Replace with your formatAED or NumberFormat if you use intl.
     final sign = value < 0 ? '-' : '';
-    final abs = value.abs().toStringAsFixed(2);
-    return '$sign$abs';
+    return '$sign${value.abs().toStringAsFixed(2)}';
   }
 }
 
 enum _AmountSize { xl, lg, md }
 
-// Shows a percent delta with colored sign and tabular digits
-// Example: FinMateDelta(value: 0.0345) -> +3.45%
 class FinMateDelta extends StatelessWidget {
   const FinMateDelta({
     super.key,
@@ -424,7 +323,7 @@ class FinMateDelta extends StatelessWidget {
     this.decimals = 2,
   });
 
-  final double value; // e.g., 0.0345 => 3.45%
+  final double value;
   final double textScale;
   final bool showSign;
   final int decimals;
@@ -432,19 +331,13 @@ class FinMateDelta extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final numbers = context.finNumbers;
-
-    late final TextStyle style;
-    if (value > 0) {
-      style = numbers.deltaPositive;
-    } else if (value < 0) {
-      style = numbers.deltaNegative;
-    } else {
-      style = numbers.deltaNeutral;
-    }
-
+    final style = value > 0
+        ? numbers.deltaPositive
+        : value < 0
+            ? numbers.deltaNegative
+            : numbers.deltaNeutral;
     final sign = showSign && value != 0 ? (value > 0 ? '+' : '-') : '';
     final pct = (value.abs() * 100).toStringAsFixed(decimals);
-
     return Text(
       '$sign$pct%',
       textScaleFactor: textScale,

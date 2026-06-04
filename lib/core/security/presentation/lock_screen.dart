@@ -46,13 +46,13 @@ class _LockScreenState extends ConsumerState<LockScreen> with SafeSetState {
       appBar: AppBar(
         centerTitle: true,
         title: Text(isSetup ? loc.setPinTitle : loc.unlockTitle),
-        toolbarHeight: 64,
+        toolbarHeight: kToolbarHeight,
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-          child: Center(
+        child: Center(
+          child: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 420),
               child: Column(
@@ -73,7 +73,7 @@ class _LockScreenState extends ConsumerState<LockScreen> with SafeSetState {
                     ),
                     const SizedBox(height: 24),
                   ],
-
+            
                   // PIN field
                   if (!isSetup)
                     TextField(
@@ -101,9 +101,9 @@ class _LockScreenState extends ConsumerState<LockScreen> with SafeSetState {
                       ),
                       onChanged: (_) => safeSetState(() => _err = null),
                     ),
-
+            
                   const SizedBox(height: 12),
-
+            
                   // Primary action
                   if (!isSetup)
                     Semantics(
@@ -123,7 +123,7 @@ class _LockScreenState extends ConsumerState<LockScreen> with SafeSetState {
                         child: Text(loc.unlockButton),
                       ),
                     ),
-
+            
                   // Biometric action
                   if (_biometricAvailable) ...[
                     const SizedBox(height: 8),
@@ -142,7 +142,7 @@ class _LockScreenState extends ConsumerState<LockScreen> with SafeSetState {
                       ),
                     ),
                   ],
-
+            
                   // Setup state
                   if (isSetup) ...[
                     const SizedBox(height: 8),
