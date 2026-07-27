@@ -1,3 +1,4 @@
+
 import 'package:fin_track/app/extension/context_extension.dart';
 import 'package:flutter/material.dart' hide LockState;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -48,7 +49,8 @@ class _LockScreenState extends ConsumerState<LockScreen> with SafeSetState {
         title: Text(isSetup ? loc.setPinTitle : loc.unlockTitle),
         toolbarHeight: 64,
       ),
-      body: SafeArea(
+      body: Center(
+        child: SafeArea(
         child: SingleChildScrollView(
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
@@ -171,6 +173,7 @@ class _LockScreenState extends ConsumerState<LockScreen> with SafeSetState {
           ),
         ),
       ),
+     ),
     );
   }
 }
