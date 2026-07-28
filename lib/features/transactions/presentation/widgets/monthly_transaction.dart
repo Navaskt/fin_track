@@ -174,8 +174,8 @@ class _EnhancedMonthHeaderDelegate extends SliverPersistentHeaderDelegate {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  cs.primary.withOpacity(0.06),
-                  cs.secondary.withOpacity(0.05),
+                  cs.primary.withValues(alpha: 0.06),
+                  cs.secondary.withValues(alpha: 0.05),
                 ],
               ),
             ),
@@ -185,7 +185,7 @@ class _EnhancedMonthHeaderDelegate extends SliverPersistentHeaderDelegate {
           Container(
             color: Theme.of(
               context,
-            ).scaffoldBackgroundColor.withOpacity(surfaceOpacity),
+            ).scaffoldBackgroundColor.withValues(alpha: surfaceOpacity),
           ),
 
           // Content row
@@ -228,12 +228,11 @@ class _EnhancedMonthHeaderDelegate extends SliverPersistentHeaderDelegate {
                       vertical: lerpDouble(6, 7, pinT)!.toDouble(),
                     ),
                     decoration: BoxDecoration(
-                      color: (total < 0 ? Colors.red : Colors.green)
-                          .withOpacity(0.12),
+                      color: (total < 0 ? Colors.red : Colors.green).withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(999),
                       border: Border.all(
                         color: (total < 0 ? Colors.red : Colors.green)
-                            .withOpacity(0.35),
+                            .withValues(alpha: 0.35),
                       ),
                     ),
                     child: Text(
@@ -306,7 +305,7 @@ class _AnimatedMonthBody extends StatelessWidget {
         children: [
           const SizedBox(height: 8),
           // NEW: Daily chart for the month
-        Padding(
+          Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: MonthDailyChartExact(
               month: month,

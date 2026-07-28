@@ -37,7 +37,7 @@ TextTheme _montserratTextTheme(ColorScheme scheme) {
       fontFamily: 'Montserrat',
       fontWeight: FontWeight.w600,
       fontSize: 22,
-      color: scheme.onBackground,
+      color: scheme.onSurface,
     ),
     titleLarge: TextStyle(
       fontFamily: 'Montserrat',
@@ -114,7 +114,7 @@ class FinMateNumberTheme extends ThemeExtension<FinMateNumberTheme> {
         fontWeight: FontWeight.w700,
         fontSize: 30,
         letterSpacing: -0.2,
-        color: scheme.onBackground,
+        color: scheme.onSurface,
         fontFeatures: features,
       ),
       amountL: TextStyle(
@@ -178,15 +178,15 @@ class FinMateNumberTheme extends ThemeExtension<FinMateNumberTheme> {
   @override
   FinMateNumberTheme lerp(ThemeExtension<FinMateNumberTheme>? other, double t) {
     if (other is! FinMateNumberTheme) return this;
-    TextStyle _lerp(TextStyle a, TextStyle b) => TextStyle.lerp(a, b, t) ?? a;
+    TextStyle lerp(TextStyle a, TextStyle b) => TextStyle.lerp(a, b, t) ?? a;
 
     return FinMateNumberTheme(
-      amountXL: _lerp(amountXL, other.amountXL),
-      amountL: _lerp(amountL, other.amountL),
-      amountM: _lerp(amountM, other.amountM),
-      deltaPositive: _lerp(deltaPositive, other.deltaPositive),
-      deltaNegative: _lerp(deltaNegative, other.deltaNegative),
-      deltaNeutral: _lerp(deltaNeutral, other.deltaNeutral),
+      amountXL: lerp(amountXL, other.amountXL),
+      amountL: lerp(amountL, other.amountL),
+      amountM: lerp(amountM, other.amountM),
+      deltaPositive: lerp(deltaPositive, other.deltaPositive),
+      deltaNegative: lerp(deltaNegative, other.deltaNegative),
+      deltaNeutral: lerp(deltaNeutral, other.deltaNeutral),
     );
   }
 }
@@ -368,13 +368,13 @@ class FinMateAmount extends StatelessWidget {
     required this.amount,
     this.prefix = 'AED',
     this.textScale = 1.0,
-    this.size = _AmountSize.lg,
+    this.size = AmountSize.lg,
   });
 
   final double amount;
   final String prefix;
   final double textScale;
-  final _AmountSize size;
+  final AmountSize size;
 
   @override
   Widget build(BuildContext context) {
@@ -382,9 +382,9 @@ class FinMateAmount extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
 
     final style = switch (size) {
-      _AmountSize.xl => numbers.amountXL,
-      _AmountSize.lg => numbers.amountL,
-      _AmountSize.md => numbers.amountM,
+      AmountSize.xl => numbers.amountXL,
+      AmountSize.lg => numbers.amountL,
+      AmountSize.md => numbers.amountM,
     };
 
     final color = amount < 0
@@ -396,7 +396,7 @@ class FinMateAmount extends StatelessWidget {
 
     return Text(
       text,
-      textScaleFactor: textScale,
+      textScaler: TextScaler.linear(textScale),
       style: style.copyWith(color: color),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
@@ -411,7 +411,7 @@ class FinMateAmount extends StatelessWidget {
   }
 }
 
-enum _AmountSize { xl, lg, md }
+enum AmountSize { xl, lg, md }
 
 // Shows a percent delta with colored sign and tabular digits
 // Example: FinMateDelta(value: 0.0345) -> +3.45%
@@ -447,7 +447,7 @@ class FinMateDelta extends StatelessWidget {
 
     return Text(
       '$sign$pct%',
-      textScaleFactor: textScale,
+      textScaler: TextScaler.linear(textScale),
       style: style,
       maxLines: 1,
       overflow: TextOverflow.ellipsis,

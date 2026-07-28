@@ -87,10 +87,10 @@ class ExportService {
               style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold),
             ),
             pw.SizedBox(height: 4),
-            pw.Table.fromTextArray(
+            pw.TableHelper.fromTextArray(
               headers: ['Currency', 'Total'],
               data: totals.entries
-                  .map((e) => [e.key, (e.value / 100.0).toStringAsFixed(2)])
+                  .map((e) => [e.key, (e.value)])
                   .toList(),
               headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
               cellAlignment: pw.Alignment.centerLeft,
@@ -105,7 +105,7 @@ class ExportService {
             style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold),
           ),
           pw.SizedBox(height: 4),
-          pw.Table.fromTextArray(
+          pw.TableHelper.fromTextArray(
             headers: const ['Date', 'Category', 'Note', 'Amount'],
             data: rows.map((t) {
               return [
@@ -139,11 +139,11 @@ class ExportService {
     }
     // CSV: use share_plus if available, fall back to simple text share on web
     if (kIsWeb) {
-      await Share.share('Download: $path\n${text ?? ''}');
+      await SharePlus.instance.share(ShareParams(text: 'Download: $path\n${text ?? ''}'));
       return;
     }
     final xFile = XFile(path, mimeType: _guessMime(path));
-    await Share.shareXFiles([xFile], text: text);
+    await SharePlus.instance.share(ShareParams(files: [xFile], text: text));
   }
 
   // --- internals ---
