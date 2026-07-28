@@ -21,7 +21,7 @@ class ExportService {
 
   late final pw.Font _fontBase;
   late final pw.Font _fontBold;
-  late bool _fontsLoaded = false;
+  bool _fontsLoaded = false;
 
   Future<void> _ensureFonts(Locale? locale) async {
     if (_fontsLoaded) return;
@@ -58,7 +58,28 @@ class ExportService {
 
     final rows = await _rows(from: from, to: to);
     final dateFmt = DateFormat('yyyy-MM-dd');
-    final totals = <String, int>{};
+    final amountFmt = NumberFormat.currency(
+      locale: locale?.toString(),
+      symbol: '',
+      decimalDigits: 2,
+    );
+
+    // Single pass split + totals (avoids iterating rows multiple times).
+    final incomeRows = <TransactionModel>[];
+    final expenseRows = <TransactionModel>[];
+    var totalIncome = 0.0;
+    var totalExpense = 0.0;
+
+    for (final t in rows) {
+      if (t.amount >= 0) {
+        incomeRows.add(t);
+        totalIncome += t.amount;
+      } else {
+        expenseRows.add(t);
+        totalExpense += t.amount.abs();
+      }
+    }
+    final netBalance = totalIncome - totalExpense;
 
     final doc = pw.Document(
       theme: pw.ThemeData.withFont(base: _fontBase, bold: _fontBold),
@@ -80,46 +101,34 @@ class ExportService {
           pw.Text('Period: ${dateFmt.format(from)} - ${dateFmt.format(to)}'),
           pw.SizedBox(height: 2),
           pw.Text(currencyNote, style: const pw.TextStyle(fontSize: 10)),
-          pw.SizedBox(height: 12),
-          if (totals.isNotEmpty) ...[
-            pw.Text(
-              'Totals',
-              style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold),
-            ),
+          pw.SizedBox(height: 14),
+
+          // --- Summary: income / expense / net balance ---
+          _buildSummaryRow(totalIncome, totalExpense, netBalance, amountFmt),
+          pw.SizedBox(height: 18),
+
+          // --- Income section ---
+          if (incomeRows.isNotEmpty) ...[
+            _sectionHeader('Income', totalIncome, amountFmt, PdfColors.green800),
             pw.SizedBox(height: 4),
-            pw.TableHelper.fromTextArray(
-              headers: ['Currency', 'Total'],
-              data: totals.entries
-                  .map((e) => [e.key, (e.value)])
-                  .toList(),
-              headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
-              cellAlignment: pw.Alignment.centerLeft,
-              headerDecoration: const pw.BoxDecoration(
-                color: PdfColors.grey300,
-              ),
-            ),
+            _transactionTable(incomeRows, dateFmt, amountFmt, isIncome: true),
             pw.SizedBox(height: 16),
           ],
-          pw.Text(
-            'Transactions',
-            style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold),
-          ),
-          pw.SizedBox(height: 4),
-          pw.TableHelper.fromTextArray(
-            headers: const ['Date', 'Category', 'Note', 'Amount'],
-            data: rows.map((t) {
-              return [
-                dateFmt.format(t.date),
-                t.category,
-                t.note ?? '',
-                (t.amount / 100.0).toStringAsFixed(2),
-              ];
-            }).toList(),
-            headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
-            headerDecoration: const pw.BoxDecoration(color: PdfColors.grey300),
-            cellAlignment: pw.Alignment.centerLeft,
-            cellStyle: const pw.TextStyle(fontSize: 10),
-          ),
+
+          // --- Expense section ---
+          if (expenseRows.isNotEmpty) ...[
+            _sectionHeader('Expenses', totalExpense, amountFmt, PdfColors.red800),
+            pw.SizedBox(height: 4),
+            _transactionTable(expenseRows, dateFmt, amountFmt, isIncome: false),
+          ],
+
+          if (rows.isEmpty) ...[
+            pw.SizedBox(height: 20),
+            pw.Text(
+              'No transactions in this period.',
+              style: const pw.TextStyle(fontSize: 11, color: PdfColors.grey600),
+            ),
+          ],
         ],
       ),
     );
@@ -127,6 +136,95 @@ class ExportService {
     final file = await _createFile(fileName);
     await file.writeAsBytes(await doc.save());
     return file.path;
+  }
+
+  // --- PDF building helpers ---
+
+  pw.Widget _buildSummaryRow(
+    double income,
+    double expense,
+    double net,
+    NumberFormat fmt,
+  ) {
+    final netColor = net >= 0 ? PdfColors.green800 : PdfColors.red800;
+    return pw.Row(
+      children: [
+        pw.Expanded(child: _statCard('Total Income', fmt.format(income), PdfColors.green800)),
+        pw.SizedBox(width: 8),
+        pw.Expanded(child: _statCard('Total Expense', fmt.format(expense), PdfColors.red800)),
+        pw.SizedBox(width: 8),
+        pw.Expanded(child: _statCard('Net Balance', fmt.format(net), netColor)),
+      ],
+    );
+  }
+
+  pw.Widget _statCard(String label, String value, PdfColor valueColor) {
+    return pw.Container(
+      padding: const pw.EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      decoration: pw.BoxDecoration(
+        color: PdfColors.grey100,
+        borderRadius: const pw.BorderRadius.all(pw.Radius.circular(4)),
+      ),
+      child: pw.Column(
+        crossAxisAlignment: pw.CrossAxisAlignment.start,
+        children: [
+          pw.Text(label, style: const pw.TextStyle(fontSize: 9, color: PdfColors.grey700)),
+          pw.SizedBox(height: 3),
+          pw.Text(
+            value,
+            style: pw.TextStyle(fontSize: 13, fontWeight: pw.FontWeight.bold, color: valueColor),
+          ),
+        ],
+      ),
+    );
+  }
+
+  pw.Widget _sectionHeader(String title, double total, NumberFormat fmt, PdfColor color) {
+    return pw.Row(
+      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+      children: [
+        pw.Text(title, style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold)),
+        pw.Text(
+          fmt.format(total),
+          style: pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold, color: color),
+        ),
+      ],
+    );
+  }
+
+  pw.Widget _transactionTable(
+    List<TransactionModel> items,
+    DateFormat dateFmt,
+    NumberFormat amountFmt, {
+    required bool isIncome,
+  }) {
+    final color = isIncome ? PdfColors.green800 : PdfColors.red800;
+    final sign = isIncome ? '+' : '-';
+
+    return pw.TableHelper.fromTextArray(
+      headers: const ['Date', 'Category', 'Note', 'Amount'],
+      data: items.map((t) {
+        return [
+          dateFmt.format(t.date),
+          t.category,
+          t.note ?? '',
+          '$sign${amountFmt.format(t.amount.abs())}',
+        ];
+      }).toList(),
+      headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 10),
+      headerDecoration: const pw.BoxDecoration(color: PdfColors.grey300),
+      cellAlignment: pw.Alignment.centerLeft,
+      cellStyle: const pw.TextStyle(fontSize: 10),
+      cellAlignments: {3: pw.Alignment.centerRight},
+      columnWidths: const {
+        0: pw.FlexColumnWidth(1.4),
+        1: pw.FlexColumnWidth(1.6),
+        2: pw.FlexColumnWidth(2.4),
+        3: pw.FlexColumnWidth(1.4),
+      },
+      textStyleBuilder: (index, data, rowNum) =>
+          index == 3 ? pw.TextStyle(fontSize: 10, color: color) : null,
+    );
   }
 
   // shareFile below updated
@@ -155,16 +253,13 @@ class ExportService {
     final start = DateTime(from.year, from.month, from.day);
     final end = DateTime(to.year, to.month, to.day, 23, 59, 59, 999);
 
-    final list = <TransactionModel>[];
-    for (final key in txBox.keys) {
-      final t = txBox.get(key);
-      if (t == null) continue;
-      if (t.date.isBefore(start) || t.date.isAfter(end)) continue;
-      list.add(t);
-    }
+    // Reading .values directly is a single pass over the box and avoids
+    // a redundant get(key) lookup per key that the old key-loop did.
+    final list = txBox.values
+        .where((t) => !t.date.isBefore(start) && !t.date.isAfter(end))
+        .toList()
+      ..sort((a, b) => a.date.compareTo(b.date));
 
-    // Sort by date ascending
-    list.sort((a, b) => a.date.compareTo(b.date));
     return list;
   }
 
