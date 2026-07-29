@@ -288,25 +288,31 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
                         child: Text(
                           '${context.loc.dateLabel}: ${DateFormat.yMMMd().format(_date)}',
                           style: t.bodyMedium,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Wrap(
-                        spacing: 8,
-                        children: [
-                          ChipButton(
-                            text: context.loc.todayLabel,
-                            onTap: _setToday,
-                          ),
-                          ChipButton(
-                            text: context.loc.yesterdayLabel,
-                            onTap: _setYesterday,
-                          ),
-                          ChipButton(
-                            text: context.loc.pickDateButton,
-                            onTap: _pickDate,
-                            icon: Icons.event,
-                          ),
-                        ],
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: ChipButton(
+                          text: context.loc.todayLabel,
+                          onTap: _setToday,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: ChipButton(
+                          text: context.loc.yesterdayLabel,
+                          onTap: _setYesterday,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: ChipButton(
+                          text: context.loc.pickDateButton,
+                          onTap: _pickDate,
+                          icon: Icons.event,
+                        ),
                       ),
                     ],
                   ),

@@ -33,9 +33,19 @@ class ChipButton extends StatelessWidget {
           children: [
             if (icon != null) ...[
               Icon(icon, size: 16),
-              const SizedBox(width: 6),
+              const SizedBox(width: 4),
             ],
-            Text(text),
+            Expanded(
+              child: Text(
+                text,
+                style: TextStyle(
+                  color: cs.onSurfaceVariant,
+                  fontSize: 12,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ],
         ),
       ),
