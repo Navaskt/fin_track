@@ -8,7 +8,7 @@ void showFullReceipt(BuildContext context, String path) {
     barrierDismissible: true,
     barrierLabel: 'Receipt',
     barrierColor: Colors.black87,
-    transitionDuration: const Duration(milliseconds: 200),
+    transitionDuration: const Duration(milliseconds: 350),
     pageBuilder: (_, __, ___) => const SizedBox.shrink(),
     transitionBuilder: (context, anim, __, ___) {
       return FadeTransition(
