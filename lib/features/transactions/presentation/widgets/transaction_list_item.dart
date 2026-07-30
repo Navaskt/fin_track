@@ -28,7 +28,7 @@ class TransactionListItem extends ConsumerWidget {
       onTap: () => context.push('/edit/${t.id}'),
       onLongPress: hasNote ? () => _copyNote(context, t.note!.trim()) : null,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
           color: cs.surfaceContainerHighest,
           borderRadius: BorderRadius.circular(14),
@@ -77,10 +77,9 @@ class TransactionListItem extends ConsumerWidget {
                               ),
                             ),
                           ),
-                        ] else
-                          const Spacer(),
+                        ],
                         if (t.receiptPath != null) ...[
-                          const SizedBox(width: 10),
+                          SizedBox(width: hasNote ? 8 : 0),
                           InkWell(
                             onTap: () => showFullReceipt(context, t.receiptPath!),
                             borderRadius: BorderRadius.circular(6),
