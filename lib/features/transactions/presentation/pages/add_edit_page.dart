@@ -109,11 +109,13 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
   }
 
   Future<void> _pickDate() async {
+    final now = DateTime.now();
+    final nextMonth = DateTime(now.year, now.month + 1, now.day);
     final picked = await showDatePicker(
       context: context,
       initialDate: _date,
       firstDate: DateTime(2000),
-      lastDate: DateTime.now(),
+      lastDate: nextMonth,
     );
     if (picked != null && picked != _date) {
       setState(() => _date = picked);
@@ -178,148 +180,151 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
           ),
         ),
       ),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
-          children: [
-            // Type selector + amount card
-            SectionCard(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Segmented type with icons
-                  SegmentedButton<TransactionType>(
-                    segments: [
-                      ButtonSegment(
-                        value: TransactionType.expense,
-                        icon: const Icon(Icons.remove_circle_outline),
-                        label: Text(context.loc.expense),
-                      ),
-                      ButtonSegment(
-                        value: TransactionType.income,
-                        icon: const Icon(Icons.add_circle_outline),
-                        label: Text(context.loc.income),
-                      ),
-                    ],
-                    selected: {_type},
-                    onSelectionChanged: (sel) {
-                      HapticFeedback.selectionClick();
-                      setState(() => _type = sel.first);
-                    },
-                  ),
-                  const SizedBox(height: 16),
-
-                  // Amount input - big and readable
-                  Text(
-                    context.loc.amountLabel,
-                    style: t.labelLarge?.copyWith(color: cs.onSurfaceVariant),
-                  ),
-                  const SizedBox(height: 6),
-                  AmountField(controller: _amountCtrl),
-                ],
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
+            children: [
+              // Type selector + amount card
+              SectionCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Segmented type with icons
+                    SegmentedButton<TransactionType>(
+                      segments: [
+                        ButtonSegment(
+                          value: TransactionType.expense,
+                          icon: const Icon(Icons.remove_circle_outline),
+                          label: Text(context.loc.expense),
+                        ),
+                        ButtonSegment(
+                          value: TransactionType.income,
+                          icon: const Icon(Icons.add_circle_outline),
+                          label: Text(context.loc.income),
+                        ),
+                      ],
+                      selected: {_type},
+                      onSelectionChanged: (sel) {
+                        HapticFeedback.selectionClick();
+                        setState(() => _type = sel.first);
+                      },
+                    ),
+                    const SizedBox(height: 16),
+        
+                    // Amount input - big and readable
+                    Text(
+                      context.loc.amountLabel,
+                      style: t.labelLarge?.copyWith(color: cs.onSurfaceVariant),
+                    ),
+                    const SizedBox(height: 6),
+                    AmountField(controller: _amountCtrl),
+                  ],
+                ),
               ),
-            ),
-
-            const SizedBox(height: 12),
-
-            // Category card
-            SectionCard(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CategoryField(
-                    controller: _categoryCtrl,
-                    suggestions: _suggestions,
-                  ),
-                  const SizedBox(height: 10),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.only(right: 6),
-                    child: Row(
-                      children: _suggestions.map((c) {
-                        final selected =
-                            _categoryCtrl.text.trim().toLowerCase() ==
-                            c.toLowerCase();
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 8),
-                          child: ChoiceChip(
-                            label: Text(c),
-                            selected: selected,
-                            onSelected: (_) => _pickQuickCategory(c),
-                            selectedColor: cs.primaryContainer,
-                            labelStyle: selected
-                                ? TextStyle(
-                                    color: cs.onPrimaryContainer,
-                                    fontWeight: FontWeight.w600,
-                                  )
-                                : null,
+        
+              const SizedBox(height: 12),
+        
+              // Category card
+              SectionCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CategoryField(
+                      controller: _categoryCtrl,
+                      suggestions: _suggestions,
+                    ),
+                    const SizedBox(height: 10),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.only(right: 6),
+                      child: Row(
+                        children: _suggestions.map((c) {
+                          final selected =
+                              _categoryCtrl.text.trim().toLowerCase() ==
+                              c.toLowerCase();
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 8),
+                            child: ChoiceChip(
+                              label: Text(c),
+                              selected: selected,
+                              onSelected: (_) => _pickQuickCategory(c),
+                              selectedColor: cs.primaryContainer,
+                              labelStyle: selected
+                                  ? TextStyle(
+                                      color: cs.onPrimaryContainer,
+                                      fontWeight: FontWeight.w600,
+                                    )
+                                  : null,
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+        
+              const SizedBox(height: 12),
+        
+              // Note + Date card
+              SectionCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Note
+                    TextFormField(
+                      controller: _noteCtrl,
+                      decoration: InputDecoration(
+                        labelText: context.loc.noteLabel,
+                        alignLabelWithHint: true,
+                      ),
+                      maxLines: 3,
+                    ),
+                    const SizedBox(height: 16),
+        
+                    // Date row with quick chips
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            '${context.loc.dateLabel}: ${DateFormat.yMMMd().format(_date)}',
+                            style: t.bodyMedium,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                        );
-                      }).toList(),
+                        ),
+                        const SizedBox(width: 4),
+                        Expanded(
+                          child: ChipButton(
+                            text: context.loc.todayLabel,
+                            onTap: _setToday,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        Expanded(
+                          child: ChipButton(
+                            text: context.loc.yesterdayLabel,
+                            onTap: _setYesterday,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        Expanded(
+                          child: ChipButton(
+                            text: context.loc.pickDateButton,
+                            onTap: _pickDate,
+                            icon: Icons.event,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-
-            const SizedBox(height: 12),
-
-            // Note + Date card
-            SectionCard(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Note
-                  TextFormField(
-                    controller: _noteCtrl,
-                    decoration: InputDecoration(
-                      labelText: context.loc.noteLabel,
-                      alignLabelWithHint: true,
-                    ),
-                    maxLines: 3,
-                  ),
-                  const SizedBox(height: 16),
-
-                  // Date row with quick chips
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          '${context.loc.dateLabel}: ${DateFormat.yMMMd().format(_date)}',
-                          style: t.bodyMedium,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                      Expanded(
-                        child: ChipButton(
-                          text: context.loc.todayLabel,
-                          onTap: _setToday,
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                      Expanded(
-                        child: ChipButton(
-                          text: context.loc.yesterdayLabel,
-                          onTap: _setYesterday,
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                      Expanded(
-                        child: ChipButton(
-                          text: context.loc.pickDateButton,
-                          onTap: _pickDate,
-                          icon: Icons.event,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
