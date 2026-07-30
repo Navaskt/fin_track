@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fin_track/app/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +10,7 @@ import '../../domain/entities/transaction_entity.dart';
 import '../controllers/transaction_providers.dart';
 import '../formatters/formatters.dart';
 import 'category_badge.dart';
+import 'receipt_viewer.dart';
 
 class TransactionListItem extends ConsumerWidget {
   const TransactionListItem({super.key, required this.t});
@@ -54,29 +57,51 @@ class TransactionListItem extends ConsumerWidget {
                       context,
                     ).textTheme.bodySmall?.copyWith(color: cs.onSurfaceVariant),
                   ),
-                  if (hasNote) ...[
+                  if (hasNote || t.receiptPath != null) ...[
                     const SizedBox(height: 4),
-                    InkWell(
-                      onTap: () => _showNoteSheet(context, ref, t),
-                      borderRadius: BorderRadius.circular(8),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.only(top: 2),
-                            child: Icon(Icons.sticky_note_2_outlined, size: 16),
-                          ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (hasNote) ...[
+                          Icon(Icons.sticky_note_2_outlined, size: 20,color: cs.onSurfaceVariant),
                           const SizedBox(width: 6),
                           Expanded(
-                            child: Text(
-                              t.note!.trim(),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme.bodySmall,
+                            child: InkWell(
+                              onTap: () => _showNoteSheet(context, ref, t),
+                              borderRadius: BorderRadius.circular(8),
+                              child: Text(
+                                t.note!.trim(),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                            ),
+                          ),
+                        ] else
+                          const Spacer(),
+                        if (t.receiptPath != null) ...[
+                          const SizedBox(width: 10),
+                          InkWell(
+                            onTap: () => showFullReceipt(context, t.receiptPath!),
+                            borderRadius: BorderRadius.circular(6),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(6),
+                              child: Image.file(
+                                File(t.receiptPath!),
+                                width: 40,
+                                height: 20,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    Icon(
+                                      Icons.broken_image_outlined,
+                                      size: 20,
+                                      color: cs.onSurfaceVariant,
+                                    ),
+                              ),
                             ),
                           ),
                         ],
-                      ),
+                      ],
                     ),
                   ],
                 ],
@@ -89,14 +114,14 @@ class TransactionListItem extends ConsumerWidget {
                 color: isNegative ? Colors.red : Colors.green,
                 fontFeatures: const [FontFeature.tabularFigures()],
                 fontWeight: FontWeight.w700,
+                fontSize: 14,
               ),
             ),
             IconButton(
               tooltip: context.loc.delete,
               splashRadius: 20,
               icon: Icon(Icons.delete_outline, color: cs.secondary),
-              onPressed: () =>
-                  ref.read(transactionControllerProvider.notifier).delete(t.id),
+              onPressed: () => ref.read(transactionControllerProvider.notifier).delete(t.id),
             ),
           ],
         ),

@@ -113,5 +113,8 @@
   "developedBy": "Navaska വികസിപ്പിച്ചത്",
   "versionLabel": "പതിപ്പ്",
   "lastUpdated": "അവസാനമായി പുതുക്കിയത് {date}",
-  "feedback": "പ്രതികരണം"
+  "feedback": "പ്രതികരണം",
+  "receiptLabel": "ഇനവോയിസ്",
+  "captureLabel": "ക്യാപ്ചർ",
+  "uploadLabel": "അപ്‌ലോഡ്"
 }

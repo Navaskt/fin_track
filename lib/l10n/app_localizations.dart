@@ -740,6 +740,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Feedback'**
   String get feedback;
+
+  /// No description provided for @receiptLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Receipt'**
+  String get receiptLabel;
+
+  /// No description provided for @captureLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Capture'**
+  String get captureLabel;
+
+  /// No description provided for @uploadLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload'**
+  String get uploadLabel;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

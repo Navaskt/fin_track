@@ -334,4 +334,13 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get feedback => 'प्रतिक्रिया';
+
+  @override
+  String get receiptLabel => 'ईनवॉइस';
+
+  @override
+  String get captureLabel => 'कैप्चर';
+
+  @override
+  String get uploadLabel => 'अपलोड';
 }

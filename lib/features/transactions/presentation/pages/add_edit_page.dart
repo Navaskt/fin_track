@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fin_track/app/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,12 +7,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../../core/helpers/receipt_image_service.dart';
 import '../../domain/entities/transaction_entity.dart';
 import '../controllers/transaction_providers.dart';
 import '../widgets/amount_field.dart';
 import '../widgets/bottom_action_bar.dart';
 import '../widgets/category_field.dart';
 import '../widgets/chip_button.dart';
+import '../widgets/receipt_viewer.dart';
 import '../widgets/section_card.dart';
 
 enum TransactionType { expense, income }
@@ -63,6 +67,7 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
   DateTime _date = DateTime.now();
   TransactionType _type = TransactionType.expense;
   late final bool _isEditMode;
+  String? _receiptPath;
 
   List<String> get _suggestions =>
       _type == TransactionType.expense ? _expenseCategories : _incomeCategories;
@@ -94,6 +99,7 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
             _type = transaction.amount.isNegative
                 ? TransactionType.expense
                 : TransactionType.income;
+            _receiptPath = transaction.receiptPath;
           });
         }
       });
@@ -150,6 +156,7 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
       category: _categoryCtrl.text.trim(),
       note: note.isEmpty ? null : note,
       date: _date,
+      receiptPath: _receiptPath,
     );
 
     await ref
@@ -157,6 +164,24 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
         .addOrUpdate(transaction);
     if (mounted) Navigator.of(context).pop();
   }
+
+  Future<void> _pickReceipt(bool fromCamera) async {
+    final path = await ReceiptImageService.pickAndSave(fromCamera: fromCamera);
+    if (path != null) {
+      // clean up old one if replacing
+      if (_receiptPath != null) {
+        await ReceiptImageService.deleteIfExists(_receiptPath);
+      }
+      setState(() => _receiptPath = path);
+    }
+  }
+
+  void _removeReceipt() async {
+    await ReceiptImageService.deleteIfExists(_receiptPath);
+    setState(() => _receiptPath = null);
+  }
+
+  void _showFullReceipt(BuildContext context, String path) => showFullReceipt(context, path);
 
   @override
   Widget build(BuildContext context) {
@@ -284,7 +309,65 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
                       maxLines: 3,
                     ),
                     const SizedBox(height: 16),
-        
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          context.loc.receiptLabel,
+                          style: t.labelLarge?.copyWith(
+                            color: cs.onSurfaceVariant,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        if (_receiptPath != null)
+                          Stack(
+                            children: [
+                              GestureDetector(
+                                onTap: () =>
+                                    _showFullReceipt(context, _receiptPath!),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Image.file(
+                                    File(_receiptPath!),
+                                    height: 140,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                top: 4,
+                                right: 4,
+                                child: IconButton.filledTonal(
+                                  icon: const Icon(Icons.close, size: 18),
+                                  onPressed: _removeReceipt,
+                                ),
+                              ),
+                            ],
+                          )
+                        else
+                          Row(
+                            children: [
+                              Expanded(
+                                child: OutlinedButton.icon(
+                                  icon: const Icon(Icons.camera_alt_outlined),
+                                  label: Text(context.loc.captureLabel),
+                                  onPressed: () => _pickReceipt(true),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: OutlinedButton.icon(
+                                  icon: const Icon(Icons.image_outlined),
+                                  label: Text(context.loc.uploadLabel),
+                                  onPressed: () => _pickReceipt(false),
+                                ),
+                              ),
+                            ],
+                          ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
                     // Date row with quick chips
                     Row(
                       children: [

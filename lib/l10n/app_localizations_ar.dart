@@ -334,4 +334,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get feedback => 'ملاحظات';
+
+  @override
+  String get receiptLabel => 'إيصال';
+
+  @override
+  String get captureLabel => 'التقاط';
+
+  @override
+  String get uploadLabel => 'رفع';
 }

@@ -113,5 +113,8 @@
   "developedBy": "تم التطوير بواسطة نافاسكا",
   "versionLabel": "الإصدار",
   "lastUpdated": "آخر تحديث {date}",
-  "feedback": "ملاحظات"
+  "feedback": "ملاحظات",
+  "receiptLabel": "إيصال",
+  "captureLabel": "التقاط",
+  "uploadLabel": "رفع"
 }
