@@ -343,4 +343,7 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get uploadLabel => 'അപ്‌ലോഡ്';
+
+  @override
+  String get budgetAlertsTitle => 'ബജറ്റ് അലർട്ടുകൾ';
 }

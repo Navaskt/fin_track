@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../widgets/biometrics_tile.dart';
+import '../widgets/budget_alerts_tile.dart' show BudgetAlertsTile;
 import '../widgets/export_tile.dart';
 import '../widgets/language_tile.dart';
 import '../widgets/theme_tile.dart';
@@ -24,6 +25,7 @@ class SettingsPage extends ConsumerWidget {
       Text(loc.security, style: headerStyle),
       smallSpacing,
       const BiometricsTile(),
+      const BudgetAlertsTile(),
       smallSpacing,
 
       // Preferences Section

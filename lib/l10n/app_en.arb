@@ -116,7 +116,8 @@
   "feedback": "Feedback",
   "receiptLabel": "Receipt",
   "captureLabel": "Capture",
-  "uploadLabel": "Upload"
+  "uploadLabel": "Upload",
+  "budgetAlertsTitle": "Budget Alerts"
 }
 
 

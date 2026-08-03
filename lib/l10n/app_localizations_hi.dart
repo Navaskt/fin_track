@@ -343,4 +343,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get uploadLabel => 'अपलोड';
+
+  @override
+  String get budgetAlertsTitle => 'बजट अलर्ट';
 }

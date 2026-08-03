@@ -758,6 +758,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Upload'**
   String get uploadLabel;
+
+  /// No description provided for @budgetAlertsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget Alerts'**
+  String get budgetAlertsTitle;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

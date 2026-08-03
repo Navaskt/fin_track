@@ -343,4 +343,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get uploadLabel => 'رفع';
+
+  @override
+  String get budgetAlertsTitle => 'تنبيهات الميزانية';
 }

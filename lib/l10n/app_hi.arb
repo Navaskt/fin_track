@@ -116,5 +116,6 @@
   "feedback": "प्रतिक्रिया",
   "receiptLabel": "ईनवॉइस",
   "captureLabel": "कैप्चर",
-  "uploadLabel": "अपलोड"
+  "uploadLabel": "अपलोड",
+  "budgetAlertsTitle": "बजट अलर्ट"
 }

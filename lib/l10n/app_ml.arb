@@ -116,5 +116,6 @@
   "feedback": "പ്രതികരണം",
   "receiptLabel": "ഇനവോയിസ്",
   "captureLabel": "ക്യാപ്ചർ",
-  "uploadLabel": "അപ്‌ലോഡ്"
+  "uploadLabel": "അപ്‌ലോഡ്",
+  "budgetAlertsTitle": "ബജറ്റ് അലർട്ടുകൾ"
 }

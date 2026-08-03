@@ -116,5 +116,6 @@
   "feedback": "ملاحظات",
   "receiptLabel": "إيصال",
   "captureLabel": "التقاط",
-  "uploadLabel": "رفع"
+  "uploadLabel": "رفع",
+  "budgetAlertsTitle": "تنبيهات الميزانية"
 }
