@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../core/helpers/receipt_image_service.dart';
+import '../../../../core/helpers/receipt_ocr_service.dart';
 import '../../domain/entities/transaction_entity.dart';
 import '../controllers/transaction_providers.dart';
 import '../widgets/amount_field.dart';
@@ -68,6 +69,7 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
   TransactionType _type = TransactionType.expense;
   late final bool _isEditMode;
   String? _receiptPath;
+  bool _isScanningReceipt = false; 
 
   List<String> get _suggestions =>
       _type == TransactionType.expense ? _expenseCategories : _incomeCategories;
@@ -165,14 +167,61 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
     if (mounted) Navigator.of(context).pop();
   }
 
+  // Future<void> _pickReceipt(bool fromCamera) async {
+  //   final path = await ReceiptImageService.pickAndSave(fromCamera: fromCamera);
+  //   if (path != null) {
+  //     // clean up old one if replacing
+  //     if (_receiptPath != null) {
+  //       await ReceiptImageService.deleteIfExists(_receiptPath);
+  //     }
+  //     setState(() => _receiptPath = path);
+  //   }
+  // }
+
   Future<void> _pickReceipt(bool fromCamera) async {
     final path = await ReceiptImageService.pickAndSave(fromCamera: fromCamera);
-    if (path != null) {
-      // clean up old one if replacing
-      if (_receiptPath != null) {
-        await ReceiptImageService.deleteIfExists(_receiptPath);
+    if (path == null) return;
+
+    if (_receiptPath != null) {
+      await ReceiptImageService.deleteIfExists(_receiptPath);
+    }
+    setState(() => _receiptPath = path);
+
+    await _runOcr(path);
+  }
+
+  Future<void> _runOcr(String path) async {
+    setState(() => _isScanningReceipt = true);
+    try {
+      final result = await ReceiptOcrService.scan(path);
+      if (!mounted) return;
+
+      var filledSomething = false;
+
+      if (result.amount != null && _amountCtrl.text.trim().isEmpty) {
+        _amountCtrl.text = result.amount!.toStringAsFixed(2);
+        filledSomething = true;
       }
-      setState(() => _receiptPath = path);
+      if (result.merchant != null && _noteCtrl.text.trim().isEmpty) {
+        _noteCtrl.text = result.merchant!;
+        filledSomething = true;
+      }
+      if (result.suggestedCategory != null &&
+          _categoryCtrl.text.trim().isEmpty) {
+        _categoryCtrl.text = result.suggestedCategory!;
+        filledSomething = true;
+      }
+
+      if (filledSomething) {
+        setState(() {}); // refresh chip selection state
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Helloo')));
+      }
+    } catch (_) {
+      // OCR is best-effort — silently do nothing, user fills manually
+    } finally {
+      if (mounted) setState(() => _isScanningReceipt = false);
     }
   }
 
@@ -181,7 +230,8 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
     setState(() => _receiptPath = null);
   }
 
-  void _showFullReceipt(BuildContext context, String path) => showFullReceipt(context, path);
+  void _showFullReceipt(BuildContext context, String path) =>
+      showFullReceipt(context, path);
 
   @override
   Widget build(BuildContext context) {
@@ -238,7 +288,7 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
                       },
                     ),
                     const SizedBox(height: 16),
-        
+
                     // Amount input - big and readable
                     Text(
                       context.loc.amountLabel,
@@ -249,9 +299,9 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
                   ],
                 ),
               ),
-        
+
               const SizedBox(height: 12),
-        
+
               // Category card
               SectionCard(
                 child: Column(
@@ -291,9 +341,9 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
                   ],
                 ),
               ),
-        
+
               const SizedBox(height: 12),
-        
+
               // Note + Date card
               SectionCard(
                 child: Column(
@@ -335,12 +385,28 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
                                   ),
                                 ),
                               ),
+                              if (_isScanningReceipt)
+                                Positioned.fill(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.black45,
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: const Center(
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               Positioned(
                                 top: 4,
                                 right: 4,
                                 child: IconButton.filledTonal(
                                   icon: const Icon(Icons.close, size: 18),
-                                  onPressed: _removeReceipt,
+                                  onPressed: _isScanningReceipt
+                                      ? null
+                                      : _removeReceipt,
                                 ),
                               ),
                             ],
