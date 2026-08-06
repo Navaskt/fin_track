@@ -1,3 +1,4 @@
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -35,7 +36,7 @@ class _ExportSheetState extends ConsumerState<ExportSheet> {
         children: [
           Container(height: 4, width: 40, margin: const EdgeInsets.only(bottom: 12), decoration: BoxDecoration(color: cs.outlineVariant, borderRadius: BorderRadius.circular(2))),
           Text('Export Data', style: Theme.of(context).textTheme.titleMedium),
-          const SizedBox(height: 12),
+          12.hBox,
 
           ListTile(
             leading: const Icon(Icons.date_range),
@@ -56,7 +57,7 @@ class _ExportSheetState extends ConsumerState<ExportSheet> {
             },
           ),
 
-          const SizedBox(height: 8),
+          8.hBox,
           Row(
             children: [
               Expanded(
@@ -70,7 +71,7 @@ class _ExportSheetState extends ConsumerState<ExportSheet> {
                   },
                 ),
               ),
-              const SizedBox(width: 12),
+              12.wBox,
               Expanded(
                 child: FilledButton.icon(
                   icon: const Icon(Icons.picture_as_pdf),

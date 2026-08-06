@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'app/router.dart';
 import 'app/theme/app_theme.dart';
@@ -39,16 +40,21 @@ class FinTrackApp extends ConsumerWidget {
       ref.read(budgetAlertServiceProvider).checkAndNotify(next);
     });
 
-    return MaterialApp.router(
-      title: 'FinTrack',
-      debugShowCheckedModeBanner: false,
-      routerConfig: router,
-      theme: buildLightTheme(),
-      darkTheme: buildDarkTheme(),
-      themeMode: mode,
-      locale: locale,
-      supportedLocales: AppLocalizations.supportedLocales,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      child: MaterialApp.router(
+        title: 'FinTrack',
+        debugShowCheckedModeBanner: false,
+        routerConfig: router,
+        theme: buildLightTheme(),
+        darkTheme: buildDarkTheme(),
+        themeMode: mode,
+        locale: locale,
+        supportedLocales: AppLocalizations.supportedLocales,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+      ),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:fin_track/app/extension/context_extension.dart';
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../controller/app_lock_providers.dart';
@@ -41,13 +42,13 @@ class _SetPinScreenState extends ConsumerState<SetPinScreen> {
                 decoration: InputDecoration(labelText: loc.confirmPin),
                 onChanged: (_) => setState(() => _err = null),
               ),
-              const SizedBox(height: 16),
+              16.hBox,
               if (_err != null)
                 Text(
                   _err!,
                   style: TextStyle(color: Theme.of(context).colorScheme.error),
                 ),
-              const SizedBox(height: 24),
+              24.hBox,
               ElevatedButton(
                 onPressed: () async {
                   final a = _c1.text.trim();

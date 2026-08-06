@@ -1,5 +1,6 @@
 
 import 'package:fin_track/app/extension/context_extension.dart';
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart' hide LockState;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -67,13 +68,13 @@ class _LockScreenState extends ConsumerState<LockScreen> with SafeSetState {
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
-                    const SizedBox(height: 8),
+                     8.hBox,
                     Text(
                       loc.unlockSubtitle, // add this key in your l10n, e.g. "Enter your 6-digit PIN"
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: cs.onSurfaceVariant),
                     ),
-                    const SizedBox(height: 24),
+                    24.hBox,
                   ],
 
                   // PIN field
@@ -104,7 +105,7 @@ class _LockScreenState extends ConsumerState<LockScreen> with SafeSetState {
                       onChanged: (_) => safeSetState(() => _err = null),
                     ),
 
-                  const SizedBox(height: 12),
+                  12.hBox,
 
                   // Primary action
                   if (!isSetup)
@@ -128,7 +129,7 @@ class _LockScreenState extends ConsumerState<LockScreen> with SafeSetState {
 
                   // Biometric action
                   if (_biometricAvailable) ...[
-                    const SizedBox(height: 8),
+                    8.hBox,
                     Semantics(
                       button: true,
                       label: loc.useBiometrics,
@@ -147,13 +148,13 @@ class _LockScreenState extends ConsumerState<LockScreen> with SafeSetState {
 
                   // Setup state
                   if (isSetup) ...[
-                    const SizedBox(height: 8),
+                    8.hBox,
                     Text(
                       loc.setPinSubtitle, // add this key, e.g. "Secure your app with a PIN"
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: cs.onSurfaceVariant),
                     ),
-                    const SizedBox(height: 24),
+                    24.hBox,
                     Semantics(
                       button: true,
                       label: loc.setPinTitle,

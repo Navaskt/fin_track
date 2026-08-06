@@ -1,3 +1,4 @@
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -33,7 +34,7 @@ class ChipButton extends StatelessWidget {
           children: [
             if (icon != null) ...[
               Icon(icon, size: 16),
-              const SizedBox(width: 4),
+              4.wBox
             ],
             Expanded(
               child: Text(

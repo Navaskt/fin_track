@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:fin_track/app/extension/context_extension.dart';
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -287,20 +288,20 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
                         setState(() => _type = sel.first);
                       },
                     ),
-                    const SizedBox(height: 16),
+                    16.hBox,
 
                     // Amount input - big and readable
                     Text(
                       context.loc.amountLabel,
                       style: t.labelLarge?.copyWith(color: cs.onSurfaceVariant),
                     ),
-                    const SizedBox(height: 6),
+                    6.hBox,
                     AmountField(controller: _amountCtrl),
                   ],
                 ),
               ),
 
-              const SizedBox(height: 12),
+              12.hBox,
 
               // Category card
               SectionCard(
@@ -311,7 +312,7 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
                       controller: _categoryCtrl,
                       suggestions: _suggestions,
                     ),
-                    const SizedBox(height: 10),
+                    10.hBox,
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       padding: const EdgeInsets.only(right: 6),
@@ -342,7 +343,7 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
                 ),
               ),
 
-              const SizedBox(height: 12),
+              12.hBox,
 
               // Note + Date card
               SectionCard(
@@ -358,7 +359,7 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
                       ),
                       maxLines: 3,
                     ),
-                    const SizedBox(height: 16),
+                    16.hBox,
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -368,7 +369,7 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
                             color: cs.onSurfaceVariant,
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        8.hBox,
                         if (_receiptPath != null)
                           Stack(
                             children: [
@@ -421,7 +422,7 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
                                   onPressed: () => _pickReceipt(true),
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                              8.wBox,
                               Expanded(
                                 child: OutlinedButton.icon(
                                   icon: const Icon(Icons.image_outlined),
@@ -433,7 +434,7 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
                           ),
                       ],
                     ),
-                    const SizedBox(height: 8),
+                    8.hBox,
                     // Date row with quick chips
                     Row(
                       children: [
@@ -445,21 +446,21 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        const SizedBox(width: 4),
+                        4.wBox,
                         Expanded(
                           child: ChipButton(
                             text: context.loc.todayLabel,
                             onTap: _setToday,
                           ),
                         ),
-                        const SizedBox(width: 4),
+                        4.wBox,
                         Expanded(
                           child: ChipButton(
                             text: context.loc.yesterdayLabel,
                             onTap: _setYesterday,
                           ),
                         ),
-                        const SizedBox(width: 4),
+                        4.wBox,
                         Expanded(
                           child: ChipButton(
                             text: context.loc.pickDateButton,

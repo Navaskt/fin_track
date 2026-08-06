@@ -1,7 +1,8 @@
-import 'package:fin_track/app/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../app/extension/context_extension.dart';
+import '../../../../core/extensions/spacing_extension.dart';
 import '../controllers/insights_provider.dart';
 import '../widgets/category_breakdown_widget.dart';
 import '../widgets/daily_trend_widget.dart';
@@ -22,13 +23,13 @@ class InsightsScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         children: [
           const MonthSelector(),
-          const SizedBox(height: 12),
+          12.hBox,
           SummaryCards(summary: data.summary),
-          const SizedBox(height: 16),
+          16.hBox,
           CategoryBreakdown(slices: data.byCategory),
-          const SizedBox(height: 16),
+          16.hBox,
           DailyTrend(daily: data.dailyExpense),
-          const SizedBox(height: 16),
+          16.hBox,
           TopCategories(categories: data.byCategory),
         ],
       ),

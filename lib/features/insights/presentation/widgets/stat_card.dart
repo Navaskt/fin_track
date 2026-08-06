@@ -1,3 +1,4 @@
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart';
 
 class StatCard extends StatelessWidget {
@@ -28,7 +29,7 @@ class StatCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(title, style: textTheme.labelLarge?.copyWith(color: textColor)),
-          const SizedBox(height: 6),
+          6.hBox,
           Text(value, style: textTheme.displayLarge?.copyWith(color: textColor, fontSize: 22)),
         ],
       ),

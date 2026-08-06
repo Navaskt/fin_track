@@ -1,4 +1,5 @@
 import 'package:fin_track/app/extension/context_extension.dart';
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -53,12 +54,12 @@ class MonthSummaryFooter extends ConsumerWidget {
                     label: '${context.loc.budget}:',
                     value: hasBudget ? fmtMoneyCompact(budget) : '-',
                   ),
-                  const SizedBox(height: 4),
+                  4.hBox,
                   _SummaryRow(
                     label: '${context.loc.spent}:',
                     value: fmtMoneyCompact(expenseOnly),
                   ),
-                  const SizedBox(height: 4),
+                  4.hBox,
                   _SummaryRow(
                     label: '${context.loc.remaining}:',
                     value: remaining == null ? '-' : fmtMoneyCompact(remaining),
@@ -67,7 +68,7 @@ class MonthSummaryFooter extends ConsumerWidget {
                         : (remaining >= 0 ? Colors.green : Colors.red),
                     isBold: true,
                   ),
-                  const SizedBox(height: 8),
+                  8.hBox,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

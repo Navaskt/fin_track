@@ -1,4 +1,5 @@
 import 'package:fin_track/app/extension/context_extension.dart';
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -16,7 +17,7 @@ class MonthSelector extends ConsumerWidget {
     return Row(
       children: [
         Text(DateFormat.yMMM().format(month), style: theme.textTheme.titleLarge),
-        const SizedBox(width: 8),
+        8.wBox,
         IconButton(
           onPressed: () => _shiftMonth(ref, -1),
           icon: const Icon(Icons.chevron_left),

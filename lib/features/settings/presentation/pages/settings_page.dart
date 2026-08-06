@@ -1,4 +1,5 @@
 import 'package:fin_track/app/extension/context_extension.dart';
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -17,7 +18,7 @@ class SettingsPage extends ConsumerWidget {
     final cs = Theme.of(context).colorScheme;
     final theme = Theme.of(context);
     final headerStyle = theme.textTheme.titleLarge?.copyWith(color: cs.primary);
-    const smallSpacing = SizedBox(height: 8);
+    final smallSpacing = 8.hBox;
     final loc = context.loc;
 
     final items = [
@@ -69,7 +70,7 @@ class SettingsPage extends ConsumerWidget {
           if (item is ListTile &&
               item.title is Text &&
               (item.title as Text).data == loc.changePin) {
-            return const SizedBox(height: 16);
+            return 16.hBox;
           }
           return const SizedBox.shrink();
         },

@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import '../../../../core/extensions/spacing_extension.dart';
 import '../../domain/entities/transaction_entity.dart';
 import '../controllers/transaction_providers.dart';
 import '../formatters/formatters.dart';
@@ -60,7 +61,7 @@ class TransactionsGroupedByMonth extends HookConsumerWidget {
 
         return CustomScrollView(
           slivers: [
-            const SliverToBoxAdapter(child: SizedBox(height: 8)),
+             SliverToBoxAdapter(child: 8.hBox),
             for (final m in grouped.monthKeys)
               ..._buildMonthSection(
                 context: context,
@@ -69,7 +70,7 @@ class TransactionsGroupedByMonth extends HookConsumerWidget {
                 isExpanded: expanded.value.contains(m.millisecondsSinceEpoch),
                 onToggle: () => toggleMonth(m),
               ),
-            const SliverToBoxAdapter(child: SizedBox(height: 96)),
+            SliverToBoxAdapter(child: 96.hBox),
           ],
         );
       },
@@ -207,7 +208,7 @@ class _EnhancedMonthHeaderDelegate extends SliverPersistentHeaderDelegate {
                     ),
                   ),
 
-                  const SizedBox(width: 10),
+                  10.wBox,
 
                   // Divider that becomes a bit more visible as it pins
                   Expanded(
@@ -217,7 +218,7 @@ class _EnhancedMonthHeaderDelegate extends SliverPersistentHeaderDelegate {
                     ),
                   ),
 
-                  const SizedBox(width: 10),
+                  10.wBox,
 
                   // Total pill (unchanged)
                   AnimatedContainer(
@@ -245,7 +246,7 @@ class _EnhancedMonthHeaderDelegate extends SliverPersistentHeaderDelegate {
                     ),
                   ),
 
-                  const SizedBox(width: 8),
+                  8.wBox,
 
                   // Chevron rotation (unchanged)
                   AnimatedRotation(
@@ -303,7 +304,7 @@ class _AnimatedMonthBody extends StatelessWidget {
       firstChild: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const SizedBox(height: 8),
+          8.hBox,
           // NEW: Daily chart for the month
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -316,13 +317,13 @@ class _AnimatedMonthBody extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 12),
+          12.hBox,
           for (final t in transactions) ...[
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: TransactionListItem(t: t),
             ),
-            const SizedBox(height: 10),
+            10.hBox,
           ],
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 2, 16, 8),
@@ -383,9 +384,9 @@ class _MonthHeaderDelegate extends SliverPersistentHeaderDelegate {
                 DateFormat('MMMM yyyy').format(month),
                 style: t.titleMedium?.copyWith(fontWeight: FontWeight.w700),
               ),
-              const SizedBox(width: 8),
+              8.wBox,
               Expanded(child: Divider(height: 1, color: cs.outlineVariant)),
-              const SizedBox(width: 8),
+              8.wBox,
               RotationTransition(
                 turns: AlwaysStoppedAnimation(isExpanded ? 0.5 : 0.0),
                 child: const Icon(Icons.expand_more),

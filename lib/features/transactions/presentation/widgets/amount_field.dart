@@ -1,4 +1,5 @@
 import 'package:fin_track/app/extension/context_extension.dart';
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -36,7 +37,7 @@ class AmountField extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 12),
+            12.wBox,
             Expanded(
               child: TextFormField(
                 controller: controller,

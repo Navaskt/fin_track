@@ -1,6 +1,7 @@
 import 'package:fin_track/app/extension/context_extension.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../data/model/insights_model.dart';
 import 'empty_chart.dart';
@@ -27,7 +28,7 @@ class CategoryPieChart extends StatelessWidget {
     ];
 
     return SizedBox(
-      height: 220,
+      height: 220.h,
       child: Card(
         margin: EdgeInsets.zero,
         child: Padding(

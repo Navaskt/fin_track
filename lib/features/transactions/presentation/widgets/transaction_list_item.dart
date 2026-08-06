@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:fin_track/app/extension/context_extension.dart';
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../domain/entities/transaction_entity.dart';
@@ -38,7 +40,7 @@ class TransactionListItem extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CategoryBadge(text: t.category),
-            const SizedBox(width: 12),
+            12.wBox,
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,13 +60,13 @@ class TransactionListItem extends ConsumerWidget {
                     ).textTheme.bodySmall?.copyWith(color: cs.onSurfaceVariant),
                   ),
                   if (hasNote || t.receiptPath != null) ...[
-                    const SizedBox(height: 4),
+                    4.hBox,
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         if (hasNote) ...[
                           Icon(Icons.sticky_note_2_outlined, size: 20,color: cs.onSurfaceVariant),
-                          const SizedBox(width: 6),
+                          6.wBox,
                           Expanded(
                             child: InkWell(
                               onTap: () => _showNoteSheet(context, ref, t),
@@ -79,7 +81,7 @@ class TransactionListItem extends ConsumerWidget {
                           ),
                         ],
                         if (t.receiptPath != null) ...[
-                          SizedBox(width: hasNote ? 8 : 0),
+                          hasNote ? 6.wBox : 0.wBox,
                           InkWell(
                             onTap: () => showFullReceipt(context, t.receiptPath!),
                             borderRadius: BorderRadius.circular(6),
@@ -106,7 +108,7 @@ class TransactionListItem extends ConsumerWidget {
                 ],
               ),
             ),
-            const SizedBox(width: 8),
+            8.wBox,
             Text(
               '${isNegative ? '-' : '+'}$amount',
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -174,12 +176,12 @@ Future<void> _showNoteSheet(
                 ctx,
               ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
             ),
-            const SizedBox(height: 8),
+            8.hBox,
             SelectableText(
               (t.note ?? '').trim(),
               style: Theme.of(ctx).textTheme.bodyMedium,
             ),
-            const SizedBox(height: 16),
+            16.hBox,
             Row(
               children: [
                 TextButton.icon(
@@ -190,7 +192,7 @@ Future<void> _showNoteSheet(
                   icon: const Icon(Icons.edit_outlined),
                   label: Text(ctx.loc.edit),
                 ),
-                const SizedBox(width: 8),
+                8.wBox,
                 if ((t.note?.isNotEmpty ?? false))
                   TextButton.icon(
                     onPressed: () async {

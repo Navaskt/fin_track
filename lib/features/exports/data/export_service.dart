@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/services.dart' show rootBundle, Uint8List;
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
@@ -97,33 +98,33 @@ class ExportService {
             'FinTrack Report',
             style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold),
           ),
-          pw.SizedBox(height: 6),
+          pw.SizedBox(height: 6.h),
           pw.Text('Period: ${dateFmt.format(from)} - ${dateFmt.format(to)}'),
-          pw.SizedBox(height: 2),
+          pw.SizedBox(height: 2.h),
           pw.Text(currencyNote, style: const pw.TextStyle(fontSize: 10)),
-          pw.SizedBox(height: 14),
+          pw.SizedBox(height: 14.h),
 
           // --- Summary: income / expense / net balance ---
           _buildSummaryRow(totalIncome, totalExpense, netBalance, amountFmt),
-          pw.SizedBox(height: 18),
+          pw.SizedBox(height: 18.h),
 
           // --- Income section ---
           if (incomeRows.isNotEmpty) ...[
             _sectionHeader('Income', totalIncome, amountFmt, PdfColors.green800),
-            pw.SizedBox(height: 4),
+            pw.SizedBox(height: 4.h),
             _transactionTable(incomeRows, dateFmt, amountFmt, isIncome: true),
-            pw.SizedBox(height: 16),
+            pw.SizedBox(height: 16.h),
           ],
 
           // --- Expense section ---
           if (expenseRows.isNotEmpty) ...[
             _sectionHeader('Expenses', totalExpense, amountFmt, PdfColors.red800),
-            pw.SizedBox(height: 4),
+            pw.SizedBox(height: 4.h),
             _transactionTable(expenseRows, dateFmt, amountFmt, isIncome: false),
           ],
 
           if (rows.isEmpty) ...[
-            pw.SizedBox(height: 20),
+            pw.SizedBox(height: 20.h  ),
             pw.Text(
               'No transactions in this period.',
               style: const pw.TextStyle(fontSize: 11, color: PdfColors.grey600),
@@ -150,9 +151,9 @@ class ExportService {
     return pw.Row(
       children: [
         pw.Expanded(child: _statCard('Total Income', fmt.format(income), PdfColors.green800)),
-        pw.SizedBox(width: 8),
+        pw.SizedBox(width: 8.w),
         pw.Expanded(child: _statCard('Total Expense', fmt.format(expense), PdfColors.red800)),
-        pw.SizedBox(width: 8),
+        pw.SizedBox(width: 8.w),
         pw.Expanded(child: _statCard('Net Balance', fmt.format(net), netColor)),
       ],
     );
@@ -169,7 +170,7 @@ class ExportService {
         crossAxisAlignment: pw.CrossAxisAlignment.start,
         children: [
           pw.Text(label, style: const pw.TextStyle(fontSize: 9, color: PdfColors.grey700)),
-          pw.SizedBox(height: 3),
+          pw.SizedBox(height: 3.h),
           pw.Text(
             value,
             style: pw.TextStyle(fontSize: 13, fontWeight: pw.FontWeight.bold, color: valueColor),
