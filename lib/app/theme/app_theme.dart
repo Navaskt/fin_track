@@ -2,10 +2,11 @@ import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart';
 
 // Premium FinMate color system
-const _seed = Color(0xFF00C853); // Emerald
-const _gold = Color(0xFFFBC02D);
+const _seed = Color(0xFF5B4FE8); // Electric Indigo — primary
+const _accent = Color(0xFFFF7A59); // Sunset Coral — secondary accent
+const _success = Color(0xFF00D9A3); // Vivid Mint — gains/positive deltas
 
-const _darkSurface = Color(0xFF181C1C);
+const _darkSurface = Color(0xFF14121F); // Indigo-tinted dark, not flat gray
 
 // ---------- COLOR SCHEME TUNING ----------
 ColorScheme _tunedScheme(Brightness brightness) {
@@ -14,14 +15,11 @@ ColorScheme _tunedScheme(Brightness brightness) {
   if (brightness == Brightness.dark) {
     return base.copyWith(
       surface: _darkSurface,
-      secondary: _gold,
-      onSecondary: const Color(0xFF1C1C1C),
+      secondary: _accent,
+      onSecondary: Colors.white,
     );
   } else {
-    return base.copyWith(
-      secondary: _gold,
-      onSecondary: const Color(0xFF1C1C1C),
-    );
+    return base.copyWith(secondary: _accent, onSecondary: Colors.white);
   }
 }
 
@@ -83,12 +81,12 @@ TextTheme _montserratTextTheme(ColorScheme scheme) {
 //                    FINMATE NUMBER THEME (ThemeExtension)
 // ======================================================================
 class FinMateNumberTheme extends ThemeExtension<FinMateNumberTheme> {
-  final TextStyle amountXL; // e.g., large balance on dashboard
-  final TextStyle amountL; // e.g., card totals
-  final TextStyle amountM; // e.g., list items
-  final TextStyle deltaPositive; // +2.3%
-  final TextStyle deltaNegative; // -2.3%
-  final TextStyle deltaNeutral; // 0.0% or unchanged
+  final TextStyle amountXL;
+  final TextStyle amountL;
+  final TextStyle amountM;
+  final TextStyle deltaPositive;
+  final TextStyle deltaNegative;
+  final TextStyle deltaNeutral;
 
   const FinMateNumberTheme({
     required this.amountXL,
@@ -99,15 +97,16 @@ class FinMateNumberTheme extends ThemeExtension<FinMateNumberTheme> {
     required this.deltaNeutral,
   });
 
-  // Build from a ColorScheme
   factory FinMateNumberTheme.fromScheme(ColorScheme scheme) {
-    // Use tabular figures so columns align nicely
     const features = [FontFeature.tabularFigures()];
 
-    // Choose red that works on both modes
     final lossRed = scheme.brightness == Brightness.dark
         ? const Color(0xFFFF6B6B)
         : const Color(0xFFD32F2F);
+
+    final gainGreen = scheme.brightness == Brightness.dark
+        ? const Color(0xFF3FE8B8)
+        : _success;
 
     return FinMateNumberTheme(
       amountXL: TextStyle(
@@ -137,7 +136,7 @@ class FinMateNumberTheme extends ThemeExtension<FinMateNumberTheme> {
         fontFamily: 'Montserrat',
         fontWeight: FontWeight.w600,
         fontSize: 14.5,
-        color: scheme.primary, // emerald
+        color: gainGreen,
         fontFeatures: features,
       ),
       deltaNegative: TextStyle(
@@ -192,7 +191,6 @@ class FinMateNumberTheme extends ThemeExtension<FinMateNumberTheme> {
   }
 }
 
-// Easy access from BuildContext
 extension FinMateNumberX on BuildContext {
   FinMateNumberTheme get finNumbers =>
       Theme.of(this).extension<FinMateNumberTheme>()!;
@@ -237,8 +235,8 @@ ThemeData buildLightTheme() {
       space: 1,
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
-      backgroundColor: colorScheme.primaryContainer,
-      foregroundColor: colorScheme.onPrimaryContainer,
+      backgroundColor: colorScheme.primary,
+      foregroundColor: colorScheme.onPrimary,
       elevation: 3,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
     ),
@@ -267,6 +265,8 @@ ThemeData buildLightTheme() {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
+        backgroundColor: colorScheme.primary,
+        foregroundColor: colorScheme.onPrimary,
         padding: 16.padH + 12.padV,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         textStyle: const TextStyle(
@@ -315,8 +315,8 @@ ThemeData buildDarkTheme() {
       space: 1,
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
-      backgroundColor: colorScheme.primaryContainer,
-      foregroundColor: colorScheme.onPrimaryContainer,
+      backgroundColor: colorScheme.primary,
+      foregroundColor: colorScheme.onPrimary,
       elevation: 3,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
     ),
@@ -345,6 +345,8 @@ ThemeData buildDarkTheme() {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
+        backgroundColor: colorScheme.primary,
+        foregroundColor: colorScheme.onPrimary,
         padding: 16.padH + 12.padV,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         textStyle: const TextStyle(
@@ -358,11 +360,9 @@ ThemeData buildDarkTheme() {
 }
 
 // ======================================================================
-//                     QUICK HELPERS FOR NUMBERS
+//                     QUICK HELPERS FOR NUMBERS  (unchanged)
 // ======================================================================
 
-// Formats a currency with alignment-friendly style.
-// Example: FinMateAmount(amount: -1240.55, prefix: 'AED ')
 class FinMateAmount extends StatelessWidget {
   const FinMateAmount({
     super.key,
@@ -392,7 +392,6 @@ class FinMateAmount extends StatelessWidget {
         ? context.finNumbers.deltaNegative.color
         : scheme.onSurface;
 
-    // You likely already have a formatter like formatAED(...)
     final text = '$prefix${_format(amount)}';
 
     return Text(
@@ -405,7 +404,6 @@ class FinMateAmount extends StatelessWidget {
   }
 
   String _format(double value) {
-    // Simple placeholder. Replace with your formatAED or NumberFormat if you use intl.
     final sign = value < 0 ? '-' : '';
     final abs = value.abs().toStringAsFixed(2);
     return '$sign$abs';
@@ -414,8 +412,6 @@ class FinMateAmount extends StatelessWidget {
 
 enum AmountSize { xl, lg, md }
 
-// Shows a percent delta with colored sign and tabular digits
-// Example: FinMateDelta(value: 0.0345) -> +3.45%
 class FinMateDelta extends StatelessWidget {
   const FinMateDelta({
     super.key,
@@ -425,7 +421,7 @@ class FinMateDelta extends StatelessWidget {
     this.decimals = 2,
   });
 
-  final double value; // e.g., 0.0345 => 3.45%
+  final double value;
   final double textScale;
   final bool showSign;
   final int decimals;

@@ -44,17 +44,19 @@ class FinTrackApp extends ConsumerWidget {
       designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
-      child: MaterialApp.router(
-        title: 'FinTrack',
-        debugShowCheckedModeBanner: false,
-        routerConfig: router,
-        theme: buildLightTheme(),
-        darkTheme: buildDarkTheme(),
-        themeMode: mode,
-        locale: locale,
-        supportedLocales: AppLocalizations.supportedLocales,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-      ),
+      builder: (context, child) {
+        return MaterialApp.router(
+          title: 'FinTrack',
+          debugShowCheckedModeBanner: false,
+          routerConfig: router,
+          theme: buildLightTheme(),
+          darkTheme: buildDarkTheme(),
+          themeMode: mode,
+          locale: locale,
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+        );
+      },
     );
   }
 }
