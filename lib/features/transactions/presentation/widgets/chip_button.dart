@@ -23,7 +23,7 @@ class ChipButton extends StatelessWidget {
       },
       borderRadius: BorderRadius.circular(999),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: 12.padH + 8.padV,
         decoration: BoxDecoration(
           color: cs.surfaceContainerHighest,
           borderRadius: BorderRadius.circular(999),

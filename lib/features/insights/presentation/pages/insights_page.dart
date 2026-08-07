@@ -20,7 +20,7 @@ class InsightsScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: Text(context.loc.insightsTitle)),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: 16.padAll,
         children: [
           const MonthSelector(),
           12.hBox,

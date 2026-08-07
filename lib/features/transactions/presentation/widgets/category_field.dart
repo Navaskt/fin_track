@@ -1,4 +1,5 @@
 import 'package:fin_track/app/extension/context_extension.dart';
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -55,7 +56,7 @@ class CategoryField extends StatelessWidget {
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxHeight: 240, maxWidth: 360),
               child: ListView.separated(
-                padding: const EdgeInsets.symmetric(vertical: 8),
+                padding: 8.padV,
                 itemCount: options.length,
                 separatorBuilder: (ctx, _) => const Divider(height: 1),
                 itemBuilder: (context, index) {

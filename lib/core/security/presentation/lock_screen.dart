@@ -54,7 +54,7 @@ class _LockScreenState extends ConsumerState<LockScreen> with SafeSetState {
         child: SafeArea(
         child: SingleChildScrollView(
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+          padding: 16.padH + 24.padV,
           child: Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 420),
@@ -100,7 +100,7 @@ class _LockScreenState extends ConsumerState<LockScreen> with SafeSetState {
                           borderRadius: BorderRadius.circular(16),
                           borderSide: BorderSide(color: cs.primary, width: 2),
                         ),
-                        contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+                        contentPadding: 16.padH + 12.padV,
                       ),
                       onChanged: (_) => safeSetState(() => _err = null),
                     ),
@@ -114,7 +114,7 @@ class _LockScreenState extends ConsumerState<LockScreen> with SafeSetState {
                       label: loc.unlockButton,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          padding: 14.padV,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                         ),
                         onPressed: () async {
@@ -160,7 +160,7 @@ class _LockScreenState extends ConsumerState<LockScreen> with SafeSetState {
                       label: loc.setPinTitle,
                       child: FilledButton.tonal(
                         style: FilledButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          padding: 14.padV,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                         ),
                         onPressed: () => context.push('/set-pin'),

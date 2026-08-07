@@ -1,3 +1,4 @@
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart';
 
 class BottomActionBar extends StatelessWidget {
@@ -8,7 +9,7 @@ class BottomActionBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     return Container(
-      padding: const EdgeInsets.fromLTRB(16, 10, 16, 16),
+      padding: 16.padL + 10.padT + 16.padR + 16.padB,
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
         border: Border(top: BorderSide(color: cs.outlineVariant)),

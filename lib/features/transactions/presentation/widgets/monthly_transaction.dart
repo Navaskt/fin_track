@@ -196,7 +196,7 @@ class _EnhancedMonthHeaderDelegate extends SliverPersistentHeaderDelegate {
               onTap();
             },
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding:16.padH,
               child: Row(
                 children: [
                   // Month + year
@@ -307,7 +307,7 @@ class _AnimatedMonthBody extends StatelessWidget {
           8.hBox,
           // NEW: Daily chart for the month
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: 16.padH,
             child: MonthDailyChartExact(
               month: month,
               transactions: transactions,
@@ -320,13 +320,13 @@ class _AnimatedMonthBody extends StatelessWidget {
           12.hBox,
           for (final t in transactions) ...[
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: 16.padH,
               child: TransactionListItem(t: t),
             ),
             10.hBox,
           ],
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 2, 16, 8),
+            padding: 16.padL + 2.padT + 16.padR + 8.padB,
             child: MonthSummaryFooter(month: month),
           ),
         ],
@@ -376,7 +376,7 @@ class _MonthHeaderDelegate extends SliverPersistentHeaderDelegate {
       child: InkWell(
         onTap: onTap,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: 16.padH,
           alignment: Alignment.centerLeft,
           child: Row(
             children: [

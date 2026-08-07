@@ -1,3 +1,4 @@
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart';
 
 // Premium FinMate color system
@@ -225,7 +226,7 @@ ThemeData buildLightTheme() {
       margin: EdgeInsets.zero,
     ),
     listTileTheme: ListTileThemeData(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      contentPadding: 12.padH + 4.padV,
       iconColor: colorScheme.onSurfaceVariant,
       textColor: colorScheme.onSurface,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
@@ -262,11 +263,11 @@ ThemeData buildLightTheme() {
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide(color: colorScheme.primary, width: 1.4),
       ),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      contentPadding: 14.padH + 12.padV,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        padding: 16.padH + 12.padV,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         textStyle: const TextStyle(
           fontFamily: 'Montserrat',
@@ -303,7 +304,7 @@ ThemeData buildDarkTheme() {
       margin: EdgeInsets.zero,
     ),
     listTileTheme: ListTileThemeData(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      contentPadding: 12.padH + 4.padV,
       iconColor: colorScheme.onSurfaceVariant,
       textColor: colorScheme.onSurface,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
@@ -340,11 +341,11 @@ ThemeData buildDarkTheme() {
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide(color: colorScheme.primary, width: 1.4),
       ),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      contentPadding: 14.padH + 12.padV,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        padding: 16.padH + 12.padV,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         textStyle: const TextStyle(
           fontFamily: 'Montserrat',

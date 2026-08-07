@@ -30,7 +30,7 @@ class TransactionListItem extends ConsumerWidget {
       onTap: () => context.push('/edit/${t.id}'),
       onLongPress: hasNote ? () => _copyNote(context, t.note!.trim()) : null,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        padding: 8.padH + 4.padV,
         decoration: BoxDecoration(
           color: cs.surfaceContainerHighest,
           borderRadius: BorderRadius.circular(14),
@@ -160,12 +160,7 @@ Future<void> _showNoteSheet(
     ),
     builder: (ctx) {
       return Padding(
-        padding: EdgeInsets.only(
-          left: 16,
-          right: 16,
-          top: 8,
-          bottom: 16 + MediaQuery.of(ctx).viewInsets.bottom,
-        ),
+        padding: 16.padL+16.padR+8.padT+16.padB + 16.padB + MediaQuery.of(ctx).viewInsets.bottom.padB,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,

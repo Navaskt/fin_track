@@ -20,25 +20,25 @@ class MonthSummaryFooter extends ConsumerWidget {
     final expensesAsync = ref.watch(monthExpenseOnlyProvider(month));
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: 12.padH + 12.padV,
       decoration: BoxDecoration(
         color: cs.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: cs.outlineVariant),
       ),
       child: budgetAsync.when(
-        loading: () => const Center(
+        loading: () =>  Center(
           child: Padding(
-            padding: EdgeInsets.all(8),
+            padding: 8.padAll,
             child: CircularProgressIndicator(strokeWidth: 2),
           ),
         ),
         error: (e, _) => Text('Error: $e', style: TextStyle(color: cs.error)),
         data: (budget) {
           return expensesAsync.when(
-            loading: () => const Center(
+            loading: () =>  Center(
               child: Padding(
-                padding: EdgeInsets.all(8),
+                padding: 8.padAll,
                 child: CircularProgressIndicator(strokeWidth: 2),
               ),
             ),

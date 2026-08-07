@@ -54,7 +54,7 @@ class SettingsPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: Text(loc.settings)),
       body: ListView.separated(
-        padding: const EdgeInsets.all(16),
+        padding: 16.padAll,
         itemCount: items.length,
         itemBuilder: (context, index) => items[index],
         separatorBuilder: (context, index) {

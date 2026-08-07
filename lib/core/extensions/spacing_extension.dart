@@ -10,7 +10,7 @@ extension SpacingExtension on num {
   Widget get wBox => SizedBox(width: toDouble().w);
 
   /// Returns a responsive `EdgeInsets` with all sides padded by the current number.
-  EdgeInsets get allPadding => EdgeInsets.all(toDouble().r);
+  EdgeInsets get padAll => EdgeInsets.all(toDouble().r);
 
   /// Returns a responsive `EdgeInsets` with the vertical padded by the current number.
   EdgeInsets get padV => EdgeInsets.symmetric(vertical: toDouble().h);

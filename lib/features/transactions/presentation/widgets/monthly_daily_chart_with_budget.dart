@@ -1,4 +1,5 @@
 // lib/features/transactions/presentation/widgets/month_daily_chart_exact.dart
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -112,7 +113,7 @@ class _MonthDailyChartExactWithBudgetState
     }
 
     return Container(
-      padding: const EdgeInsets.fromLTRB(12, 10, 16, 12),
+      padding: 12.padL + 10.padT + 16.padR + 12.padB,
       decoration: BoxDecoration(
         color: const Color(0xFF171717),
         borderRadius: BorderRadius.circular(16),
@@ -272,10 +273,7 @@ class _MonthDailyChartExactWithBudgetState
               }
             },
             touchTooltipData: LineTouchTooltipData(
-              tooltipPadding: const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 8,
-              ),
+              tooltipPadding: 10.padH + 8.padV,
               tooltipMargin: 12,
               fitInsideHorizontally: true,
               fitInsideVertically: true,

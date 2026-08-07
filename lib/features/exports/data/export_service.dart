@@ -92,7 +92,7 @@ class ExportService {
       pw.MultiPage(
         textDirection: isRtl ? pw.TextDirection.rtl : pw.TextDirection.ltr,
         pageFormat: PdfPageFormat.a4,
-        margin: const pw.EdgeInsets.all(24),
+        margin:  pw.EdgeInsets.all(24.r),
         build: (context) => [
           pw.Text(
             'FinTrack Report',
@@ -161,7 +161,7 @@ class ExportService {
 
   pw.Widget _statCard(String label, String value, PdfColor valueColor) {
     return pw.Container(
-      padding: const pw.EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      padding: pw.EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
       decoration: pw.BoxDecoration(
         color: PdfColors.grey300,
         borderRadius: const pw.BorderRadius.all(pw.Radius.circular(4)),

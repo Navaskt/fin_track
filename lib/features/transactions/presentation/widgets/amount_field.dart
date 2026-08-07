@@ -19,11 +19,11 @@ class AmountField extends StatelessWidget {
         border: Border.all(color: cs.outlineVariant),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        padding: 12.padH + 6.padV,
         child: Row(
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              padding: 10.padH + 6.padV,
               decoration: BoxDecoration(
                 color: cs.primaryContainer,
                 borderRadius: BorderRadius.circular(8),

@@ -261,7 +261,7 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
         child: Form(
           key: _formKey,
           child: ListView(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
+            padding: 16.padL + 12.padT + 16.padR + 120.padB,
             children: [
               // Type selector + amount card
               SectionCard(
@@ -315,14 +315,14 @@ class _AddEditPageState extends ConsumerState<AddEditPage> {
                     10.hBox,
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.only(right: 6),
+                      padding: 6.padR,
                       child: Row(
                         children: _suggestions.map((c) {
                           final selected =
                               _categoryCtrl.text.trim().toLowerCase() ==
                               c.toLowerCase();
                           return Padding(
-                            padding: const EdgeInsets.only(right: 8),
+                            padding: 8.padR,
                             child: ChoiceChip(
                               label: Text(c),
                               selected: selected,

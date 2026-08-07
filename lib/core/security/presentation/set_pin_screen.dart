@@ -21,7 +21,7 @@ class _SetPinScreenState extends ConsumerState<SetPinScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(loc.setPinTitle)),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: 16.padAll,
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,

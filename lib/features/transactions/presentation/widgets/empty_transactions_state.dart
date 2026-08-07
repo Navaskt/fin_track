@@ -10,7 +10,7 @@ class EmptyTransactionsState extends StatelessWidget {
     final cs = Theme.of(context).colorScheme;
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
+        padding: 24.padH,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

@@ -1,3 +1,4 @@
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart';
 
 class SectionCard extends StatelessWidget {
@@ -13,7 +14,7 @@ class SectionCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: cs.outlineVariant),
       ),
-      padding: const EdgeInsets.all(16),
+      padding: 16.padAll,
       child: child,
     );
   }

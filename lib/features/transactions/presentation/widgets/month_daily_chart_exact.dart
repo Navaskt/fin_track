@@ -1,6 +1,8 @@
 // lib/features/transactions/presentation/widgets/month_daily_chart_exact.dart
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import '../../domain/entities/transaction_entity.dart';
 
@@ -81,13 +83,13 @@ class _MonthDailyChartExactState extends State<MonthDailyChartExact> {
     final guideX = _selectedDay?.toDouble();
 
     return Container(
-      padding: const EdgeInsets.fromLTRB(12, 10, 16, 12),
+      padding: 12.padL + 10.padT + 16.padR + 12.padB,
       decoration: BoxDecoration(
         color: const Color(0xFF171717), // deep surface to match screenshot
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         border: Border.all(color: cs.outlineVariant.withValues(alpha: 0.6)),
       ),
-      height: 220,
+      height: 220.h,
       child: LineChart(
         LineChartData(
           minX: 1,
@@ -198,12 +200,8 @@ class _MonthDailyChartExactState extends State<MonthDailyChartExact> {
               }
             },
             touchTooltipData: LineTouchTooltipData(
-              tooltipPadding: const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 8,
-              ),
-              tooltipMargin:
-                  12, // space from touch point, similar to screenshot
+              tooltipPadding: 10.padH + 8.padV,
+              tooltipMargin: 12,
               fitInsideHorizontally: true,
               fitInsideVertically: true,
               getTooltipColor: (_) => const Color(0xFF111111).withValues(alpha: 0.95),
