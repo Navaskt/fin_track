@@ -11,6 +11,7 @@ class ThemeTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cs = Theme.of(context).colorScheme;
+    final controller = ref.watch(themeModeProvider.notifier);
     final mode = ref.watch(themeModeProvider);
 
     String labelFor(ThemeMode m) {
@@ -57,7 +58,7 @@ class ThemeTile extends ConsumerWidget {
         );
 
         if (selected != null && selected != mode) {
-          ref.read(themeModeProvider.notifier).state = selected;
+          controller.setTheme(selected);
         }
       },
     );

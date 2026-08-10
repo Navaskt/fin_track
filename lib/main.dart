@@ -21,6 +21,7 @@ Future<void> main() async {
   await Hive.openBox<TransactionModel>('transactions');
   await Hive.openBox<double>('monthly_budgets');
   await Hive.openBox<String>('app_settings');
+  await Hive.openBox<int>('theme_mode');
 
   await NotificationService.init();
   await NotificationService.requestPermissions();
