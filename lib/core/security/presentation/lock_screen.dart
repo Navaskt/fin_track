@@ -1,8 +1,10 @@
 
 import 'package:fin_track/app/extension/context_extension.dart';
+import 'package:fin_track/core/constants/app_assets.dart';
 import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart' hide LockState;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/widgets/safe_set_state_mixin.dart';
 import '../controller/app_lock_providers.dart';
@@ -54,13 +56,18 @@ class _LockScreenState extends ConsumerState<LockScreen> with SafeSetState {
         child: SafeArea(
         child: SingleChildScrollView(
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          padding: 16.padH + 24.padV,
+          padding: 16.padH,
           child: Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 420),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  Image.asset(AppAssets.background,
+                  height: 150.h,
+                  width: 1.sw,
+                  fit: BoxFit.contain),
+
                   // Header
                   if (!isSetup) ...[
                     Text(
