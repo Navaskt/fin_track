@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:hive/hive.dart';
 
+import '../../../../core/helpers/receipt_image_service.dart';
 import '../../data/models/transaction_model.dart';
 import '../../data/repositories/transaction_repository_impl.dart';
 import '../../data/sources/transaction_local_source.dart';
@@ -41,6 +42,9 @@ class TransactionController extends StateNotifier<AsyncValue<void>> {
   Future<void> delete(String id) async {
     state = const AsyncLoading();
     try {
+      final current = _repo.getById(id);
+      await ReceiptImageService.deleteIfExists(current?.receiptPath);
+
       await _repo.delete(id);
       state = const AsyncData(null);
     } catch (e, st) {

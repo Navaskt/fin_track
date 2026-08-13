@@ -1,4 +1,5 @@
 import 'package:fin_track/app/extension/context_extension.dart';
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../controller/app_lock_providers.dart';
@@ -20,46 +21,53 @@ class _SetPinScreenState extends ConsumerState<SetPinScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(loc.setPinTitle)),
       body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            TextField(
-              controller: _c1,
-              obscureText: true,
-              keyboardType: TextInputType.number,
-              maxLength: 6,
-              decoration: InputDecoration(labelText: loc.enterPin),
-              onChanged: (_) => setState(() => _err = null),
-            ),
-            TextField(
-              controller: _c2,
-              obscureText: true,
-              keyboardType: TextInputType.number,
-              maxLength: 6,
-              decoration: InputDecoration(labelText: loc.confirmPin),
-              onChanged: (_) => setState(() => _err = null),
-            ),
-            const SizedBox(height: 16),
-            if (_err != null) Text(_err!, style: TextStyle(color: Theme.of(context).colorScheme.error)),
-            const Spacer(),
-            ElevatedButton(
-              onPressed: () async {
-                final a = _c1.text.trim();
-                final b = _c2.text.trim();
-                if (a.length < 4) {
-                  setState(() => _err = loc.pinTooShort);
-                  return;
-                }
-                if (a != b) {
-                  setState(() => _err = loc.pinNotMatch);
-                  return;
-                }
-                await ref.read(appLockControllerProvider.notifier).setPin(a);
-                if (mounted) Navigator.of(context).pop(); // back to app
-              },
-              child: Text(loc.savePin),
-            ),
-          ],
+        padding: 16.padAll,
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: _c1,
+                obscureText: true,
+                keyboardType: TextInputType.number,
+                maxLength: 6,
+                decoration: InputDecoration(labelText: loc.enterPin),
+                onChanged: (_) => setState(() => _err = null),
+              ),
+              TextField(
+                controller: _c2,
+                obscureText: true,
+                keyboardType: TextInputType.number,
+                maxLength: 6,
+                decoration: InputDecoration(labelText: loc.confirmPin),
+                onChanged: (_) => setState(() => _err = null),
+              ),
+              16.hBox,
+              if (_err != null)
+                Text(
+                  _err!,
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
+                ),
+              24.hBox,
+              ElevatedButton(
+                onPressed: () async {
+                  final a = _c1.text.trim();
+                  final b = _c2.text.trim();
+                  if (a.length < 4) {
+                    setState(() => _err = loc.pinTooShort);
+                    return;
+                  }
+                  if (a != b) {
+                    setState(() => _err = loc.pinNotMatch);
+                    return;
+                  }
+                  await ref.read(appLockControllerProvider.notifier).setPin(a);
+                  if (mounted) Navigator.of(context).pop(); // back to app
+                },
+                child: Text(loc.savePin),
+              ),
+            ],
+          ),
         ),
       ),
     );

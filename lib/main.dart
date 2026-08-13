@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'app/router.dart';
 import 'app/theme/app_theme.dart';
+import 'core/notifications/budget_alert_service.dart';
+import 'core/notifications/notification_service.dart';
 import 'features/transactions/data/models/transaction_model.dart';
 import 'features/transactions/data/models/transaction_model_adaptor.dart';
+import 'features/transactions/presentation/controllers/budget_status_provider.dart';
 import 'features/transactions/presentation/controllers/locale_provider.dart';
 import 'features/transactions/presentation/controllers/theme_provider.dart';
 import 'l10n/app_localizations.dart';
@@ -16,6 +21,11 @@ Future<void> main() async {
   await Hive.openBox<TransactionModel>('transactions');
   await Hive.openBox<double>('monthly_budgets');
   await Hive.openBox<String>('app_settings');
+  await Hive.openBox<int>('theme_mode');
+
+  await NotificationService.init();
+  await NotificationService.requestPermissions();
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   runApp(const ProviderScope(child: FinTrackApp()));
 }
@@ -29,16 +39,27 @@ class FinTrackApp extends ConsumerWidget {
     final mode = ref.watch(themeModeProvider);
     final locale = ref.watch(localeProvider);
 
-    return MaterialApp.router(
-      title: 'FinTrack',
-      debugShowCheckedModeBanner: false,
-      routerConfig: router,
-      theme: buildLightTheme(),
-      darkTheme: buildDarkTheme(),
-      themeMode: mode,
-      locale: locale,
-      supportedLocales: AppLocalizations.supportedLocales,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
+    ref.listen<BudgetStatus>(budgetStatusProvider, (previous, next) {
+      ref.read(budgetAlertServiceProvider).checkAndNotify(next);
+    });
+
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return MaterialApp.router(
+          title: 'FinTrack',
+          debugShowCheckedModeBanner: false,
+          routerConfig: router,
+          theme: buildLightTheme(),
+          darkTheme: buildDarkTheme(),
+          themeMode: mode,
+          locale: locale,
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+        );
+      },
     );
   }
 }

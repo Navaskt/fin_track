@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:fin_track/app/extension/context_extension.dart';
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,6 +11,7 @@ import '../../domain/entities/transaction_entity.dart';
 import '../controllers/transaction_providers.dart';
 import '../formatters/formatters.dart';
 import 'category_badge.dart';
+import 'receipt_viewer.dart';
 
 class TransactionListItem extends ConsumerWidget {
   const TransactionListItem({super.key, required this.t});
@@ -25,7 +29,7 @@ class TransactionListItem extends ConsumerWidget {
       onTap: () => context.push('/edit/${t.id}'),
       onLongPress: hasNote ? () => _copyNote(context, t.note!.trim()) : null,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        padding: 8.padH + 4.padV,
         decoration: BoxDecoration(
           color: cs.surfaceContainerHighest,
           borderRadius: BorderRadius.circular(14),
@@ -35,7 +39,7 @@ class TransactionListItem extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CategoryBadge(text: t.category),
-            const SizedBox(width: 12),
+            12.wBox,
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,49 +58,70 @@ class TransactionListItem extends ConsumerWidget {
                       context,
                     ).textTheme.bodySmall?.copyWith(color: cs.onSurfaceVariant),
                   ),
-                  if (hasNote) ...[
-                    const SizedBox(height: 4),
-                    InkWell(
-                      onTap: () => _showNoteSheet(context, ref, t),
-                      borderRadius: BorderRadius.circular(8),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.only(top: 2),
-                            child: Icon(Icons.sticky_note_2_outlined, size: 16),
-                          ),
-                          const SizedBox(width: 6),
+                  if (hasNote || t.receiptPath != null) ...[
+                    4.hBox,
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (hasNote) ...[
+                          Icon(Icons.sticky_note_2_outlined, size: 20,color: cs.onSurfaceVariant),
+                          6.wBox,
                           Expanded(
-                            child: Text(
-                              t.note!.trim(),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme.bodySmall,
+                            child: InkWell(
+                              onTap: () => _showNoteSheet(context, ref, t),
+                              borderRadius: BorderRadius.circular(8),
+                              child: Text(
+                                t.note!.trim(),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
                             ),
                           ),
                         ],
-                      ),
+                        if (t.receiptPath != null) ...[
+                          hasNote ? 6.wBox : 0.wBox,
+                          InkWell(
+                            onTap: () => showFullReceipt(context, t.receiptPath!),
+                            borderRadius: BorderRadius.circular(6),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(6),
+                              child: Image.file(
+                                File(t.receiptPath!),
+                                width: 40,
+                                height: 20,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    Icon(
+                                      Icons.broken_image_outlined,
+                                      size: 20,
+                                      color: cs.onSurfaceVariant,
+                                    ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
                     ),
                   ],
                 ],
               ),
             ),
-            const SizedBox(width: 8),
+            8.wBox,
             Text(
               '${isNegative ? '-' : '+'}$amount',
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 color: isNegative ? Colors.red : Colors.green,
                 fontFeatures: const [FontFeature.tabularFigures()],
                 fontWeight: FontWeight.w700,
+                fontSize: 14,
               ),
             ),
             IconButton(
               tooltip: context.loc.delete,
               splashRadius: 20,
               icon: Icon(Icons.delete_outline, color: cs.secondary),
-              onPressed: () =>
-                  ref.read(transactionControllerProvider.notifier).delete(t.id),
+              onPressed: () => ref.read(transactionControllerProvider.notifier).delete(t.id),
             ),
           ],
         ),
@@ -134,12 +159,7 @@ Future<void> _showNoteSheet(
     ),
     builder: (ctx) {
       return Padding(
-        padding: EdgeInsets.only(
-          left: 16,
-          right: 16,
-          top: 8,
-          bottom: 16 + MediaQuery.of(ctx).viewInsets.bottom,
-        ),
+        padding: 16.padL+16.padR+8.padT+16.padB + 16.padB + MediaQuery.of(ctx).viewInsets.bottom.padB,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,12 +170,12 @@ Future<void> _showNoteSheet(
                 ctx,
               ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
             ),
-            const SizedBox(height: 8),
+            8.hBox,
             SelectableText(
               (t.note ?? '').trim(),
               style: Theme.of(ctx).textTheme.bodyMedium,
             ),
-            const SizedBox(height: 16),
+            16.hBox,
             Row(
               children: [
                 TextButton.icon(
@@ -166,7 +186,7 @@ Future<void> _showNoteSheet(
                   icon: const Icon(Icons.edit_outlined),
                   label: Text(ctx.loc.edit),
                 ),
-                const SizedBox(width: 8),
+                8.wBox,
                 if ((t.note?.isNotEmpty ?? false))
                   TextButton.icon(
                     onPressed: () async {

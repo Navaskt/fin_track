@@ -1,9 +1,11 @@
 import 'package:fin_track/app/extension/context_extension.dart';
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../widgets/biometrics_tile.dart';
+import '../widgets/budget_alerts_tile.dart' show BudgetAlertsTile;
 import '../widgets/export_tile.dart';
 import '../widgets/language_tile.dart';
 import '../widgets/theme_tile.dart';
@@ -16,7 +18,7 @@ class SettingsPage extends ConsumerWidget {
     final cs = Theme.of(context).colorScheme;
     final theme = Theme.of(context);
     final headerStyle = theme.textTheme.titleLarge?.copyWith(color: cs.primary);
-    const smallSpacing = SizedBox(height: 8);
+    final smallSpacing = 8.hBox;
     final loc = context.loc;
 
     final items = [
@@ -24,6 +26,7 @@ class SettingsPage extends ConsumerWidget {
       Text(loc.security, style: headerStyle),
       smallSpacing,
       const BiometricsTile(),
+      const BudgetAlertsTile(),
       smallSpacing,
 
       // Preferences Section
@@ -51,7 +54,7 @@ class SettingsPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: Text(loc.settings)),
       body: ListView.separated(
-        padding: const EdgeInsets.all(16),
+        padding: 16.padAll,
         itemCount: items.length,
         itemBuilder: (context, index) => items[index],
         separatorBuilder: (context, index) {
@@ -67,7 +70,7 @@ class SettingsPage extends ConsumerWidget {
           if (item is ListTile &&
               item.title is Text &&
               (item.title as Text).data == loc.changePin) {
-            return const SizedBox(height: 16);
+            return 16.hBox;
           }
           return const SizedBox.shrink();
         },

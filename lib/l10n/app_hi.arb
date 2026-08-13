@@ -113,5 +113,9 @@
   "developedBy": "नवास्का द्वारा विकसित",
   "versionLabel": "संस्करण",
   "lastUpdated": "अंतिम अद्यतन {date}",
-  "feedback": "प्रतिक्रिया"
+  "feedback": "प्रतिक्रिया",
+  "receiptLabel": "ईनवॉइस",
+  "captureLabel": "कैप्चर",
+  "uploadLabel": "अपलोड",
+  "budgetAlertsTitle": "बजट अलर्ट"
 }

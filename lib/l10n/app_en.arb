@@ -113,5 +113,11 @@
   "developedBy": "Developed by Navaska",
   "versionLabel": "Version",
   "lastUpdated": "Last updated {date}",
-  "feedback": "Feedback"
+  "feedback": "Feedback",
+  "receiptLabel": "Receipt",
+  "captureLabel": "Capture",
+  "uploadLabel": "Upload",
+  "budgetAlertsTitle": "Budget Alerts"
 }
+
+

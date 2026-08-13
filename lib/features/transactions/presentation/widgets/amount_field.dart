@@ -1,4 +1,5 @@
 import 'package:fin_track/app/extension/context_extension.dart';
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -18,11 +19,11 @@ class AmountField extends StatelessWidget {
         border: Border.all(color: cs.outlineVariant),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        padding: 12.padH + 6.padV,
         child: Row(
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              padding: 10.padH + 6.padV,
               decoration: BoxDecoration(
                 color: cs.primaryContainer,
                 borderRadius: BorderRadius.circular(8),
@@ -36,7 +37,7 @@ class AmountField extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 12),
+            12.wBox,
             Expanded(
               child: TextFormField(
                 controller: controller,

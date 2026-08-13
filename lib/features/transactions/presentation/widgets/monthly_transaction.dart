@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import '../../../../core/extensions/spacing_extension.dart';
 import '../../domain/entities/transaction_entity.dart';
 import '../controllers/transaction_providers.dart';
 import '../formatters/formatters.dart';
@@ -60,7 +61,7 @@ class TransactionsGroupedByMonth extends HookConsumerWidget {
 
         return CustomScrollView(
           slivers: [
-            const SliverToBoxAdapter(child: SizedBox(height: 8)),
+             SliverToBoxAdapter(child: 8.hBox),
             for (final m in grouped.monthKeys)
               ..._buildMonthSection(
                 context: context,
@@ -69,7 +70,7 @@ class TransactionsGroupedByMonth extends HookConsumerWidget {
                 isExpanded: expanded.value.contains(m.millisecondsSinceEpoch),
                 onToggle: () => toggleMonth(m),
               ),
-            const SliverToBoxAdapter(child: SizedBox(height: 96)),
+            SliverToBoxAdapter(child: 96.hBox),
           ],
         );
       },
@@ -174,8 +175,8 @@ class _EnhancedMonthHeaderDelegate extends SliverPersistentHeaderDelegate {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  cs.primary.withOpacity(0.06),
-                  cs.secondary.withOpacity(0.05),
+                  cs.primary.withValues(alpha: 0.06),
+                  cs.secondary.withValues(alpha: 0.05),
                 ],
               ),
             ),
@@ -185,7 +186,7 @@ class _EnhancedMonthHeaderDelegate extends SliverPersistentHeaderDelegate {
           Container(
             color: Theme.of(
               context,
-            ).scaffoldBackgroundColor.withOpacity(surfaceOpacity),
+            ).scaffoldBackgroundColor.withValues(alpha: surfaceOpacity),
           ),
 
           // Content row
@@ -195,7 +196,7 @@ class _EnhancedMonthHeaderDelegate extends SliverPersistentHeaderDelegate {
               onTap();
             },
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding:16.padH,
               child: Row(
                 children: [
                   // Month + year
@@ -207,7 +208,7 @@ class _EnhancedMonthHeaderDelegate extends SliverPersistentHeaderDelegate {
                     ),
                   ),
 
-                  const SizedBox(width: 10),
+                  10.wBox,
 
                   // Divider that becomes a bit more visible as it pins
                   Expanded(
@@ -217,7 +218,7 @@ class _EnhancedMonthHeaderDelegate extends SliverPersistentHeaderDelegate {
                     ),
                   ),
 
-                  const SizedBox(width: 10),
+                  10.wBox,
 
                   // Total pill (unchanged)
                   AnimatedContainer(
@@ -228,12 +229,11 @@ class _EnhancedMonthHeaderDelegate extends SliverPersistentHeaderDelegate {
                       vertical: lerpDouble(6, 7, pinT)!.toDouble(),
                     ),
                     decoration: BoxDecoration(
-                      color: (total < 0 ? Colors.red : Colors.green)
-                          .withOpacity(0.12),
+                      color: (total < 0 ? Colors.red : Colors.green).withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(999),
                       border: Border.all(
                         color: (total < 0 ? Colors.red : Colors.green)
-                            .withOpacity(0.35),
+                            .withValues(alpha: 0.35),
                       ),
                     ),
                     child: Text(
@@ -246,7 +246,7 @@ class _EnhancedMonthHeaderDelegate extends SliverPersistentHeaderDelegate {
                     ),
                   ),
 
-                  const SizedBox(width: 8),
+                  8.wBox,
 
                   // Chevron rotation (unchanged)
                   AnimatedRotation(
@@ -304,10 +304,10 @@ class _AnimatedMonthBody extends StatelessWidget {
       firstChild: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const SizedBox(height: 8),
+          8.hBox,
           // NEW: Daily chart for the month
-        Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+          Padding(
+            padding: 16.padH,
             child: MonthDailyChartExact(
               month: month,
               transactions: transactions,
@@ -317,16 +317,16 @@ class _AnimatedMonthBody extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 12),
+          12.hBox,
           for (final t in transactions) ...[
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: 16.padH,
               child: TransactionListItem(t: t),
             ),
-            const SizedBox(height: 10),
+            10.hBox,
           ],
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 2, 16, 8),
+            padding: 16.padL + 2.padT + 16.padR + 8.padB,
             child: MonthSummaryFooter(month: month),
           ),
         ],
@@ -376,7 +376,7 @@ class _MonthHeaderDelegate extends SliverPersistentHeaderDelegate {
       child: InkWell(
         onTap: onTap,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: 16.padH,
           alignment: Alignment.centerLeft,
           child: Row(
             children: [
@@ -384,9 +384,9 @@ class _MonthHeaderDelegate extends SliverPersistentHeaderDelegate {
                 DateFormat('MMMM yyyy').format(month),
                 style: t.titleMedium?.copyWith(fontWeight: FontWeight.w700),
               ),
-              const SizedBox(width: 8),
+              8.wBox,
               Expanded(child: Divider(height: 1, color: cs.outlineVariant)),
-              const SizedBox(width: 8),
+              8.wBox,
               RotationTransition(
                 turns: AlwaysStoppedAnimation(isExpanded ? 0.5 : 0.0),
                 child: const Icon(Icons.expand_more),

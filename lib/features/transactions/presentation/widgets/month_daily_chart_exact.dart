@@ -1,6 +1,8 @@
 // lib/features/transactions/presentation/widgets/month_daily_chart_exact.dart
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import '../../domain/entities/transaction_entity.dart';
 
@@ -34,7 +36,8 @@ class _MonthDailyChartExactState extends State<MonthDailyChartExact> {
     final expenses = List<double>.filled(lastDay, 0);
 
     for (final tx in widget.transactions) {
-      if (tx.date.year == widget.month.year && tx.date.month == widget.month.month) {
+      if (tx.date.year == widget.month.year &&
+          tx.date.month == widget.month.month) {
         final i = tx.date.day - 1;
         if (tx.amount >= 0) {
           incomes[i] += tx.amount;
@@ -72,20 +75,21 @@ class _MonthDailyChartExactState extends State<MonthDailyChartExact> {
 
     // Optional "today" guide
     final now = DateTime.now();
-    final isCurrentMonth = now.year == widget.month.year && now.month == widget.month.month;
+    final isCurrentMonth =
+        now.year == widget.month.year && now.month == widget.month.month;
     final todayX = isCurrentMonth ? now.day.toDouble() : null;
 
     // Touch guide (dashed)
     final guideX = _selectedDay?.toDouble();
 
     return Container(
-      padding: const EdgeInsets.fromLTRB(12, 10, 16, 12),
+      padding: 12.padL + 10.padT + 16.padR + 12.padB,
       decoration: BoxDecoration(
         color: const Color(0xFF171717), // deep surface to match screenshot
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: cs.outlineVariant.withOpacity(0.6)),
+        borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(color: cs.outlineVariant.withValues(alpha: 0.6)),
       ),
-      height: 220,
+      height: 220.h,
       child: LineChart(
         LineChartData(
           minX: 1,
@@ -100,14 +104,14 @@ class _MonthDailyChartExactState extends State<MonthDailyChartExact> {
               if (guideX != null)
                 VerticalLine(
                   x: guideX,
-                  color: Colors.white.withOpacity(0.35),
+                  color: Colors.white.withValues(alpha: 0.35),
                   strokeWidth: 1,
                   dashArray: [4, 6],
                 ),
               if (todayX != null)
                 VerticalLine(
                   x: todayX,
-                  color: Colors.white.withOpacity(0.2),
+                  color: Colors.white.withValues(alpha: 0.2),
                   strokeWidth: 1,
                   dashArray: [2, 8],
                 ),
@@ -118,10 +122,8 @@ class _MonthDailyChartExactState extends State<MonthDailyChartExact> {
             show: true,
             drawVerticalLine: false,
             horizontalInterval: (yMax / 4).clamp(1, double.infinity),
-            getDrawingHorizontalLine: (v) => FlLine(
-              color: Colors.white.withOpacity(0.08),
-              strokeWidth: 1,
-            ),
+            getDrawingHorizontalLine: (v) =>
+                FlLine(color: Colors.white.withValues(alpha: 0.08), strokeWidth: 1),
           ),
 
           titlesData: FlTitlesData(
@@ -135,8 +137,12 @@ class _MonthDailyChartExactState extends State<MonthDailyChartExact> {
                 ),
               ),
             ),
-            rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            rightTitles: const AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
+            topTitles: const AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
             bottomTitles: AxisTitles(
               sideTitles: SideTitles(
                 showTitles: true,
@@ -150,7 +156,7 @@ class _MonthDailyChartExactState extends State<MonthDailyChartExact> {
 
           borderData: FlBorderData(
             show: true,
-            border: Border.all(color: Colors.white.withOpacity(0.15)),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
           ),
 
           lineBarsData: [
@@ -162,7 +168,7 @@ class _MonthDailyChartExactState extends State<MonthDailyChartExact> {
               isStrokeCapRound: true,
               dotData: FlDotData(
                 show: true,
-                getDotPainter: (s, __, ___, ____) => FlDotCirclePainter(
+                getDotPainter: (s, _, _, _) => FlDotCirclePainter(
                   radius: s.y > 0 ? 2 : 0,
                   color: red,
                   strokeColor: Colors.white,
@@ -172,7 +178,7 @@ class _MonthDailyChartExactState extends State<MonthDailyChartExact> {
               belowBarData: BarAreaData(
                 show: true,
                 gradient: LinearGradient(
-                  colors: [red.withOpacity(0.28), red.withOpacity(0.02)],
+                  colors: [red.withValues(alpha: 0.28), red.withValues(alpha: 0.02)],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
@@ -188,15 +194,17 @@ class _MonthDailyChartExactState extends State<MonthDailyChartExact> {
               if (resp?.lineBarSpots?.isNotEmpty == true) {
                 final d = resp!.lineBarSpots!.first.x.toInt();
                 setState(() => _selectedDay = d);
-                widget.onDayTap?.call(DateTime(widget.month.year, widget.month.month, d));
+                widget.onDayTap?.call(
+                  DateTime(widget.month.year, widget.month.month, d),
+                );
               }
             },
             touchTooltipData: LineTouchTooltipData(
-              tooltipPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-              tooltipMargin: 12, // space from touch point, similar to screenshot
+              tooltipPadding: 10.padH + 8.padV,
+              tooltipMargin: 12,
               fitInsideHorizontally: true,
               fitInsideVertically: true,
-              getTooltipColor: (_) => const Color(0xFF111111).withOpacity(0.95),
+              getTooltipColor: (_) => const Color(0xFF111111).withValues(alpha: 0.95),
               getTooltipItems: (items) {
                 if (items.isEmpty) return [];
                 final d = items.first.x.toInt();

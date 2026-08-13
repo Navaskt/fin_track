@@ -20,7 +20,7 @@ class ExportController {
   final ExportService _svc;
 
   Future<void> exportCsvAndShare(DateTimeRange range) async {
-    final path = await _svc.exportPdf(from: range.start, to: range.end);
+    final path = await _svc.exportExcel(from: range.start, to: range.end);
     await _svc.shareFile(path, text: 'FinTrack CSV Export');
   }
 

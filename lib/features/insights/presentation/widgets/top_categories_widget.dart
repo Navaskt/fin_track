@@ -1,4 +1,5 @@
 import 'package:fin_track/app/extension/context_extension.dart';
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart';
 
 import '../../../transactions/presentation/formatters/formatters.dart';
@@ -16,7 +17,7 @@ class TopCategories extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(context.loc.topCategories, style: theme.textTheme.titleLarge),
-        const SizedBox(height: 8),
+        8.hBox,
         for (final c in categories.take(5))
           ListTile(
             dense: true,

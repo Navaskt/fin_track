@@ -1,4 +1,5 @@
 import 'package:fin_track/app/extension/context_extension.dart';
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -19,25 +20,25 @@ class MonthSummaryFooter extends ConsumerWidget {
     final expensesAsync = ref.watch(monthExpenseOnlyProvider(month));
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: 12.padH + 12.padV,
       decoration: BoxDecoration(
         color: cs.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: cs.outlineVariant),
       ),
       child: budgetAsync.when(
-        loading: () => const Center(
+        loading: () =>  Center(
           child: Padding(
-            padding: EdgeInsets.all(8),
+            padding: 8.padAll,
             child: CircularProgressIndicator(strokeWidth: 2),
           ),
         ),
         error: (e, _) => Text('Error: $e', style: TextStyle(color: cs.error)),
         data: (budget) {
           return expensesAsync.when(
-            loading: () => const Center(
+            loading: () =>  Center(
               child: Padding(
-                padding: EdgeInsets.all(8),
+                padding: 8.padAll,
                 child: CircularProgressIndicator(strokeWidth: 2),
               ),
             ),
@@ -53,12 +54,12 @@ class MonthSummaryFooter extends ConsumerWidget {
                     label: '${context.loc.budget}:',
                     value: hasBudget ? fmtMoneyCompact(budget) : '-',
                   ),
-                  const SizedBox(height: 4),
+                  4.hBox,
                   _SummaryRow(
                     label: '${context.loc.spent}:',
                     value: fmtMoneyCompact(expenseOnly),
                   ),
-                  const SizedBox(height: 4),
+                  4.hBox,
                   _SummaryRow(
                     label: '${context.loc.remaining}:',
                     value: remaining == null ? '-' : fmtMoneyCompact(remaining),
@@ -67,7 +68,7 @@ class MonthSummaryFooter extends ConsumerWidget {
                         : (remaining >= 0 ? Colors.green : Colors.red),
                     isBold: true,
                   ),
-                  const SizedBox(height: 8),
+                  8.hBox,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

@@ -37,10 +37,10 @@ class ThemeSelector extends ConsumerWidget {
         ),
       ],
       onSelected: (v) {
-        final notifier = ref.read(themeModeProvider.notifier);
-        if (v == 'light') notifier.state = ThemeMode.light;
-        if (v == 'dark') notifier.state = ThemeMode.dark;
-        if (v == 'system') notifier.state = ThemeMode.system;
+        final box = ref.read(themeBoxProvider);
+        if (v == 'light') box.put('current_theme_mode', ThemeMode.light.index);
+        if (v == 'dark') box.put('current_theme_mode', ThemeMode.dark.index);
+        if (v == 'system') box.put('current_theme_mode', ThemeMode.system.index);
       },
     );
   }

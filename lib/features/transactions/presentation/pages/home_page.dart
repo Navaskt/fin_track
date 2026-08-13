@@ -27,13 +27,13 @@ class HomePage extends ConsumerWidget {
                 color: cs.colorScheme.secondary,
               ),
             ),
-            Text(
-              context.loc.byNavas,
-              style: cs.textTheme.titleSmall?.copyWith(
-                color: cs.colorScheme.tertiary,
-                letterSpacing: 1.2,
-              ),
-            ),
+            // Text(
+            //   context.loc.byNavas,
+            //   style: cs.textTheme.titleSmall?.copyWith(
+            //     color: cs.colorScheme.tertiary,
+            //     letterSpacing: 1.2,
+            //   ),
+            // ),
           ],
         ),
         centerTitle: true,

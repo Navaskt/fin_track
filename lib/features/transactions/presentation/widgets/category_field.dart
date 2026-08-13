@@ -1,4 +1,5 @@
 import 'package:fin_track/app/extension/context_extension.dart';
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -21,7 +22,7 @@ class CategoryField extends StatelessWidget {
         if (q.isEmpty) return const Iterable<String>.empty();
         return suggestions.where((c) => c.toLowerCase().contains(q));
       },
-      fieldViewBuilder: (context, _ignored, focusNode, onFieldSubmitted) {
+      fieldViewBuilder: (context, ignored, focusNode, onFieldSubmitted) {
         return TextFormField(
           controller: controller,
           focusNode: focusNode,
@@ -55,9 +56,9 @@ class CategoryField extends StatelessWidget {
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxHeight: 240, maxWidth: 360),
               child: ListView.separated(
-                padding: const EdgeInsets.symmetric(vertical: 8),
+                padding: 8.padV,
                 itemCount: options.length,
-                separatorBuilder: (_, __) => const Divider(height: 1),
+                separatorBuilder: (ctx, _) => const Divider(height: 1),
                 itemBuilder: (context, index) {
                   final opt = options.elementAt(index);
                   return ListTile(

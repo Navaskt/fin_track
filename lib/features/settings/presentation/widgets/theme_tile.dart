@@ -1,4 +1,5 @@
 import 'package:fin_track/app/extension/context_extension.dart';
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,6 +11,7 @@ class ThemeTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cs = Theme.of(context).colorScheme;
+    final controller = ref.watch(themeModeProvider.notifier);
     final mode = ref.watch(themeModeProvider);
 
     String labelFor(ThemeMode m) {
@@ -49,14 +51,14 @@ class ThemeTile extends ConsumerWidget {
                     selected: isSelected,
                   );
                 }),
-                const SizedBox(height: 8),
+                8.hBox
               ],
             );
           },
         );
 
         if (selected != null && selected != mode) {
-          ref.read(themeModeProvider.notifier).state = selected;
+          controller.setTheme(selected);
         }
       },
     );

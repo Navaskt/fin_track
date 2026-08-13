@@ -1,6 +1,10 @@
+
 import 'package:fin_track/app/extension/context_extension.dart';
+import 'package:fin_track/core/constants/app_assets.dart';
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart' hide LockState;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/widgets/safe_set_state_mixin.dart';
 import '../controller/app_lock_providers.dart';
@@ -48,16 +52,22 @@ class _LockScreenState extends ConsumerState<LockScreen> with SafeSetState {
         title: Text(isSetup ? loc.setPinTitle : loc.unlockTitle),
         toolbarHeight: 64,
       ),
-      body: SafeArea(
+      body: Center(
+        child: SafeArea(
         child: SingleChildScrollView(
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+          padding: 16.padH,
           child: Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 420),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  Image.asset(AppAssets.background,
+                  height: 150.h,
+                  width: 1.sw,
+                  fit: BoxFit.contain),
+
                   // Header
                   if (!isSetup) ...[
                     Text(
@@ -65,13 +75,13 @@ class _LockScreenState extends ConsumerState<LockScreen> with SafeSetState {
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
-                    const SizedBox(height: 8),
+                     8.hBox,
                     Text(
                       loc.unlockSubtitle, // add this key in your l10n, e.g. "Enter your 6-digit PIN"
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: cs.onSurfaceVariant),
                     ),
-                    const SizedBox(height: 24),
+                    24.hBox,
                   ],
 
                   // PIN field
@@ -97,12 +107,12 @@ class _LockScreenState extends ConsumerState<LockScreen> with SafeSetState {
                           borderRadius: BorderRadius.circular(16),
                           borderSide: BorderSide(color: cs.primary, width: 2),
                         ),
-                        contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+                        contentPadding: 16.padH + 12.padV,
                       ),
                       onChanged: (_) => safeSetState(() => _err = null),
                     ),
 
-                  const SizedBox(height: 12),
+                  12.hBox,
 
                   // Primary action
                   if (!isSetup)
@@ -111,7 +121,7 @@ class _LockScreenState extends ConsumerState<LockScreen> with SafeSetState {
                       label: loc.unlockButton,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          padding: 14.padV,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                         ),
                         onPressed: () async {
@@ -126,7 +136,7 @@ class _LockScreenState extends ConsumerState<LockScreen> with SafeSetState {
 
                   // Biometric action
                   if (_biometricAvailable) ...[
-                    const SizedBox(height: 8),
+                    8.hBox,
                     Semantics(
                       button: true,
                       label: loc.useBiometrics,
@@ -145,19 +155,19 @@ class _LockScreenState extends ConsumerState<LockScreen> with SafeSetState {
 
                   // Setup state
                   if (isSetup) ...[
-                    const SizedBox(height: 8),
+                    8.hBox,
                     Text(
                       loc.setPinSubtitle, // add this key, e.g. "Secure your app with a PIN"
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: cs.onSurfaceVariant),
                     ),
-                    const SizedBox(height: 24),
+                    24.hBox,
                     Semantics(
                       button: true,
                       label: loc.setPinTitle,
                       child: FilledButton.tonal(
                         style: FilledButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          padding: 14.padV,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                         ),
                         onPressed: () => context.push('/set-pin'),
@@ -171,6 +181,7 @@ class _LockScreenState extends ConsumerState<LockScreen> with SafeSetState {
           ),
         ),
       ),
+     ),
     );
   }
 }

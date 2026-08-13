@@ -1,3 +1,4 @@
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -22,7 +23,7 @@ class ChipButton extends StatelessWidget {
       },
       borderRadius: BorderRadius.circular(999),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: 12.padH + 8.padV,
         decoration: BoxDecoration(
           color: cs.surfaceContainerHighest,
           borderRadius: BorderRadius.circular(999),
@@ -33,9 +34,19 @@ class ChipButton extends StatelessWidget {
           children: [
             if (icon != null) ...[
               Icon(icon, size: 16),
-              const SizedBox(width: 6),
+              4.wBox
             ],
-            Text(text),
+            Expanded(
+              child: Text(
+                text,
+                style: TextStyle(
+                  color: cs.onSurfaceVariant,
+                  fontSize: 12,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ],
         ),
       ),

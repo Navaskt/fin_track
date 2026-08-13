@@ -334,4 +334,16 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get feedback => 'പ്രതികരണം';
+
+  @override
+  String get receiptLabel => 'ഇനവോയിസ്';
+
+  @override
+  String get captureLabel => 'ക്യാപ്ചർ';
+
+  @override
+  String get uploadLabel => 'അപ്‌ലോഡ്';
+
+  @override
+  String get budgetAlertsTitle => 'ബജറ്റ് അലർട്ടുകൾ';
 }

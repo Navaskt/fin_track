@@ -334,4 +334,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get feedback => 'Feedback';
+
+  @override
+  String get receiptLabel => 'Receipt';
+
+  @override
+  String get captureLabel => 'Capture';
+
+  @override
+  String get uploadLabel => 'Upload';
+
+  @override
+  String get budgetAlertsTitle => 'Budget Alerts';
 }

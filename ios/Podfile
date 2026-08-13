@@ -1,5 +1,5 @@
 # Uncomment this line to define a global platform for your project
-# platform :ios, '13.0'
+platform :ios, '15.5' # <-- Recommended to uncomment and set to 15.5 for ML Kit compatibility
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
@@ -25,6 +25,12 @@ end
 
 require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), flutter_root)
 
+# ADDED: Require the Apple Silicon simulator patch from the ML Kit plugin
+require File.expand_path(
+  '.symlinks/plugins/google_mlkit_commons/ios/scripts/apple_silicon_simulator',
+  __dir__,
+)
+
 flutter_ios_podfile_setup
 
 target 'Runner' do
@@ -40,4 +46,7 @@ post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
   end
+  
+  # ADDED: Execute the ML Kit patch
+  mlkit_apple_silicon_simulator_patch(installer)
 end

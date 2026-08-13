@@ -1,5 +1,7 @@
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../controller/export_controller.dart';
 
@@ -29,13 +31,13 @@ class _ExportSheetState extends ConsumerState<ExportSheet> {
         : '${_fmt(_range!.start)} - ${_fmt(_range!.end)}';
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+      padding: 16.padL + 12.padT + 16.padR + 24.padB,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(height: 4, width: 40, margin: const EdgeInsets.only(bottom: 12), decoration: BoxDecoration(color: cs.outlineVariant, borderRadius: BorderRadius.circular(2))),
+          Container(height: 4.h, width: 40.w, margin: 12.padB, decoration: BoxDecoration(color: cs.outlineVariant, borderRadius: BorderRadius.circular(2.r))),
           Text('Export Data', style: Theme.of(context).textTheme.titleMedium),
-          const SizedBox(height: 12),
+          12.hBox,
 
           ListTile(
             leading: const Icon(Icons.date_range),
@@ -56,7 +58,7 @@ class _ExportSheetState extends ConsumerState<ExportSheet> {
             },
           ),
 
-          const SizedBox(height: 8),
+          8.hBox,
           Row(
             children: [
               Expanded(
@@ -68,9 +70,9 @@ class _ExportSheetState extends ConsumerState<ExportSheet> {
                     await c.exportCsvAndShare(_range!);
                     if (mounted) Navigator.of(context).pop();
                   },
-                ),
+                ), 
               ),
-              const SizedBox(width: 12),
+              12.wBox,
               Expanded(
                 child: FilledButton.icon(
                   icon: const Icon(Icons.picture_as_pdf),

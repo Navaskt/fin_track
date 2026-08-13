@@ -1,4 +1,5 @@
 import 'package:fin_track/app/extension/context_extension.dart';
+import 'package:fin_track/core/extensions/spacing_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -34,7 +35,7 @@ class LanguageTile extends ConsumerWidget {
           showDragHandle: true,
           builder: (ctx) {
             return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
+              padding: 8.padV,
               child: ListView(
                 shrinkWrap: true,
                 children: items.entries.map((e) {
